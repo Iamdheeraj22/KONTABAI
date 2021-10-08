@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">KONTA BAI</string>
+    <string name="pickup_location">Pickup Location :</string>
+    <string name="status">Status</string>
+    <string name="app_logo">App Logo</string>
+    <string name="continueButton">Continue</string>
+    <string name="full_name">Full Name</string>
+</resources>

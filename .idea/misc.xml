@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/drawable/black_corners.xml" value="0.2203125" />
+        <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/drawable/corners_background.xml" value="0.9" />
+        <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/activity_driver_side_profile_creation.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/activity_registration.xml" value="0.25" />
+        <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/activity_user_side_profile_creation.xml" value="0.19010416666666666" />
+        <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/activity_verification.xml" value="0.18" />
+        <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/user_ride.xml" value="0.33" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
