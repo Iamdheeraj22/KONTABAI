@@ -1,62 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.UserSideProfileCreation">
 
-    <ImageView
-        android:id="@+id/userImageview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:srcCompat="@tools:sample/avatars"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"/>
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_below="@id/userImageview"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:text="@string/full_name"
-            android:textSize="20dp"
-            android:textColor="@color/black"/>
-        <EditText
+
+        <ImageView
+            android:id="@+id/userImageview"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/personimage" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/black_corners"
-            android:layout_marginStart="30dp"
-            android:padding="10dp"
-            android:layout_marginEnd="30dp"
-            android:inputType="text"
-            android:id="@+id/userFullName"/>
+            android:layout_below="@id/userImageview"
+            android:layout_marginTop="70dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:text="@string/full_name"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/userFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/black_corners"
+                android:inputType="text"
+                android:padding="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/phone_number"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/userPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/black_corners"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="5dp"
+                tools:ignore="TextFields" />
+        </LinearLayout>
 
         <TextView
+            android:id="@+id/createProfileButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:text="Phone Number"
-            android:layout_marginTop="20dp"
-            android:textSize="20dp"
-            android:textColor="@color/black"/>
-        <EditText
-            android:layout_width="match_parent"
+            android:layout_below="@id/linearLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/corners_background"
+            android:paddingStart="50dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="50dp"
+            android:paddingBottom="10dp"
+            android:text="@string/create_profile"
+            android:textColor="@color/light_sky_blue" />
+
+        <TextView
+            android:id="@+id/moveDriverButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/black_corners"
-            android:layout_marginStart="30dp"
-            android:padding="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="30dp"
-            android:inputType="text"
-            android:id="@+id/userPhoneNumber"/>
-    </LinearLayout>
-</RelativeLayout>
+            android:layout_below="@id/createProfileButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/corners_background"
+            android:paddingStart="50dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="50dp"
+            android:paddingBottom="10dp"
+            android:text="@string/create_profile_as_driver"
+            android:textColor="@color/light_sky_blue" />
+
+
+
+    </RelativeLayout>
+</ScrollView>
