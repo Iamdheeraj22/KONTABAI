@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/fromCamera"
+        android:title="From Camera"
+        tools:ignore="HardcodedText" />
+
+    <item android:id="@+id/fromGallery"
+        android:title="From Gallery"
+        tools:ignore="HardcodedText" />
+
+
+</menu>
