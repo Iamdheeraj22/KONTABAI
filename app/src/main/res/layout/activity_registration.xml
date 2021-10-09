@@ -6,48 +6,63 @@
     android:layout_height="match_parent"
     tools:context=".Activities.RegistrationActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/app_logo"
-        android:id="@+id/logoHeading"
-        android:textAlignment="center"
-        android:layout_marginTop="160dp"
-        android:textColor="@color/light_sky_blue"
-        android:textSize="25dp"
-        android:layout_centerHorizontal="true"/>
 
     <TextView
+        android:id="@+id/logoHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+91"
-        android:textSize="25dp"
-        android:layout_marginTop="145dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dp"
+        android:text="@string/app_logo"
+        android:textAlignment="center"
         android:textColor="@color/light_sky_blue"
-        android:layout_below="@id/logoHeading"
-        android:layout_marginStart="85dp"/>
+        android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/phoneNumberEdit"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_below="@id/logoHeading"
-        android:background="@drawable/corners_background"
-        android:hint="Phone Number"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="140dp"
-       />
-
-    <TextView
+    <LinearLayout
+        android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_below="@id/logoHeading"
+        android:layout_marginTop="110dp"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90dp"
+            android:text="@string/_91"
+            android:textColor="@color/light_sky_blue"
+            android:textSize="20sp" />
+        <EditText
+            android:id="@+id/phoneNumberEdit"
+            android:layout_width="150dp"
+            android:inputType="number"
+            android:layout_height="wrap_content"
+             android:background="@drawable/corners_background"
+            android:layout_marginStart="10dp"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:hint="@string/phone_number"
+            android:padding="10dp"
+            tools:ignore="TextFields"
+            android:importantForAutofill="no" />
+
+    </LinearLayout>
+
+
+    <TextView
         android:id="@+id/nextButton"
-        android:textAlignment="center"
-        android:layout_below="@id/phoneNumberEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
+        android:text="Next"
+        android:textAlignment="center"
         android:textColor="@color/light_sky_blue"
-        android:textSize="25dp"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="20sp"
+        tools:ignore="HardcodedText" />
 </RelativeLayout>
