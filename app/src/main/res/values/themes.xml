@@ -13,4 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="verification_done" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@drawable/alert_bg</item>
+    </style>
 </resources>
