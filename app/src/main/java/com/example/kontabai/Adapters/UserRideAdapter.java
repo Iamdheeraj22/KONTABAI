@@ -41,11 +41,11 @@ public class UserRideAdapter extends RecyclerView.Adapter<UserRideAdapter.UserRi
         String status=userRide.getStatus();
 
         switch (status) {
-            case "pending":
+            case "Pending":
                 holder.status.setText("Pending");
                 holder.status.setTextColor(Color.RED);
                 break;
-            case "rejected":
+            case "Rejected":
                 holder.status.setText("Rejected");
                 holder.status.setTextColor(Color.RED);
                 break;
