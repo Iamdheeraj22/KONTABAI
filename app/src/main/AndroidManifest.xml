@@ -20,7 +20,7 @@
             android:name=".Activities.UserSide.UserDashboard"
             android:exported="true" />
         <activity
-            android:name=".Activities.DriverDashBoard"
+            android:name=".Activities.RegistrationActivity"
             android:exported="true" />
         <activity
             android:name=".Activities.UserSideProfileCreation"
@@ -37,7 +37,7 @@
             android:name=".Activities.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.RegistrationActivity"
+            android:name=".Activities.DriverDashBoard"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
