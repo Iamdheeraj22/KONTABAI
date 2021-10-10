@@ -5,8 +5,12 @@
       <map>
         <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/drawable/black_corners.xml" value="0.2203125" />
         <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/drawable/corners_background.xml" value="0.9" />
+        <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/drawable/tab_indicator_bg.xml" value="0.2169230769230769" />
+        <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/drawable/tablayout_background.xml" value="0.2169230769230769" />
+        <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/activity_driver_dash_board.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/activity_driver_side_profile_creation.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/activity_registration.xml" value="0.25" />
+        <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/activity_user_dashboard.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/activity_user_side_profile_creation.xml" value="0.19010416666666666" />
         <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/activity_verification.xml" value="0.18" />
         <entry key="..\:/Users/Glal9/AndroidStudioProjects/KONTABAI/app/src/main/res/layout/user_ride.xml" value="0.33" />
