@@ -40,11 +40,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
+                android:maxLength="15"
+                android:maxLines="1"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
                 android:background="@drawable/black_corners"
                 android:inputType="text"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:importantForAutofill="no" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,7 +66,9 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
                 android:background="@drawable/black_corners"
-                android:inputType="text"
+                android:inputType="number"
+                android:lines="1"
+                android:maxLength="15"
                 android:maxLines="1"
                 android:padding="5dp"
                 tools:ignore="TextFields" />
