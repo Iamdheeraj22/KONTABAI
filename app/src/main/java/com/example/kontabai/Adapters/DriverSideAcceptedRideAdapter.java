@@ -2,6 +2,7 @@ package com.example.kontabai.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kontabai.Activities.UserRideDetails;
 import com.example.kontabai.Classes.DriverSideAcceptRide;
 import com.example.kontabai.R;
 
@@ -51,6 +53,16 @@ public class DriverSideAcceptedRideAdapter extends RecyclerView.Adapter<DriverSi
                 alertDialog.dismiss();
             });
             btnNo.setOnClickListener(v1 -> alertDialog.dismiss());
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, UserRideDetails.class);
+                intent.putExtra("name","Dheeraj");
+                intent.putExtra("number","8290845089");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
         });
     }
 
