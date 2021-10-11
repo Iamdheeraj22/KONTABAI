@@ -18,39 +18,40 @@
         android:textColor="@color/light_sky_blue"
         android:textSize="20sp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
         android:layout_below="@id/logoHeading"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="110dp"
-
-        >
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_height="wrap_content"
-            android:layout_marginStart="90dp"
             android:text="@string/_91"
             android:textColor="@color/light_sky_blue"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_toLeftOf="@id/phoneNumberEdit"
+            android:layout_marginEnd="10dp"/>
+
         <EditText
             android:id="@+id/phoneNumberEdit"
             android:layout_width="150dp"
-            android:inputType="number"
             android:layout_height="wrap_content"
-             android:background="@drawable/corners_background"
-            android:layout_marginStart="10dp"
-            android:maxLines="1"
-            android:maxLength="10"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/corners_background"
             android:hint="@string/phone_number"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="10"
+            android:maxLines="1"
             android:padding="10dp"
-            tools:ignore="TextFields"
-            android:importantForAutofill="no" />
+            tools:ignore="TextFields" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <TextView

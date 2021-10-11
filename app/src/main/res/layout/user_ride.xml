@@ -11,36 +11,38 @@
         tools:ignore="UselessParent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
             android:id="@+id/linear1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
             tools:ignore="UselessParent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:textColor="@color/black"
                 android:text="@string/pickup_location"
-                android:textSize="15sp"/>
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
             <TextView
+                android:id="@+id/pickupLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textColor="@color/black"
-                android:id="@+id/pickupLocation"
-                android:text=""
                 android:layout_marginStart="20dp"
-                android:textSize="15sp"/>
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
             android:layout_below="@id/linear1"
+            android:layout_marginBottom="20dp"
             android:layout_height="wrap_content"
             android:id="@+id/linear2"
             tools:ignore="UselessParent">
@@ -58,10 +60,16 @@
                 android:textColor="@color/black"
                 android:id="@+id/rideStatus"
                 android:text=""
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:textSize="15sp"/>
 
         </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/linear2"
+        android:layout_marginTop="10dp"
+        android:background="@color/black"/>
 
     </RelativeLayout>
 </RelativeLayout>

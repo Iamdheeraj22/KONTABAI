@@ -20,15 +20,15 @@
             android:name=".Activities.UserSide.UserDashboard"
             android:exported="true" />
         <activity
-            android:name=".Activities.RegistrationActivity"
+            android:name=".Activities.DriverSide.DriverDashBoard"
             android:exported="true" />
         <activity
-            android:name=".Activities.UserSideProfileCreation"
+            android:name=".Activities.UserSide.UserSideProfileCreation"
             android:exported="true" />
         <activity
-            android:name=".Activities.DriverSideProfileCreation"
+            android:name=".Activities.DriverSide.DriverSideProfileCreation"
             android:exported="true"
-            android:parentActivityName=".Activities.UserSideProfileCreation" />
+            android:parentActivityName=".Activities.UserSide.UserSideProfileCreation" />
         <activity
             android:name=".Activities.VerificationActivity"
             android:exported="true"
@@ -37,7 +37,7 @@
             android:name=".Activities.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.DriverDashBoard"
+            android:name=".Activities.RegistrationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

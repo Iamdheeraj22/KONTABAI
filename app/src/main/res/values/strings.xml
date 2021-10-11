@@ -19,4 +19,12 @@
     <string name="_1">  1  </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pickup_requests">Pickup Requests</string>
+    <string name="please_pull_to_refresh">Please pull to refresh</string>
+    <string name="please_enter_code_that_is_sent_on_nyour_phone_number">Please Enter code that is sent on \nyour phone number</string>
+    <string name="location">Location</string>
+    <string name="please_tap_on_row_to_view_customer_details">Please tap on row to view customer details!</string>
+    <string name="yes">Yes</string>
+    <string name="please_swipe_left_to_accept_request">Please swipe left to accept request</string>
+    <string name="back"><![CDATA[< Back]]></string>
 </resources>

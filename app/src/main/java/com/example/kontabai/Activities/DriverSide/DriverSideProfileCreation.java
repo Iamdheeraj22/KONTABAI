@@ -1,9 +1,8 @@
-package com.example.kontabai.Activities;
+package com.example.kontabai.Activities.DriverSide;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -16,6 +15,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kontabai.Activities.MainActivity;
+import com.example.kontabai.Activities.UserSide.UserSideProfileCreation;
 import com.example.kontabai.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -47,24 +48,32 @@ public class DriverSideProfileCreation extends AppCompatActivity {
             String fullName=fullname.getText().toString();
             String phonenumber=mobilenumber.getText().toString();
             String carNumber=carnumber.getText().toString();
-            if(fullName.equals("")) {
-                fullname.setError("write your name!");
-            }else if(carNumber.length()!=10){
-                carnumber.setError("Invalid car number");
-            }else if(carNumber.equals("")){
-                carnumber.setError("Enter the car number!");
-            }else if(phonenumber.equals("")){
-                mobilenumber.setEnabled(true);
-                mobilenumber.setError("Enter the number!");
-                mobilenumber.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
-            }else {
-                Intent intent=new Intent(DriverSideProfileCreation.this,UserSideProfileCreation.class);
-                intent.putExtra("type","driver");
-                intent.putExtra("name",fullName);
-                intent.putExtra("number",phonenumber);
-                intent.putExtra("carnumber",carNumber);
-                startActivity(intent);
-            }
+//            if(fullName.equals("")) {
+//                fullname.setError("write your name!");}
+////            }else if(carNumber.length()!=10){
+////                carnumber.setError("Invalid car number");
+////            }
+//            else if(carNumber.equals("")){
+//                carnumber.setError("Enter the car number!");
+//            }else if(phonenumber.equals("")){
+//                mobilenumber.setEnabled(true);
+//                mobilenumber.setError("Enter the number!");
+//                mobilenumber.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
+//            }else {
+//                Intent intent=new Intent(DriverSideProfileCreation.this, UserSideProfileCreation.class);
+//                intent.putExtra("type","driver");
+//                intent.putExtra("name",fullName);
+//                intent.putExtra("number",phonenumber);
+//                intent.putExtra("carnumber",carNumber);
+//                startActivity(intent);
+//            }
+
+            Intent intent=new Intent(DriverSideProfileCreation.this, DriverDashBoard.class);
+            intent.putExtra("type","driver");
+            intent.putExtra("name",fullName);
+            intent.putExtra("number",phonenumber);
+            intent.putExtra("carnumber",carNumber);
+            startActivity(intent);
 
         });
     }
@@ -166,11 +175,11 @@ public class DriverSideProfileCreation extends AppCompatActivity {
             }
         }
     }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        String number= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-        mobilenumber.setText(number);
-        mobilenumber.setEnabled(false);
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        String number= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+//        mobilenumber.setText(number);
+//        mobilenumber.setEnabled(false);
+//    }
 }

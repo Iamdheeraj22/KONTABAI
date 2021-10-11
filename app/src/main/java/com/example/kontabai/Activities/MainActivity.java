@@ -6,11 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.kontabai.Activities.DriverSide.DriverDashBoard;
 import com.example.kontabai.Activities.UserSide.UserDashboard;
 import com.example.kontabai.R;
 
@@ -24,9 +24,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViews();
         type= getIntent().getStringExtra("type");
-        if(type.equals("driver")){
-            startActivity(new Intent(MainActivity.this,DriverDashBoard.class));
-        }
+//        if(type.equals("driver")){
+//            startActivity(new Intent(MainActivity.this, DriverDashBoard.class));
+//        }
         btnNeedTaxi.setOnClickListener(v -> {
             AlertDialog alertDialog=new AlertDialog.Builder(this,R.style.verification_done).create();
             View view= LayoutInflater.from(this).inflate(R.layout.confirmation_dialog,null,false);

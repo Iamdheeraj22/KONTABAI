@@ -1,5 +1,5 @@
 
-package com.example.kontabai.Activities;
+package com.example.kontabai.Activities.UserSide;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,12 +18,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kontabai.Activities.DriverSide.DriverSideProfileCreation;
+import com.example.kontabai.Activities.MainActivity;
 import com.example.kontabai.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserSideProfileCreation extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 111;
@@ -39,7 +39,7 @@ public class UserSideProfileCreation extends AppCompatActivity {
         setContentView(R.layout.activity_user_side_profile_creation);
         initViews();
         imageView.setOnClickListener(v-> setImageView());
-        createAsDriver.setOnClickListener(view -> startActivity(new Intent(UserSideProfileCreation.this,DriverSideProfileCreation.class).addFlags(
+        createAsDriver.setOnClickListener(view -> startActivity(new Intent(UserSideProfileCreation.this, DriverSideProfileCreation.class).addFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK
         )));
         createProfile.setOnClickListener(view -> {
@@ -54,7 +54,7 @@ public class UserSideProfileCreation extends AppCompatActivity {
                 phonenumber.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
             }
             else{
-                Intent intent=new Intent(UserSideProfileCreation.this,MainActivity.class);
+                Intent intent=new Intent(UserSideProfileCreation.this, MainActivity.class);
                 intent.putExtra("type","user");
                 intent.putExtra("name",fullName);
                 intent.putExtra("phonenumber",num);
@@ -83,9 +83,9 @@ public class UserSideProfileCreation extends AppCompatActivity {
         fullname=findViewById(R.id.userFullName);
         phonenumber=findViewById(R.id.userPhoneNumber);
         imageView=findViewById(R.id.userImageview);
-        String phone= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-        phonenumber.setText(phone);
-        phonenumber.setEnabled(false);
+//        String phone= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+//        phonenumber.setText(phone);
+//        phonenumber.setEnabled(false);
     }
 
     @Override

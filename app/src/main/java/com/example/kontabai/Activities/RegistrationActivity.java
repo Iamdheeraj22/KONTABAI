@@ -64,43 +64,45 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(number.equals("") || number.length()!=10){
                     editText.setError("Please enter the valid number!");
                 }else{
-                    registrationUserMobile(number);
-//                    alertDialog.show();
+//                    registrationUserMobile(number);
+////                    alertDialog.show();
+                    Intent intent=new Intent(RegistrationActivity.this,VerificationActivity.class);
+                    startActivity(intent);
                 }
             }
         });
     }
 
-    private void registrationUserMobile(String number) {
-        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth).
-                setPhoneNumber("+91" + number)
-                .setTimeout(60L, TimeUnit.SECONDS)
-                .setActivity(this)
-                .setCallbacks(mCallBacks)
-                .build();
-        PhoneAuthProvider.verifyPhoneNumber(options);
-    }
-
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks=new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        @Override
-        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-        }
-        @Override
-        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-            super.onCodeSent(s, forceResendingToken);
-            verificationId=s;
-            Intent intent=new Intent(RegistrationActivity.this,VerificationActivity.class);
-            intent.putExtra("number", editText.getText().toString());
-            intent.putExtra("id",verificationId);
-//            alertDialog.dismiss();
-            startActivity(intent);
-        }
-        @Override
-        public void onVerificationFailed(@NonNull FirebaseException e) {
-//            alertDialog.dismiss();
-            Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    };
+//    private void registrationUserMobile(String number) {
+//        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth).
+//                setPhoneNumber("+91" + number)
+//                .setTimeout(60L, TimeUnit.SECONDS)
+//                .setActivity(this)
+//                .setCallbacks(mCallBacks)
+//                .build();
+//        PhoneAuthProvider.verifyPhoneNumber(options);
+//    }
+//
+//    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks=new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+//        @Override
+//        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+//        }
+//        @Override
+//        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+//            super.onCodeSent(s, forceResendingToken);
+//            verificationId=s;
+//            Intent intent=new Intent(RegistrationActivity.this,VerificationActivity.class);
+//            intent.putExtra("number", editText.getText().toString());
+//            intent.putExtra("id",verificationId);
+////            alertDialog.dismiss();
+//            startActivity(intent);
+//        }
+//        @Override
+//        public void onVerificationFailed(@NonNull FirebaseException e) {
+////            alertDialog.dismiss();
+//            Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//        }
+//    };
 
     private void checkPermission()
     {
@@ -131,9 +133,9 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         checkPermission();
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
-            startActivity(new Intent(RegistrationActivity.this,UserSideProfileCreation.class)
-                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-        }
+//        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+//            startActivity(new Intent(RegistrationActivity.this,UserSideProfileCreation.class)
+//                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+//        }
     }
 }
