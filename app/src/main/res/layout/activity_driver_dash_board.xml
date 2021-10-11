@@ -34,7 +34,6 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:background="@drawable/tablayout_background"
-            app:tabIndicator="@drawable/tab_indicator_bg"
             app:tabSelectedTextColor="@color/black"
             app:tabTextColor="@color/white" />
 

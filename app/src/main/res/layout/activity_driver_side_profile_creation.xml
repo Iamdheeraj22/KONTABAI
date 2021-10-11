@@ -45,6 +45,8 @@
                 android:background="@drawable/black_corners"
                 android:importantForAutofill="no"
                 android:inputType="text"
+                android:maxLength="15"
+                android:maxLines="1"
                 android:padding="5dp" />
 
             <TextView
@@ -65,7 +67,8 @@
                 android:layout_marginEnd="30dp"
                 android:background="@drawable/black_corners"
                 android:importantForAutofill="no"
-                android:inputType="text"
+                android:inputType="number"
+                android:maxLength="15"
                 android:maxLines="1"
                 android:padding="5dp"
                 tools:ignore="TextFields" />

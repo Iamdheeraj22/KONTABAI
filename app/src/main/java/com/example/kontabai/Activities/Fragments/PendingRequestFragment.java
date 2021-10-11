@@ -58,7 +58,7 @@ public class PendingRequestFragment extends Fragment {
                 alertDialog.show();
                 TextView okButton=view.findViewById(R.id.okButton);
                 TextView heading=view.findViewById(R.id.confirmationHeading);
-                heading.setText("Pickup request haS been accepted\n successfully");
+                heading.setText("Pickup request has been accepted\n successfully");
 
                 okButton.setOnClickListener(v -> {
                     arrayList.remove(position);
