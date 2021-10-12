@@ -35,39 +35,39 @@ public class PendingRequestFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_pending_request, container, false);
         initViews(view);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+//        itemTouchHelper.attachToRecyclerView(recyclerView);
         return view;
     }
     String deletedMovie = null;
-    ItemTouchHelper.SimpleCallback simpleCallback=new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-            final int position = viewHolder.getAdapterPosition();
-
-            if (direction == ItemTouchHelper.LEFT) {
-                deletedMovie = String.valueOf(arrayList.get(position));
-                AlertDialog alertDialog=new AlertDialog.Builder(getContext(),R.style.verification_done).create();
-                View view=LayoutInflater.from(getContext()).inflate(R.layout.confirmation_dialog,null,false);
-                alertDialog.setView(view);
-                alertDialog.show();
-                TextView okButton=view.findViewById(R.id.okButton);
-                TextView heading=view.findViewById(R.id.confirmationHeading);
-                heading.setText("Pickup request has been accepted\n successfully");
-
-                okButton.setOnClickListener(v -> {
-                    arrayList.remove(position);
-                    driverSidePendingRideAdapter.notifyItemRemoved(position);
-                    alertDialog.dismiss();
-                });
-            }
-        }
-    };
+//    ItemTouchHelper.SimpleCallback simpleCallback=new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+//        @Override
+//        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//            return false;
+//        }
+//
+//        @Override
+//        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+//            final int position = viewHolder.getAdapterPosition();
+//
+//            if (direction == ItemTouchHelper.LEFT) {
+//                deletedMovie = String.valueOf(arrayList.get(position));
+//                AlertDialog alertDialog=new AlertDialog.Builder(getContext(),R.style.verification_done).create();
+//                View view=LayoutInflater.from(getContext()).inflate(R.layout.confirmation_dialog,null,false);
+//                alertDialog.setView(view);
+//                alertDialog.show();
+//                TextView okButton=view.findViewById(R.id.okButton);
+//                TextView heading=view.findViewById(R.id.confirmationHeading);
+//                heading.setText("Pickup request has been accepted\n successfully");
+//
+//                okButton.setOnClickListener(v -> {
+//                    arrayList.remove(position);
+//                    driverSidePendingRideAdapter.notifyItemRemoved(position);
+//                    alertDialog.dismiss();
+//                });
+//            }
+//        }
+//    };
     private void initViews(View view)
     {
         recyclerView=view.findViewById(R.id.pendingRecyclerView);

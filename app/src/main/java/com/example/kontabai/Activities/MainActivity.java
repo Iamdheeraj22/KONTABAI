@@ -27,20 +27,20 @@ public class MainActivity extends AppCompatActivity {
 //        if(type.equals("driver")){
 //            startActivity(new Intent(MainActivity.this, DriverDashBoard.class));
 //        }
-        btnNeedTaxi.setOnClickListener(v -> {
-            AlertDialog alertDialog=new AlertDialog.Builder(this,R.style.verification_done).create();
-            View view= LayoutInflater.from(this).inflate(R.layout.confirmation_dialog,null,false);
-            alertDialog.setView(view);
-            alertDialog.show();
-            TextView textView=view.findViewById(R.id.confirmationHeading);
-            TextView textView1=view.findViewById(R.id.okButton);
-            textView.setText("Your current location has been sent to \n driver's, please wait.");
-            textView1.setOnClickListener(v1 -> {
-                alertDialog.dismiss();
-                btnNeedTaxi.setEnabled(false);
-                countStatus.setVisibility(View.VISIBLE);
-            });
-        });
+//        btnNeedTaxi.setOnClickListener(v -> {
+//            AlertDialog alertDialog=new AlertDialog.Builder(this,R.style.verification_done).create();
+//            View view= LayoutInflater.from(this).inflate(R.layout.confirmation_dialog,null,false);
+//            alertDialog.setView(view);
+//            alertDialog.show();
+//            TextView textView=view.findViewById(R.id.confirmationHeading);
+//            TextView textView1=view.findViewById(R.id.okButton);
+//            textView.setText("Your current location has been sent to \n driver's, please wait.");
+//            textView1.setOnClickListener(v1 -> {
+//                alertDialog.dismiss();
+//                btnNeedTaxi.setEnabled(false);
+//                countStatus.setVisibility(View.VISIBLE);
+//            });
+//        });
         btnStatus.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, UserDashboard.class)
              .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)));
     }

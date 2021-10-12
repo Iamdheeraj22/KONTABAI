@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.kontabai.Activities.MainActivity;
 import com.example.kontabai.Activities.UserSide.UserSideProfileCreation;
 import com.example.kontabai.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
@@ -27,7 +28,8 @@ public class DriverSideProfileCreation extends AppCompatActivity {
     private static final int PERMISSION_CAMERA_CODE = 111;
     EditText fullname,carnumber,mobilenumber;
     TextView submit;
-    ImageView addCarImage,driverImage;
+    ImageView driverImage;
+    FloatingActionButton addCarImage;
     Uri imageUri,imageUriCar,imageUriDriver;
     String whichImage;
     @Override
