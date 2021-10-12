@@ -38,11 +38,11 @@ public class UserDashboard extends AppCompatActivity {
 
     private void setTheValuesInRecyclerView()
     {
-            userRides.add(new UserRide("Amritsar","Pending"));
-            userRides.add(new UserRide("Jaipur","Rejected"));
-            userRides.add(new UserRide("Delhi","Accepted"));
-            userRides.add(new UserRide("Sector 21 ,Chandigarh","Accepted"));
-            userRides.add(new UserRide("Phase 6 , Chandigarh","Accepted"));
+//            userRides.add(new UserRide("Amritsar","Pending"));
+//            userRides.add(new UserRide("Jaipur","Rejected"));
+//            userRides.add(new UserRide("Delhi","Accepted"));
+//            userRides.add(new UserRide("Sector 21 ,Chandigarh","Accepted"));
+//            userRides.add(new UserRide("Phase 6 , Chandigarh","Accepted"));
     }
 
     private void initViews() {
