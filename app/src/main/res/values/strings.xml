@@ -5,7 +5,7 @@
     <string name="app_logo">App Logo</string>
     <string name="continueButton">Continue</string>
     <string name="full_name">Full Name</string>
-    <string name="verification">Verification</string>
+    <string name="verification">VERIFICATION</string>
     <string name="please_enter_the_code_was_sent_nin_your_phone_number">Please Enter code that is sent on\n your phone number </string>
     <string name="_91">+91</string>
     <string name="create_profile">Create Profile</string>
@@ -22,7 +22,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pickup_requests">Pickup Requests</string>
     <string name="please_pull_to_refresh">Please pull to refresh</string>
-    <string name="please_enter_code_that_is_sent_on_nyour_phone_number">Please Enter code that is sent on \nyour phone number</string>
+    <string name="please_enter_code_that_is_sent_on_nyour_phone_number">Please Enter code that is sent on your phone number</string>
     <string name="location">Location</string>
     <string name="please_tap_on_row_to_view_customer_details">Please tap on row to view customer details!</string>
     <string name="yes">Yes</string>

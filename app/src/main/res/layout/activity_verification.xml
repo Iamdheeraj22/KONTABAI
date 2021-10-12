@@ -4,64 +4,96 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/screen_color"
     android:layout_height="match_parent"
     tools:context=".Activities.VerificationActivity">
 
-    <TextView
+
+    <ImageView
         android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
+        android:src="@drawable/ic_round_arrow_back_24"
         android:text="Back"
         android:textColor="@color/light_sky_blue"
         android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/backButton"
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="@string/verification"
-        android:textColor="@color/black"
-        android:textSize="25sp" />
+        android:layout_marginTop="100dp"
+        android:src="@drawable/logo_colorful" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="@string/please_enter_code_that_is_sent_on_nyour_phone_number"
-        android:textColor="@color/black" />
 
-    <EditText
-        android:id="@+id/codeEdittext"
-        android:layout_width="80dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView3"
+        android:layout_below="@id/app_logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/corners_background"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        android:maxLength="6"
-        android:maxLines="1"
-        android:padding="10dp"
-        tools:ignore="LabelFor" />
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="80dp">
 
-    <TextView
-        android:id="@+id/continueButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/codeEdittext"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="@string/continueButton"
-        android:textColor="@color/light_sky_blue"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/verification"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView2"
+            android:layout_marginTop="15dp"
+            android:text="@string/please_enter_code_that_is_sent_on_nyour_phone_number"
+            android:textColor="@color/black"
+            android:textSize="12dp" />
+
+        <EditText
+            android:id="@+id/codeEdittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/corners_background"
+            android:elevation="5dp"
+            android:hint="560205"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="15dp"
+            android:textSize="10dp"
+            tools:ignore="LabelFor" />
+
+        <TextView
+            android:id="@+id/continueButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/codeEdittext"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/screen_background"
+            android:paddingStart="50dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="50dp"
+            android:paddingBottom="10dp"
+            android:text="@string/continueButton"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+
 </RelativeLayout>

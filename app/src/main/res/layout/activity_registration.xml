@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/logoHeading"
+        android:elevation="5dp"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="170dp"
         android:layout_marginTop="90dp">
@@ -57,17 +58,17 @@
             android:layout_below="@id/phone_heading2"
             android:layout_centerHorizontal="true"
             android:background="@drawable/corners_background"
-            android:textSize="13sp"
             android:backgroundTint="@color/white"
             android:hint="@string/custom_number"
             android:importantForAutofill="no"
             android:inputType="number"
             android:maxLength="10"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
             android:maxLines="1"
+            android:paddingStart="10dp"
             android:paddingTop="8dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="15dp"
+            android:textSize="10sp"
             tools:ignore="TextFields" />
 
     </RelativeLayout>

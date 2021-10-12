@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kontabai.Activities.UserSide.UserSideProfileCreation;
@@ -13,10 +14,11 @@ import com.example.kontabai.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class VerificationActivity extends AppCompatActivity {
-    TextView verifyButton,backButton;
+    TextView verifyButton;
+    ImageView backButton;
     EditText verificationCode;
     FirebaseAuth firebaseAuth;
-    AlertDialog alertDialog;
+//    AlertDialog alertDialog;
     String mobilenumber,verificationId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
