@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:textAlignment="center"
             android:text="Your Number has been verified"
             android:textColor="@color/black"
             android:textSize="12dp"

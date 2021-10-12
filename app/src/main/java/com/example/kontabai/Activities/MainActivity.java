@@ -51,11 +51,14 @@ public class MainActivity extends AppCompatActivity {
         countStatus.setVisibility(View.GONE);
     }
 
+    @SuppressLint("SetTextI18n")
     private void showAlertBox(){
         AlertDialog alertDialog=new AlertDialog.Builder(this,R.style.verification_done).create();
         View view= LayoutInflater.from(this).inflate(R.layout.confirmation_dialog,null,false);
         alertDialog.setView(view);
         alertDialog.show();
+        TextView textView=view.findViewById(R.id.confirmationHeading);
+        textView.setText("Your location has been sent to\n"+"drivers , please wait.");
         Handler handler=new Handler();
         handler.postDelayed(() -> {
             countStatus.setVisibility(View.VISIBLE);
