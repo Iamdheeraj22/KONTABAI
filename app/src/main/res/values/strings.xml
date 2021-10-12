@@ -13,9 +13,9 @@
     <string name="phone">PHONE NUMBER</string>
     <string name="car_number">PB12SC2121</string>
     <string name="car_photos">Car Image</string>
-    <string name="i_need_a_taxi">I Need a Taxi</string>
-    <string name="request_status">Request Status</string>
-    <string name="refresh">Refresh</string>
+    <string name="i_need_a_taxi">I NEED A TAXI</string>
+    <string name="request_status">REQUEST STATUS</string>
+    <string name="refresh">REFRESH</string>
     <string name="_1">  1  </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -32,4 +32,5 @@
     <string name="custom_number">+1 20000 51500</string>
     <string name="konta_bai">KONTA BAI</string>
     <string name="create_profile_as_driver">CREATE PROFILE AS DRIVER</string>
+    <string name="logout">Logout</string>
 </resources>
