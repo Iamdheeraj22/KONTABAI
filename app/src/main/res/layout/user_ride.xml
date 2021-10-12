@@ -1,75 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="UselessParent">
-
-        <LinearLayout
-            android:id="@+id/linear1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@string/pickup_location"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/pickupLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="20dp"
-                android:text=""
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:layout_below="@id/linear1"
-            android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/linear2"
-            tools:ignore="UselessParent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:textColor="@color/black"
-                android:text="@string/status"
-                android:textSize="15sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textColor="@color/black"
-                android:id="@+id/rideStatus"
-                android:text=""
-                android:layout_marginStart="10dp"
-                android:textSize="15sp"/>
-
-        </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/linear2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="10dp"
-        android:background="@color/black"/>
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp">
 
-    </RelativeLayout>
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+
+           <RelativeLayout
+               android:id="@+id/rideIdTime"
+               android:layout_marginTop="5dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+               <TextView
+                   android:id="@+id/rideId"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentLeft="true"
+                   android:layout_marginStart="10dp"
+                   android:text="Ride Id"
+                   android:textSize="11dp" />
+
+               <TextView
+                   android:id="@+id/rideDateTime"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentRight="true"
+                   android:layout_marginEnd="10dp"
+                   android:text="Ride Time"
+                   android:textSize="11dp" />
+           </RelativeLayout>
+
+           <RelativeLayout
+               android:id="@+id/rideLocationStatus"
+               android:layout_width="match_parent"
+               android:layout_marginBottom="5sp"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="30dp">
+
+               <TextView
+                   android:id="@+id/rideLocation"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentLeft="true"
+                   android:layout_marginStart="10dp"
+                   android:text="Ride Location"
+                   android:textSize="11dp" />
+
+               <TextView
+                   android:id="@+id/rideDateStatus"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignParentRight="true"
+                   android:layout_marginEnd="10dp"
+                   android:text="Ride Status"
+                   android:textSize="11dp" />
+           </RelativeLayout>
+
+       </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

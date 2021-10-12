@@ -67,8 +67,8 @@ public class UserRideAdapter extends RecyclerView.Adapter<UserRideAdapter.UserRi
         TextView pickupLocation,status;
         public UserRideViewHolder(@NonNull View itemView) {
             super(itemView);
-            pickupLocation=itemView.findViewById(R.id.pickupLocation);
-            status=itemView.findViewById(R.id.rideStatus);
+            pickupLocation=itemView.findViewById(R.id.rideLocation);
+            status=itemView.findViewById(R.id.rideDateStatus);
         }
     }
 }
