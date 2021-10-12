@@ -17,15 +17,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KONTABAI">
         <activity
+            android:name=".Activities.WelcomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.UserRideDetails"
-            android:parentActivityName=".Activities.DriverSide.DriverDashBoard"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".Activities.DriverSide.DriverDashBoard" />
         <activity
             android:name=".Activities.UserSide.UserDashboard"
             android:exported="true" />
         <activity
             android:name=".Activities.DriverSide.DriverDashBoard"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".Activities.DriverSide.DriverSideProfileCreation" />
         <activity
             android:name=".Activities.UserSide.UserSideProfileCreation"
             android:exported="true" />
