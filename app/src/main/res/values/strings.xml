@@ -11,7 +11,7 @@
     <string name="create_profile">CREATE PROFILE</string>
     <string name="phone_number" tools:ignore="DuplicateDefinition">Phone Number:</string>
     <string name="phone">PHONE NUMBER</string>
-    <string name="car_number">Car Number</string>
+    <string name="car_number">PB12SC2121</string>
     <string name="car_photos">Car Image</string>
     <string name="i_need_a_taxi">I Need a Taxi</string>
     <string name="request_status">Request Status</string>

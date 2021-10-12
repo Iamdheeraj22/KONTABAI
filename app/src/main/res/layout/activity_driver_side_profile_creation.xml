@@ -5,26 +5,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/screen_color"
     tools:context=".Activities.DriverSide.DriverSideProfileCreation">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/driverSideImageview"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginStart="270dp"
+            android:id="@+id/driverImageUploading"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/personimage" />
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/driverSideImageview"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/blackpanther" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="150dp"
+                android:scaleX=".7"
+                android:scaleY=".7"
+                app:backgroundTint="@color/white"
+                android:src="@drawable/ic_round_add_24"
+                android:padding="5dp"
+                />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
+            android:layout_marginStart="30dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/driverSideImageview"
+            android:layout_below="@id/driverImageUploading"
             android:layout_marginTop="50dp"
+            android:layout_marginEnd="30dp"
             android:orientation="vertical">
 
             <TextView
@@ -42,12 +65,15 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
-                android:background="@drawable/black_corners"
+                android:hint="@string/konta_bai"
+                android:background="@drawable/corners_background"
+                android:backgroundTint="@color/white"
+                android:elevation="5dp"
                 android:importantForAutofill="no"
                 android:inputType="text"
-                android:maxLength="15"
-                android:maxLines="1"
-                android:padding="5dp" />
+                android:padding="15dp"
+                android:textSize="13sp"
+                android:maxLines="1" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -65,12 +91,15 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
-                android:background="@drawable/black_corners"
+                android:background="@drawable/corners_background"
+                android:backgroundTint="@color/white"
+                android:elevation="5dp"
                 android:importantForAutofill="no"
                 android:inputType="number"
-                android:maxLength="15"
+                android:padding="15dp"
+                android:hint="@string/custom_number"
+                android:textSize="13sp"
                 android:maxLines="1"
-                android:padding="5dp"
                 tools:ignore="TextFields" />
 
             <TextView
@@ -78,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
-                android:text="@string/car_number"
+                android:text="Car Number"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -89,45 +118,74 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
-                android:background="@drawable/black_corners"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/corners_background"
+                android:backgroundTint="@color/white"
+                android:elevation="5dp"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLength="10"
                 android:maxLines="1"
-                android:padding="5dp"
+                android:hint="@string/car_number"
+                android:padding="15dp"
+                android:textSize="13sp"
                 tools:ignore="TextFields" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/carImageHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/linearLayout"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="30dp"
             android:text="@string/car_photos"
             android:textColor="@color/black"
             android:textSize="15dp" />
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/carimage"
-            android:layout_marginTop="30dp"
-            android:layout_below="@id/linearLayout"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/addimage" />
+       <androidx.cardview.widget.CardView
+           android:layout_width="match_parent"
+           android:layout_marginEnd="60dp"
+           app:cardCornerRadius="10dp"
+           android:id="@+id/cardview"
+           android:layout_below="@id/carImageHeading"
+           android:layout_marginTop="10dp"
+           android:layout_marginStart="60dp"
+           android:layout_height="wrap_content">
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+               <com.google.android.material.floatingactionbutton.FloatingActionButton
+                   android:id="@+id/carimage"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerInParent="true"
+                   android:layout_marginTop="80dp"
+                   android:src="@drawable/ic_round_add_24"
+                   app:backgroundTint="@color/screen_color" />
+
+           </RelativeLayout>
+
+       </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/createDriverProfileButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/carimage"
+            android:layout_below="@id/cardview"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
+            android:background="@drawable/screen_background"
             android:layout_marginBottom="30dp"
             android:text="Create Profile"
-            android:textColor="@color/light_sky_blue"
-            android:textSize="20dp" />
+            android:paddingTop="10dp"
+            android:paddingStart="100dp"
+            android:paddingEnd="100dp"
+            android:textAlignment="center"
+            android:paddingBottom="10dp"
+            android:textSize="15dp" />
     </RelativeLayout>
 
 </ScrollView>

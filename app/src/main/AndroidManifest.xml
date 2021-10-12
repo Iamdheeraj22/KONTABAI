@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KONTABAI">
         <activity
-            android:name=".Activities.WelcomeActivity"
+            android:name=".Activities.RegistrationActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.UserRideDetails"
@@ -45,7 +45,7 @@
             android:name=".Activities.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.RegistrationActivity"
+            android:name=".Activities.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
