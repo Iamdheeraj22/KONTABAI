@@ -11,6 +11,7 @@
     <string name="create_profile">Create Profile</string>
     <string name="create_profile_as_driver">Create Profile As Driver</string>
     <string name="phone_number" tools:ignore="DuplicateDefinition">Phone Number:</string>
+    <string name="phone">PHONE NUMBER</string>
     <string name="car_number">Car Number</string>
     <string name="car_photos">Car Image</string>
     <string name="i_need_a_taxi">I Need a Taxi</string>
@@ -28,4 +29,6 @@
     <string name="please_swipe_left_to_accept_request">Please swipe left to accept request</string>
     <string name="back"><![CDATA[< Back]]></string>
     <string name="name">Name:</string>
+    <string name="enter_phone_number">Enter Your Phone Number</string>
+    <string name="custom_number">+1 20000 51500</string>
 </resources>

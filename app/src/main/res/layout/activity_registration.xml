@@ -2,17 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/screen_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.RegistrationActivity">
 
 
-    <TextView
+    <ImageView
         android:id="@+id/logoHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/logo_colorful"
         android:text="@string/app_logo"
         android:textAlignment="center"
         android:textColor="@color/light_sky_blue"
@@ -24,31 +26,48 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/logoHeading"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="110dp"
-        android:orientation="horizontal">
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="90dp">
 
         <TextView
+            android:id="@+id/phone_heading"
             android:layout_width="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_height="wrap_content"
-            android:text="@string/_91"
-            android:textColor="@color/light_sky_blue"
+            android:text="@string/phone"
+            android:textColor="@color/black"
             android:textSize="20sp"
-            android:layout_toLeftOf="@id/phoneNumberEdit"
-            android:layout_marginEnd="10dp"/>
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/phone_heading2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/phone_heading"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/enter_phone_number"
+            android:textColor="@color/black"
+            tools:ignore="HardcodedText" />
+
 
         <EditText
             android:id="@+id/phoneNumberEdit"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/phone_heading2"
             android:layout_centerHorizontal="true"
             android:background="@drawable/corners_background"
-            android:hint="@string/phone_number"
+            android:textSize="13sp"
+            android:backgroundTint="@color/white"
+            android:hint="@string/custom_number"
             android:importantForAutofill="no"
             android:inputType="number"
             android:maxLength="10"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:maxLines="1"
-            android:padding="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="15dp"
             tools:ignore="TextFields" />
 
     </RelativeLayout>
@@ -56,14 +75,19 @@
 
     <TextView
         android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/linear"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:text="Next"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/screen_background"
+        android:paddingStart="50dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="50dp"
+        android:paddingBottom="10dp"
+        android:text="NEXT"
         android:textAlignment="center"
-        android:textColor="@color/light_sky_blue"
-        android:textSize="20sp"
+        android:textColor="@color/white"
         tools:ignore="HardcodedText" />
 </RelativeLayout>
