@@ -11,15 +11,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:orientation="vertical"
+        android:layout_marginBottom="30dp"
         tools:ignore="UselessParent">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:text="KONTA Bai"
+            android:src="@drawable/onlylogo"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -33,31 +35,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="Phone number verified successfully"
+            android:text="Your Number has been verified"
             android:textColor="@color/black"
-            android:textSize="14dp"
+            android:textSize="12dp"
             tools:ignore="HardcodedText,SpUsage" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/black" />
-
-
-        <TextView
-            android:id="@+id/okButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:text="ok"
-            android:layout_marginBottom="10dp"
-            android:textAlignment="center"
-            android:textColor="@color/light_sky_blue"
-            tools:ignore="HardcodedText" />
-
 
     </LinearLayout>
 
