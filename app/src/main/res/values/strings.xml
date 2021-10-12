@@ -8,8 +8,7 @@
     <string name="verification">VERIFICATION</string>
     <string name="please_enter_the_code_was_sent_nin_your_phone_number">Please Enter code that is sent on\n your phone number </string>
     <string name="_91">+91</string>
-    <string name="create_profile">Create Profile</string>
-    <string name="create_profile_as_driver">Create Profile As Driver</string>
+    <string name="create_profile">CREATE PROFILE</string>
     <string name="phone_number" tools:ignore="DuplicateDefinition">Phone Number:</string>
     <string name="phone">PHONE NUMBER</string>
     <string name="car_number">Car Number</string>
@@ -31,4 +30,6 @@
     <string name="name">Name:</string>
     <string name="enter_phone_number">Enter Your Phone Number</string>
     <string name="custom_number">+1 20000 51500</string>
+    <string name="konta_bai">KONTA BAI</string>
+    <string name="create_profile_as_driver">CREATE PROFILE AS DRIVER</string>
 </resources>
