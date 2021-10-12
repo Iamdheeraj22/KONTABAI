@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Layout;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,9 +36,8 @@ public class VerificationActivity extends AppCompatActivity {
             }else if(verification.length()!=6){
                 verificationCode.setError("Enter valid code!");
             }else {
-//                verifyCode(verification);
-                startActivity(new Intent(VerificationActivity.this, UserSideProfileCreation.class)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+//
+                setUpTheAlertBox();
             }
         });
         backButton.setOnClickListener(view -> startActivity(new Intent(VerificationActivity.this,RegistrationActivity.class)
@@ -72,6 +75,23 @@ public class VerificationActivity extends AppCompatActivity {
 //
 //    }
 
+
+    private void setUpTheAlertBox(){
+        AlertDialog alertDialog=new AlertDialog.Builder(VerificationActivity.this,R.style.verification_done).create();
+        View view= LayoutInflater.from(VerificationActivity.this).inflate(R.layout.confirmation_dialog,null,false);
+        alertDialog.setView(view);
+        alertDialog.show();
+        Handler handler=new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                alertDialog.dismiss();
+                startActivity(new Intent(VerificationActivity.this, UserSideProfileCreation.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+        },3000);
+
+    }
 
     private void initViews()
     {

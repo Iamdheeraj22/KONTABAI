@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:text="@string/verification"
             android:textColor="@color/black"
-            android:textSize="25sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:background="@drawable/corners_background"
-            android:elevation="5dp"
+            android:elevation="2dp"
             android:hint="560205"
             android:importantForAutofill="no"
             android:inputType="number"
@@ -74,8 +74,8 @@
             android:paddingTop="8dp"
             android:paddingEnd="10dp"
             android:paddingBottom="15dp"
-            android:textSize="10dp"
-            tools:ignore="LabelFor" />
+            android:textSize="10sp"
+            tools:ignore="HardcodedText,LabelFor" />
 
         <TextView
             android:id="@+id/continueButton"

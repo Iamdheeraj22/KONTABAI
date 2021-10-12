@@ -25,11 +25,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class UserSideProfileCreation extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 111;
     TextView createProfile,createAsDriver;
     EditText fullname,phonenumber;
-    ImageView imageView;
+    CircleImageView imageView;
     Uri imageUri;
 
     private static final int PERMISSION_CAMERA_CODE=121;
