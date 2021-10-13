@@ -38,6 +38,8 @@ public class UserRideAdapter extends RecyclerView.Adapter<UserRideAdapter.UserRi
     public void onBindViewHolder(@NonNull UserRideViewHolder holder, int position) {
         UserRide userRide= userRides.get(position);
         String pickLocation=userRide.getLocation();
+        String date= userRide.getDate();
+        String id=userRide.getId();
         String status=userRide.getStatus();
 
         switch (status) {
@@ -54,7 +56,9 @@ public class UserRideAdapter extends RecyclerView.Adapter<UserRideAdapter.UserRi
                 holder.status.setTextColor(Color.GREEN);
                 break;
         }
-        holder.pickupLocation.setText(pickLocation);
+        holder.pickupLocation.setText("Pickup Location: "+pickLocation);
+        holder.id.setText("Ride#"+id);
+        holder.date.setText(date);
     }
 
     @Override
@@ -64,11 +68,13 @@ public class UserRideAdapter extends RecyclerView.Adapter<UserRideAdapter.UserRi
 
     static class UserRideViewHolder extends RecyclerView.ViewHolder
     {
-        TextView pickupLocation,status;
+        TextView pickupLocation,status,id,date;
         public UserRideViewHolder(@NonNull View itemView) {
             super(itemView);
             pickupLocation=itemView.findViewById(R.id.rideLocation);
-            status=itemView.findViewById(R.id.rideDateStatus);
+            status=itemView.findViewById(R.id.rideStatus);
+            id=itemView.findViewById(R.id.rideId);
+            date=itemView.findViewById(R.id.rideDateTime);
         }
     }
 }

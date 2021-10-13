@@ -33,4 +33,6 @@
     <string name="konta_bai">KONTA BAI</string>
     <string name="create_profile_as_driver">CREATE PROFILE AS DRIVER</string>
     <string name="logout">Logout</string>
+    <string name="my_rides">MY RIDES</string>
+    <string name="ride_location">Ride Location</string>
 </resources>

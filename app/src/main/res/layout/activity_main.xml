@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/i_need_a_taxi"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="10sp" />
         </RelativeLayout>
 

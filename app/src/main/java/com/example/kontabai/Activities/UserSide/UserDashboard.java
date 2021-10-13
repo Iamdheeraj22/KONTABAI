@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kontabai.Activities.MainActivity;
@@ -20,7 +21,7 @@ public class UserDashboard extends AppCompatActivity {
     RecyclerView recyclerView;
     UserRideAdapter userRideAdapter;
     ArrayList<UserRide> userRides;
-    TextView backButton;
+    ImageView backButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,9 @@ public class UserDashboard extends AppCompatActivity {
 //            userRides.add(new UserRide("Delhi","Accepted"));
 //            userRides.add(new UserRide("Sector 21 ,Chandigarh","Accepted"));
 //            userRides.add(new UserRide("Phase 6 , Chandigarh","Accepted"));
+        userRides.add(new UserRide("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
+        userRides.add(new UserRide("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
+        userRides.add(new UserRide("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
     }
 
     private void initViews() {
