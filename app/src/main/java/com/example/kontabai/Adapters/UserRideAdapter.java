@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kontabai.Classes.UserRide;
+import com.example.kontabai.Classes.UserSideRideModel;
 import com.example.kontabai.R;
 
 import java.util.ArrayList;
@@ -19,11 +19,11 @@ import java.util.ArrayList;
 public class UserRideAdapter extends RecyclerView.Adapter<UserRideAdapter.UserRideViewHolder>
 {
     Context mContext;
-    ArrayList<UserRide> userRides;
+    ArrayList<UserSideRideModel> userSideRideModels;
 
-    public UserRideAdapter(Context mContext, ArrayList<UserRide> userRides) {
+    public UserRideAdapter(Context mContext, ArrayList<UserSideRideModel> userSideRideModels) {
         this.mContext = mContext;
-        this.userRides = userRides;
+        this.userSideRideModels = userSideRideModels;
     }
 
     @NonNull
@@ -36,11 +36,11 @@ public class UserRideAdapter extends RecyclerView.Adapter<UserRideAdapter.UserRi
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull UserRideViewHolder holder, int position) {
-        UserRide userRide= userRides.get(position);
-        String pickLocation=userRide.getLocation();
-        String date= userRide.getDate();
-        String id=userRide.getId();
-        String status=userRide.getStatus();
+        UserSideRideModel userSideRideModel = userSideRideModels.get(position);
+        String pickLocation= userSideRideModel.getLocation();
+        String date= userSideRideModel.getDate();
+        String id= userSideRideModel.getId();
+        String status= userSideRideModel.getStatus();
 
         switch (status) {
             case "Pending":
@@ -63,7 +63,7 @@ public class UserRideAdapter extends RecyclerView.Adapter<UserRideAdapter.UserRi
 
     @Override
     public int getItemCount() {
-        return userRides.size();
+        return userSideRideModels.size();
     }
 
     static class UserRideViewHolder extends RecyclerView.ViewHolder

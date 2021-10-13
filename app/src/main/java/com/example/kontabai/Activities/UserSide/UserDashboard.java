@@ -8,11 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.kontabai.Activities.MainActivity;
 import com.example.kontabai.Adapters.UserRideAdapter;
-import com.example.kontabai.Classes.UserRide;
+import com.example.kontabai.Classes.UserSideRideModel;
 import com.example.kontabai.R;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 public class UserDashboard extends AppCompatActivity {
     RecyclerView recyclerView;
     UserRideAdapter userRideAdapter;
-    ArrayList<UserRide> userRides;
+    ArrayList<UserSideRideModel> userSideRideModels;
     ImageView backButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +43,16 @@ public class UserDashboard extends AppCompatActivity {
 //            userRides.add(new UserRide("Delhi","Accepted"));
 //            userRides.add(new UserRide("Sector 21 ,Chandigarh","Accepted"));
 //            userRides.add(new UserRide("Phase 6 , Chandigarh","Accepted"));
-        userRides.add(new UserRide("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
-        userRides.add(new UserRide("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
-        userRides.add(new UserRide("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
+        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
+        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
+        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
     }
 
     private void initViews() {
         recyclerView=findViewById(R.id.userRecyclerView);
-        userRides=new ArrayList<>();
+        userSideRideModels =new ArrayList<>();
         backButton=findViewById(R.id.userBackButton);
-        userRideAdapter=new UserRideAdapter(getApplicationContext(),userRides);
+        userRideAdapter=new UserRideAdapter(getApplicationContext(), userSideRideModels);
         setRecyclerView();
     }
 
