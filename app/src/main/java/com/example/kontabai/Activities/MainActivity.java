@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViews() {
         btnNeedTaxi=findViewById(R.id.needtaxi);
+        needTaxi=findViewById(R.id.relativeNeedTaxi);
+        requestStatus=findViewById(R.id.statusRelative);
         btnRefresh=findViewById(R.id.refreshButton);
         btnStatus=findViewById(R.id.requeststatus);
         countStatus=findViewById(R.id.countRequest);

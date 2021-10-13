@@ -41,20 +41,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/appLogo"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="40dp">
 
         <RelativeLayout
+            android:id="@+id/relativeNeedTaxi"
             android:layout_width="140dp"
             android:layout_height="120dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginStart="58dp"
-            android:id="@+id/relativeNeedTaxi"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/screen_background">
 
             <TextView
-                android:layout_width="wrap_content"
                 android:id="@+id/needtaxi"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/i_need_a_taxi"
@@ -63,19 +63,19 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/statusRelative"
             android:layout_width="140dp"
             android:layout_height="120dp"
-            android:layout_marginBottom="10dp"
             android:layout_alignParentRight="true"
             android:layout_marginTop="15dp"
-            android:id="@+id/statusRelative"
             android:layout_marginEnd="58dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/black_corners">
 
             <TextView
+                android:id="@+id/requeststatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/requeststatus"
                 android:layout_centerInParent="true"
                 android:text="@string/request_status"
                 android:textColor="@color/black"
@@ -103,13 +103,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonRelativeLayout"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp"
         android:background="@drawable/screen_background"
-        android:text="@string/refresh"
-        android:paddingBottom="10dp"
         android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/refresh"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="11sp" />
