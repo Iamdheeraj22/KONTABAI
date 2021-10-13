@@ -36,7 +36,7 @@ public class VerificationActivity extends AppCompatActivity {
             }else if(verification.length()!=6){
                 verificationCode.setError("Enter valid code!");
             }else {
-//
+                verifyButton.setBackgroundResource(R.drawable.screen_background);
                 setUpTheAlertBox();
             }
         });
@@ -101,5 +101,11 @@ public class VerificationActivity extends AppCompatActivity {
         verificationCode=findViewById(R.id.codeEdittext);
         mobilenumber=getIntent().getStringExtra("mobile");
         verificationId=getIntent().getStringExtra("id");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        verifyButton.setBackgroundResource(R.drawable.black_corners);
     }
 }

@@ -36,7 +36,7 @@ public class PendingRequestFragment extends Fragment {
         return view;
     }
     String deletedMovie = null;
-    ItemTouchHelper.SimpleCallback simpleCallback=new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    ItemTouchHelper.SimpleCallback simpleCallback=new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
@@ -49,7 +49,7 @@ public class PendingRequestFragment extends Fragment {
             if (direction == ItemTouchHelper.RIGHT) {
                 deletedMovie = String.valueOf(arrayList.get(position));
                 AlertDialog alertDialog=new AlertDialog.Builder(getContext(),R.style.verification_done).create();
-                View view=LayoutInflater.from(getContext()).inflate(R.layout.confirmation_dialog,null,false);
+                View view=LayoutInflater.from(getContext()).inflate(R.layout.accept_request_dialogbox,null,false);
                 alertDialog.setView(view);
                 alertDialog.show();
                 TextView textView=view.findViewById(R.id.pendingRequestButton);

@@ -15,6 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_marginStart="270dp"
+            android:layout_marginTop="50dp"
             android:id="@+id/userImageUploading"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content">
@@ -23,16 +24,17 @@
                 android:id="@+id/userImageview"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
-                android:layout_marginTop="50dp"
-                android:src="@drawable/blackpanther" />
+                android:src="@drawable/person_identity" />
 
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="150dp"
-                android:background="@color/transparent"
-                android:src="@drawable/ic_round_add_circle_24" />
+                android:layout_marginTop="90dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_round_add_24" />
+
 
         </RelativeLayout>
 
@@ -107,16 +109,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/screen_background"
+                android:background="@drawable/black_corners"
                 android:paddingStart="50dp"
-
-                android:paddingTop="10dp"
+                android:paddingTop="13dp"
                 android:paddingEnd="50dp"
-                android:paddingBottom="10dp"
+                android:paddingBottom="13dp"
                 android:text="@string/create_profile"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textColor="@color/black"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/moveDriverButton"
@@ -126,14 +127,14 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/black_corners"
-                android:paddingStart="20dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="10dp"
+                android:paddingStart="30dp"
+                android:paddingTop="13dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="13dp"
                 android:text="@string/create_profile_as_driver"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
 
         </RelativeLayout>

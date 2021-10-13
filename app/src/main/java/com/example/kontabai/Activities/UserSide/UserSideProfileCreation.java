@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.view.View;
@@ -56,18 +57,26 @@ public class UserSideProfileCreation extends AppCompatActivity {
                 phonenumber.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
             }
             else{
-                Intent intent=new Intent(UserSideProfileCreation.this, MainActivity.class);
-                intent.putExtra("type","user");
-                intent.putExtra("name",fullName);
-                intent.putExtra("phonenumber",num);
-                startActivity(intent);
+               createProfile.setBackgroundResource(R.drawable.screen_background);
+                Handler handler=new Handler();
+                handler.postDelayed(() -> {
+                    Intent intent=new Intent(UserSideProfileCreation.this, MainActivity.class);
+                    intent.putExtra("type","user");
+                    intent.putExtra("name",fullName);
+                    intent.putExtra("phonenumber",num);
+                    startActivity(intent);
+                },1000);
             }
         });
         createAsDriver.setOnClickListener(v -> {
-            Intent intent=new Intent(UserSideProfileCreation.this,DriverSideProfileCreation.class);
-            intent.putExtra("name",fullname.getText().toString());
-            intent.putExtra("number",phonenumber.getText().toString());
-            startActivity(intent);
+            createAsDriver.setBackgroundResource(R.drawable.screen_background);
+            Handler handler=new Handler();
+            handler.postDelayed(() -> {
+                Intent intent=new Intent(UserSideProfileCreation.this,DriverSideProfileCreation.class);
+                intent.putExtra("name",fullname.getText().toString());
+                intent.putExtra("number",phonenumber.getText().toString());
+                startActivity(intent);
+            },1000);
         });
     }
 
@@ -149,5 +158,12 @@ public class UserSideProfileCreation extends AppCompatActivity {
                         intent,
                         "Select Image from here..."),
                 PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        createProfile.setBackgroundResource(R.drawable.black_corners);
+        createAsDriver.setBackgroundResource(R.drawable.black_corners);
     }
 }

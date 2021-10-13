@@ -35,7 +35,7 @@
         android:layout_below="@id/app_logo"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="170dp"
-        android:layout_marginTop="80dp">
+        android:layout_marginTop="60dp">
 
         <TextView
             android:id="@+id/textView2"
@@ -84,14 +84,14 @@
             android:layout_below="@id/codeEdittext"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:background="@drawable/screen_background"
+            android:background="@drawable/black_corners"
             android:paddingStart="50dp"
             android:paddingTop="10dp"
             android:paddingEnd="50dp"
             android:paddingBottom="10dp"
-            android:text="@string/continueButton"
+            android:text="NEXT"
             android:textAlignment="center"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
     </RelativeLayout>
 

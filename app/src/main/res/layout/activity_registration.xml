@@ -25,10 +25,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/logoHeading"
-        android:elevation="5dp"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="170dp"
-        android:layout_marginTop="90dp">
+        android:layout_marginTop="60dp"
+        android:elevation="5dp">
 
         <TextView
             android:id="@+id/phone_heading"
@@ -82,13 +82,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="170dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/screen_background"
+        android:background="@drawable/black_corners"
         android:paddingStart="50dp"
         android:paddingTop="10dp"
         android:paddingEnd="50dp"
         android:paddingBottom="10dp"
         android:text="NEXT"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         tools:ignore="HardcodedText" />
 </RelativeLayout>

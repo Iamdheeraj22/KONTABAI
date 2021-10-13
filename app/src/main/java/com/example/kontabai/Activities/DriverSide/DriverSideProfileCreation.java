@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.InputFilter;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -28,8 +29,9 @@ public class DriverSideProfileCreation extends AppCompatActivity {
     private static final int PERMISSION_CAMERA_CODE = 111;
     EditText fullname,carnumber,mobilenumber;
     TextView submit;
-    ImageView driverImage;
-    FloatingActionButton addCarImage;
+    ImageView driverImage,carimage;
+    FloatingActionButton addCarImageButton;
+
     Uri imageUri,imageUriCar,imageUriDriver;
     String whichImage;
     @Override
@@ -38,9 +40,9 @@ public class DriverSideProfileCreation extends AppCompatActivity {
         setContentView(R.layout.activity_driver_side_profile_creation);
         initViews();
 
-        addCarImage.setOnClickListener(view -> {
+        addCarImageButton.setOnClickListener(view -> {
             whichImage="car";
-            popMenu(addCarImage);
+            popMenu(addCarImageButton);
         });
         driverImage.setOnClickListener(view -> {
             whichImage="driver";
@@ -84,7 +86,8 @@ public class DriverSideProfileCreation extends AppCompatActivity {
         carnumber=findViewById(R.id.carNumber);
         mobilenumber=findViewById(R.id.driverPhoneNumber);
         submit=findViewById(R.id.createDriverProfileButton);
-        addCarImage=findViewById(R.id.carimage);
+        addCarImageButton=findViewById(R.id.carimageButton);
+        carimage=findViewById(R.id.carImage);
         driverImage=findViewById(R.id.driverSideImageview);
     }
 
@@ -151,8 +154,13 @@ public class DriverSideProfileCreation extends AppCompatActivity {
                 whichImage="";}
             if(whichImage.equals("car")){
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
-                addCarImage.setImageBitmap(photo);
+                addCarImageButton.setVisibility(View.GONE);
+                carimage.setVisibility(View.VISIBLE);
+                carimage.setImageBitmap(photo);
                 whichImage="";
+            }else{
+                addCarImageButton.setVisibility(View.VISIBLE);
+                carimage.setVisibility(View.GONE);
             }
         }
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
@@ -168,9 +176,15 @@ public class DriverSideProfileCreation extends AppCompatActivity {
                         whichImage="";}
                     if(whichImage.equals("car")){
                         imageUriCar=imageUri;
-                        addCarImage.setImageBitmap(bitmap);
+                        addCarImageButton.setVisibility(View.GONE);
+                        carimage.setVisibility(View.VISIBLE);
+                        carimage.setImageBitmap(bitmap);
                         whichImage="";
-                    }}
+                    }else{
+                        addCarImageButton.setVisibility(View.VISIBLE);
+                        carimage.setVisibility(View.GONE);
+                    }
+                }
             }
             catch (IOException e) {
                 e.printStackTrace();

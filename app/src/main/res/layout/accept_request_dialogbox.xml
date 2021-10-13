@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginLeft="50dp"
-    android:layout_marginRight="50dp"
+    android:layout_marginLeft="70dp"
+    android:background="@color/white"
+    android:layout_marginRight="70dp"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:id="@+id/linearLayout"
         tools:ignore="UselessParent">
 
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
-            android:text="KONTA Bai"
             android:src="@drawable/onlylogo"
+            android:text="KONTA Bai"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -27,23 +28,40 @@
             tools:ignore="HardcodedText" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:id="@+id/confirmationHeading"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:textAlignment="center"
-            android:text="Pickup request has been accepted\n                    successfully"
-            android:textColor="@color/black"
-            android:textSize="12dp"
-            tools:ignore="HardcodedText,SpUsage" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/confirmationHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Pickup request has been accepted"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                tools:ignore="HardcodedText,SpUsage" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/confirmationHeading"
+                android:layout_centerHorizontal="true"
+                android:text="successfully"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                tools:ignore="HardcodedText,SpUsage" />
+
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:layout_marginTop="25dp"
-            android:background="@color/black"
-            android:layout_height="1dp" />
+            android:background="@color/black" />
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"

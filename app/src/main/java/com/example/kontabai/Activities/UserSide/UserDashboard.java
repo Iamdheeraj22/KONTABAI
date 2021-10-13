@@ -43,9 +43,9 @@ public class UserDashboard extends AppCompatActivity {
 //            userRides.add(new UserRide("Delhi","Accepted"));
 //            userRides.add(new UserRide("Sector 21 ,Chandigarh","Accepted"));
 //            userRides.add(new UserRide("Phase 6 , Chandigarh","Accepted"));
-        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
-        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
-        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
+        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
+        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
+        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
     }
 
     private void initViews() {

@@ -39,8 +39,8 @@ public class AcceptedRequestFragment extends Fragment {
         recyclerView.setAdapter(driverSideAcceptedRideAdapter);
     }
     private void setStaticData(){
-        driverSideAcceptedRideModels.add(new DriverSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
-        driverSideAcceptedRideModels.add(new DriverSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
-        driverSideAcceptedRideModels.add(new DriverSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","Pending"));
+        driverSideAcceptedRideModels.add(new DriverSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
+        driverSideAcceptedRideModels.add(new DriverSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
+        driverSideAcceptedRideModels.add(new DriverSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
     }
 }

@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -66,8 +67,15 @@ public class RegistrationActivity extends AppCompatActivity {
                 }else{
 //                    registrationUserMobile(number);
 ////                    alertDialog.show();
-                    Intent intent=new Intent(RegistrationActivity.this,VerificationActivity.class);
-                    startActivity(intent);
+                    textView.setBackgroundResource(R.drawable.screen_background);
+                    Handler handler=new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent=new Intent(RegistrationActivity.this,VerificationActivity.class);
+                            startActivity(intent);
+                        }
+                    },1000);
                 }
             }
         });

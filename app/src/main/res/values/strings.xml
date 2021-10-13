@@ -9,7 +9,7 @@
     <string name="please_enter_the_code_was_sent_nin_your_phone_number">Please Enter code that is sent on\n your phone number </string>
     <string name="_91">+91</string>
     <string name="create_profile">CREATE PROFILE</string>
-    <string name="phone_number" tools:ignore="DuplicateDefinition">Phone Number:</string>
+    <string name="phone_number" tools:ignore="DuplicateDefinition">Phone Number</string>
     <string name="phone">PHONE NUMBER</string>
     <string name="car_number">PB12SC2121</string>
     <string name="car_photos">Car Image</string>
