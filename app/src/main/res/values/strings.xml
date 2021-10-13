@@ -35,4 +35,6 @@
     <string name="logout">Logout</string>
     <string name="my_rides">MY RIDES</string>
     <string name="ride_location">Ride Location</string>
+    <string name="backbutton">BackButton</string>
+    <string name="ok">OK</string>
 </resources>

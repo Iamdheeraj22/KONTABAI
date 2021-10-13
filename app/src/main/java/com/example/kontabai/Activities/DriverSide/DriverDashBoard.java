@@ -7,6 +7,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.example.kontabai.Activities.Fragments.AcceptedRequestFragment;
 import com.example.kontabai.Activities.Fragments.PendingRequestFragment;
@@ -18,20 +20,29 @@ public class DriverDashBoard extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     Handler handler;
-    SwipeRefreshLayout swipeRefreshLayout;
+    ImageView backButtonImageView;
+    //SwipeRefreshLayout swipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_dash_board);
         //initViews();
         tabLayout=findViewById(R.id.tab_layout);
-        swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout);
+        backButtonImageView=findViewById(R.id.backButton);
+        //swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout);
         viewPager=findViewById(R.id.view_pager);
-        setUpTablayout();
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            handler=new Handler();
-            handler.postDelayed(() -> swipeRefreshLayout.setRefreshing(false),3000);
+        backButtonImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DriverDashBoard.this,DriverSideProfileCreation.class)
+                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
         });
+        setUpTablayout();
+//        swipeRefreshLayout.setOnRefreshListener(() -> {
+//            handler=new Handler();
+//            handler.postDelayed(() -> swipeRefreshLayout.setRefreshing(false),3000);
+//        });
     }
     private void setUpTablayout(){
         ViewPageAdapter viewPagerAdapter= new ViewPageAdapter(getSupportFragmentManager());

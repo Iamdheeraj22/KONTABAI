@@ -20,7 +20,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Handler handler=new Handler();
-        handler.postDelayed(() -> startActivity(new Intent(WelcomeActivity.this,MainActivity.class)
+        handler.postDelayed(() -> startActivity(new Intent(WelcomeActivity.this,RegistrationActivity.class)
              .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)),3000);
     }
 }
