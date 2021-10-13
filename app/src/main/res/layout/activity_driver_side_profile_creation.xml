@@ -15,6 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_marginStart="270dp"
+            android:layout_marginTop="50dp"
             android:id="@+id/driverImageUploading"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content">
@@ -23,20 +24,17 @@
                 android:id="@+id/driverSideImageview"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
-                android:layout_marginTop="50dp"
-                android:src="@drawable/blackpanther" />
+                android:src="@drawable/person_identity" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="150dp"
-                android:scaleX=".7"
-                android:scaleY=".7"
-                app:backgroundTint="@color/white"
-                android:src="@drawable/ic_round_add_24"
-                android:padding="5dp"
-                />
+                android:layout_marginTop="90dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_round_add_24" />
+
 
         </RelativeLayout>
 
@@ -138,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/linearLayout"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:text="@string/car_photos"
             android:textColor="@color/black"
             android:textSize="15dp" />
@@ -158,13 +156,20 @@
                android:layout_height="wrap_content">
 
                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                   android:id="@+id/carimage"
+                   android:id="@+id/carimageButton"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_centerInParent="true"
                    android:layout_marginTop="80dp"
                    android:src="@drawable/ic_round_add_24"
                    app:backgroundTint="@color/screen_color" />
+
+               <ImageView
+                   android:layout_width="100dp"
+                   android:layout_height="100dp"
+                   android:visibility="gone"
+                   android:layout_centerInParent="true"
+                   android:id="@+id/carImage"/>
 
            </RelativeLayout>
 
@@ -177,14 +182,14 @@
             android:layout_below="@id/cardview"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:background="@drawable/screen_background"
             android:layout_marginBottom="30dp"
-            android:text="Create Profile"
-            android:paddingTop="10dp"
+            android:background="@drawable/black_corners"
             android:paddingStart="100dp"
+            android:paddingTop="13dp"
             android:paddingEnd="100dp"
+            android:paddingBottom="13dp"
+            android:text="Create Profile"
             android:textAlignment="center"
-            android:paddingBottom="10dp"
             android:textSize="15dp" />
     </RelativeLayout>
 

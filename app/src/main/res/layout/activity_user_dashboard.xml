@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/screen_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.UserSide.UserDashboard">
@@ -11,33 +12,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="My Rides"
+        android:layout_marginTop="23dp"
+        android:text="@string/my_rides"
         android:textColor="@color/black"
-        android:textSize="20dp" />
+        android:textSize="14dp" />
 
-    <TextView
+    <ImageView
         android:id="@+id/userBackButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
+        android:src="@drawable/ic_round_arrow_back_24"
         android:text="@string/back"
         android:textColor="@color/light_sky_blue"
         android:textSize="20dp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        android:layout_below="@id/userBackButton"
-        android:layout_marginTop="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/userBackButton"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="40dp"
+        android:background="@color/screen_color" />
 
 </RelativeLayout>

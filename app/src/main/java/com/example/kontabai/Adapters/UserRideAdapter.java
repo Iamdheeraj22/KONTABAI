@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kontabai.Classes.UserRide;
+import com.example.kontabai.Classes.UserSideRideModel;
 import com.example.kontabai.R;
 
 import java.util.ArrayList;
@@ -19,11 +19,11 @@ import java.util.ArrayList;
 public class UserRideAdapter extends RecyclerView.Adapter<UserRideAdapter.UserRideViewHolder>
 {
     Context mContext;
-    ArrayList<UserRide> userRides;
+    ArrayList<UserSideRideModel> userSideRideModels;
 
-    public UserRideAdapter(Context mContext, ArrayList<UserRide> userRides) {
+    public UserRideAdapter(Context mContext, ArrayList<UserSideRideModel> userSideRideModels) {
         this.mContext = mContext;
-        this.userRides = userRides;
+        this.userSideRideModels = userSideRideModels;
     }
 
     @NonNull
@@ -36,9 +36,11 @@ public class UserRideAdapter extends RecyclerView.Adapter<UserRideAdapter.UserRi
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull UserRideViewHolder holder, int position) {
-        UserRide userRide= userRides.get(position);
-        String pickLocation=userRide.getLocation();
-        String status=userRide.getStatus();
+        UserSideRideModel userSideRideModel = userSideRideModels.get(position);
+        String pickLocation= userSideRideModel.getLocation();
+        String date= userSideRideModel.getDate();
+        String id= userSideRideModel.getId();
+        String status= userSideRideModel.getStatus();
 
         switch (status) {
             case "Pending":
@@ -54,21 +56,25 @@ public class UserRideAdapter extends RecyclerView.Adapter<UserRideAdapter.UserRi
                 holder.status.setTextColor(Color.GREEN);
                 break;
         }
-        holder.pickupLocation.setText(pickLocation);
+        holder.pickupLocation.setText("Pickup Location: "+pickLocation);
+        holder.id.setText("Ride#"+id);
+        holder.date.setText(date);
     }
 
     @Override
     public int getItemCount() {
-        return userRides.size();
+        return userSideRideModels.size();
     }
 
     static class UserRideViewHolder extends RecyclerView.ViewHolder
     {
-        TextView pickupLocation,status;
+        TextView pickupLocation,status,id,date;
         public UserRideViewHolder(@NonNull View itemView) {
             super(itemView);
             pickupLocation=itemView.findViewById(R.id.rideLocation);
-            status=itemView.findViewById(R.id.rideDateStatus);
+            status=itemView.findViewById(R.id.rideStatus);
+            id=itemView.findViewById(R.id.rideId);
+            date=itemView.findViewById(R.id.rideDateTime);
         }
     }
 }

@@ -1,20 +1,20 @@
 package com.example.kontabai.Classes;
 
-public class UserRide
+public class DriverSideRideModel
 {
     private String location;
     private String status;
     private String date;
     private String id;
 
-    public UserRide(String location, String status, String date, String id) {
+    public DriverSideRideModel(String location, String status, String date, String id) {
         this.location = location;
         this.status = status;
         this.date = date;
         this.id = id;
     }
 
-    public UserRide() {
+    public DriverSideRideModel() {
     }
 
     public String getLocation() {
