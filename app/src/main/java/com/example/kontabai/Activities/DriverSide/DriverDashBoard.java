@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,13 +31,14 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 
 public class DriverDashBoard extends AppCompatActivity {
-    RecyclerView viewPager;
+    RecyclerView rv_pending, rv_accepted;
     ImageView backButtonImageView;
-    ItemTouchHelper itemTouchHelper;
-    RelativeLayout rl_pending,rl_accepted;
+    RelativeLayout rl_pending, rl_accepted;
     DriverSidePendingRideAdapter driverSidePendingRideAdapter;
-    TextView tv_accepted,tv_pending,tv_logout;
-    ArrayList<DriverSideRideModel> driverSideRideModels;
+    TextView tv_accepted, tv_pending, tv_logout;
+    ArrayList<DriverSideRideModel> arrayList;
+    ItemTouchHelper itemTouchHelper1, itemTouchHelper2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,18 +47,17 @@ public class DriverDashBoard extends AppCompatActivity {
 
         setListener();
         makeSelection("pending");
-        backButtonImageView.setOnClickListener(v->{
-            startActivity(new Intent(DriverDashBoard.this,DriverSideProfileCreation.class)
-            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+        backButtonImageView.setOnClickListener(v -> {
+            startActivity(new Intent(DriverDashBoard.this, DriverSideProfileCreation.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         });
-        tv_logout.setOnClickListener(v->{
+        tv_logout.setOnClickListener(v -> {
             startActivity(new Intent(DriverDashBoard.this, RegistrationActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         });
     }
 
-    private void setListener()
-    {
+    private void setListener() {
         rl_pending.setOnClickListener(v -> makeSelection("pending"));
         rl_accepted.setOnClickListener(v -> makeSelection("accepted"));
     }
@@ -66,10 +67,14 @@ public class DriverDashBoard extends AppCompatActivity {
         tv_pending.setTextColor(getResources().getColor(R.color.black));
         rl_accepted.setBackground(null);
         rl_pending.setBackground(null);
-        if(type.equalsIgnoreCase("accepted")){
+        if (type.equalsIgnoreCase("accepted")) {
+            rv_pending.setVisibility(View.GONE);
+            rv_accepted.setVisibility(View.VISIBLE);
             tv_accepted.setTextColor(getResources().getColor(R.color.white));
             rl_accepted.setBackgroundResource(R.drawable.screen_background);
-        }else{
+        } else {
+            rv_pending.setVisibility(View.VISIBLE);
+            rv_accepted.setVisibility(View.GONE);
             tv_pending.setTextColor(getResources().getColor(R.color.white));
             rl_pending.setBackgroundResource(R.drawable.screen_background);
         }
@@ -77,47 +82,52 @@ public class DriverDashBoard extends AppCompatActivity {
     }
 
     private void initViews() {
-        rl_accepted=findViewById(R.id.rl_accepted);
-        rl_pending=findViewById(R.id.rl_pending);
-        viewPager=findViewById(R.id.view_pager);
-      tv_accepted=findViewById(R.id.tv_accepted);
-        tv_pending=findViewById(R.id.tv_pending);
-        driverSideRideModels=new ArrayList<>();
-        itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(viewPager);
-        tv_logout=findViewById(R.id.driver_logout_button);
-        backButtonImageView=findViewById(R.id.backButton);
+        rl_accepted = findViewById(R.id.rl_accepted);
+        rl_pending = findViewById(R.id.rl_pending);
+        rv_pending = findViewById(R.id.view_pager);
+        rv_accepted = findViewById(R.id.view_pager2);
+        tv_accepted = findViewById(R.id.tv_accepted);
+        tv_pending = findViewById(R.id.tv_pending);
+        arrayList = new ArrayList<>();
+        tv_logout = findViewById(R.id.driver_logout_button);
+        backButtonImageView = findViewById(R.id.backButton);
+        itemTouchHelper1 = new ItemTouchHelper(simpleCallback1);
+        itemTouchHelper1.attachToRecyclerView(rv_pending);
+
+        itemTouchHelper2 = new ItemTouchHelper(simpleCallback2);
+        itemTouchHelper2.attachToRecyclerView(rv_accepted);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(DriverDashBoard.this,DriverSideProfileCreation.class)
-             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+        startActivity(new Intent(DriverDashBoard.this, DriverSideProfileCreation.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
-    private void setStaticData(String type){
-        driverSideRideModels.clear();
-        if(type.equalsIgnoreCase("pending")){
-            driverSideRideModels.add(new DriverSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
-            driverSideRideModels.add(new DriverSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
-            driverSideRideModels.add(new DriverSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
-
-
-
-        }else{
-            driverSideRideModels.add(new DriverSideRideModel("Amritsar","Accepted","12-10-2021, 03:45pm","01120"));
-            driverSideRideModels.add(new DriverSideRideModel("Amritsar","Accepted","12-10-2021, 03:45pm","01120"));
-            driverSideRideModels.add(new DriverSideRideModel("Amritsar","Accepted","12-10-2021, 03:45pm","01120"));
+    private void setStaticData(String type) {
+        arrayList.clear();
+        if (type.equalsIgnoreCase("pending")) {
+            arrayList.add(new DriverSideRideModel("Amritsar", "Pending", "12-10-2021, 03:45pm", "01120"));
+            arrayList.add(new DriverSideRideModel("Amritsar", "Pending", "12-10-2021, 03:45pm", "01120"));
+            arrayList.add(new DriverSideRideModel("Amritsar", "Pending", "12-10-2021, 03:45pm", "01120"));
+            driverSidePendingRideAdapter = new DriverSidePendingRideAdapter(this, arrayList);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            rv_pending.setLayoutManager(layoutManager);
+            rv_pending.setAdapter(driverSidePendingRideAdapter);
+        } else {
+            arrayList.add(new DriverSideRideModel("Amritsar", "Accepted", "12-10-2021, 03:45pm", "01120"));
+            arrayList.add(new DriverSideRideModel("Amritsar", "Accepted", "12-10-2021, 03:46pm", "01120"));
+            arrayList.add(new DriverSideRideModel("Amritsar", "Accepted", "12-10-2021, 03:47pm", "01120"));
+            driverSidePendingRideAdapter = new DriverSidePendingRideAdapter(this, arrayList);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            rv_accepted.setLayoutManager(layoutManager);
+            rv_accepted.setAdapter(driverSidePendingRideAdapter);
         }
-        driverSidePendingRideAdapter=new DriverSidePendingRideAdapter(this,driverSideRideModels);
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
-        viewPager.setLayoutManager(layoutManager);
-        viewPager.setAdapter(driverSidePendingRideAdapter);
-       }
+    }
 
     String deletedMovie = null;
-    ItemTouchHelper.SimpleCallback simpleCallback=new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+    ItemTouchHelper.SimpleCallback simpleCallback1 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
@@ -128,19 +138,84 @@ public class DriverDashBoard extends AppCompatActivity {
             final int position = viewHolder.getAdapterPosition();
 
             if (direction == ItemTouchHelper.RIGHT) {
-                deletedMovie = String.valueOf(driverSideRideModels.get(position));
-                AlertDialog alertDialog=new AlertDialog.Builder(DriverDashBoard.this,R.style.verification_done).create();
-                View view= LayoutInflater.from(DriverDashBoard.this).inflate(R.layout.accept_request_dialogbox,null,false);
+                deletedMovie = String.valueOf(arrayList.get(position));
+                AlertDialog alertDialog = new AlertDialog.Builder(DriverDashBoard.this, R.style.verification_done).create();
+                View view = LayoutInflater.from(DriverDashBoard.this).inflate(R.layout.accept_request_dialogbox, null, false);
                 alertDialog.setView(view);
                 alertDialog.show();
                 alertDialog.setCancelable(false);
-                TextView textView=view.findViewById(R.id.pendingRequestButton);
+                TextView textView = view.findViewById(R.id.pendingRequestButton);
                 textView.setOnClickListener(v -> {
-                    driverSideRideModels.remove(position);
+                    arrayList.remove(position);
                     driverSidePendingRideAdapter.notifyItemRemoved(position);
                     alertDialog.dismiss();
                 });
             }
         }
     };
+    String deletedMovie2 = null;
+    ItemTouchHelper.SimpleCallback simpleCallback2 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+            final int position = viewHolder.getAdapterPosition();
+            DriverSideRideModel driverSideRideModel1 = arrayList.get(position);
+            String status = driverSideRideModel1.getStatus();
+            if (status.equalsIgnoreCase("Completed")) {
+                return makeMovementFlags(ItemTouchHelper.ACTION_STATE_IDLE, 0);
+            }
+            return super.getMovementFlags(recyclerView, viewHolder);
+        }
+
+        @SuppressLint("NotifyDataSetChanged")
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            final int position = viewHolder.getAdapterPosition();
+            DriverSideRideModel driverSideRideModel1 = arrayList.get(position);
+            String status = driverSideRideModel1.getStatus();
+
+           if (direction == ItemTouchHelper.RIGHT) {
+                deletedMovie2 = String.valueOf(arrayList.get(position));
+                AlertDialog alertDialog = new AlertDialog.Builder(DriverDashBoard.this, R.style.verification_done).create();
+                View view = LayoutInflater.from(DriverDashBoard.this).inflate(R.layout.complete_ride, null, false);
+                alertDialog.setView(view);
+                alertDialog.show();
+                alertDialog.setCancelable(false);
+                TextView yesButton = view.findViewById(R.id.yesButton);
+                TextView noButton = view.findViewById(R.id.noButton);
+                yesButton.setOnClickListener(v -> {
+                    yesButton.setBackgroundResource(R.drawable.screen_background);
+                    Handler handler = new Handler();
+                    handler.postDelayed(() -> {
+                        DriverSideRideModel driverSideRideModel = arrayList.get(position);
+                        String id = driverSideRideModel.getId();
+                        String location = driverSideRideModel.getLocation();
+                        String date = driverSideRideModel.getDate();
+                        arrayList.get(position).setStatus("Completed");
+                        driverSidePendingRideAdapter.notifyItemChanged(position);
+                        alertDialog.dismiss();
+                    }, 500);
+                });
+                noButton.setOnClickListener(v -> {
+                    noButton.setBackgroundResource(R.drawable.screen_background);
+                    Handler handler = new Handler();
+                    handler.postDelayed(() -> {
+                        alertDialog.dismiss();
+                        noButton.setBackgroundResource(R.color.white);
+                    }, 500);
+                });
+            }
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        rv_accepted.setVisibility(View.GONE);
+        rv_pending.setVisibility(View.VISIBLE);
+    }
 }

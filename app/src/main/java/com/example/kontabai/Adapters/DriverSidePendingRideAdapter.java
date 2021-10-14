@@ -55,7 +55,14 @@ public class DriverSidePendingRideAdapter extends RecyclerView.Adapter<DriverSid
                 holder.status.setText("Accepted");
                 holder.status.setTextColor(Color.GREEN);
                 break;
+            case "Completed":
+                holder.status.setText("Completed");
+                holder.status.setTextColor(Color.GREEN);
+                break;
         }
+//        if(status.equals("Completed")){
+//            holder.
+//        }
         holder.location.setText("Pickup Location: "+pickLocation);
         holder.Id.setText("Ride#"+id);
         holder.date.setText(date);
