@@ -18,8 +18,8 @@ import com.example.kontabai.Activities.UserSide.UserSideProfileCreation;
 import com.example.kontabai.R;
 
 public class MainActivity extends AppCompatActivity {
-    TextView btnRefresh,btnNeedTaxi,btnStatus,countStatus;
-    RelativeLayout needTaxi,requestStatus;
+    TextView btnRefresh,countStatus;
+    RelativeLayout relativeNeedTaxi,relativeRequestStatus;
     String type;
     @SuppressLint("SetTextI18n")
     @Override
@@ -31,25 +31,21 @@ public class MainActivity extends AppCompatActivity {
 //        if(type.equals("driver")){
 //            startActivity(new Intent(MainActivity.this, DriverDashBoard.class));
 //        }
-        btnNeedTaxi.setOnClickListener(v -> {
-            requestStatus.setBackgroundResource(R.drawable.screen_background);
-           Handler handler=new Handler();
-            handler.postDelayed(() -> showAlertBox(),1000);
-        });
-        btnStatus.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, UserDashboard.class)
-             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)));
-        needTaxi.setOnClickListener(v -> {
-            needTaxi.setBackgroundResource(R.drawable.screen_background);
+
+        relativeNeedTaxi.setOnClickListener(v -> {
+            relativeNeedTaxi.setBackgroundResource(R.drawable.screen_background);
+            relativeRequestStatus.setEnabled(false);
             Handler handler=new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     showAlertBox();
                 }
-            },1000);
+            },100);
         });
-        requestStatus.setOnClickListener(v -> {
-            requestStatus.setBackgroundResource(R.drawable.screen_background);
+        relativeRequestStatus.setOnClickListener(v -> {
+            relativeRequestStatus.setBackgroundResource(R.drawable.screen_background);
+            relativeNeedTaxi.setEnabled(false);
             Handler handler=new Handler();
             handler.postDelayed(() -> startActivity(new Intent(MainActivity.this, UserDashboard.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)),1000);
@@ -57,20 +53,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        btnNeedTaxi=findViewById(R.id.needtaxi);
-        needTaxi=findViewById(R.id.relativeNeedTaxi);
-        requestStatus=findViewById(R.id.statusRelative);
+        relativeNeedTaxi=findViewById(R.id.relativeNeedTaxi);
+        relativeRequestStatus=findViewById(R.id.statusRelative);
         btnRefresh=findViewById(R.id.refreshButton);
-        btnStatus=findViewById(R.id.requeststatus);
-        //countStatus=findViewById(R.id.countRequest);
+        countStatus=findViewById(R.id.countRequest);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        requestStatus.setBackgroundResource(R.drawable.black_corners);
-        needTaxi.setBackgroundResource(R.drawable.black_corners);
-        //countStatus.setVisibility(View.GONE);
+        relativeRequestStatus.setBackgroundResource(R.drawable.black_corners);
+        relativeNeedTaxi.setBackgroundResource(R.drawable.black_corners);
+        countStatus.setVisibility(View.GONE);
     }
 
     @SuppressLint("SetTextI18n")
@@ -80,13 +74,16 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.setView(view);
         alertDialog.show();
         TextView textView=view.findViewById(R.id.confirmationHeading);
+        alertDialog.setCancelable(false);
         textView.setText("Your location has been sent to\n"+"drivers , please wait.");
         Handler handler=new Handler();
         handler.postDelayed(() -> {
-            //countStatus.setVisibility(View.VISIBLE);
+            countStatus.setVisibility(View.VISIBLE);
             alertDialog.dismiss();
-            needTaxi.setBackgroundResource(R.drawable.black_corners);
-            requestStatus.setBackgroundResource(R.drawable.black_corners);
+            relativeNeedTaxi.setBackgroundResource(R.drawable.black_corners);
+            relativeRequestStatus.setBackgroundResource(R.drawable.black_corners);
+            relativeRequestStatus.setEnabled(true);
+            relativeNeedTaxi.setEnabled(true);
         },3000);
     }
 
