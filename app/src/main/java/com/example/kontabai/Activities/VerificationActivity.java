@@ -36,8 +36,8 @@ public class VerificationActivity extends AppCompatActivity {
             }else if(verification.length()!=6){
                 verificationCode.setError("Enter valid code!");
             }else {
-                verifyButton.setBackgroundResource(R.drawable.screen_background);
                 setUpTheAlertBox();
+                verifyButton.setBackgroundResource(R.drawable.screen_background);
             }
         });
         backButton.setOnClickListener(view -> startActivity(new Intent(VerificationActivity.this,RegistrationActivity.class)
@@ -81,6 +81,7 @@ public class VerificationActivity extends AppCompatActivity {
         View view= LayoutInflater.from(VerificationActivity.this).inflate(R.layout.confirmation_dialog,null,false);
         alertDialog.setView(view);
         alertDialog.show();
+        alertDialog.setCancelable(false);
         Handler handler=new Handler();
         handler.postDelayed(new Runnable() {
             @Override
