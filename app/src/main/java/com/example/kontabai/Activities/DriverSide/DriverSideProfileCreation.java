@@ -3,6 +3,7 @@ package com.example.kontabai.Activities.DriverSide;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -24,12 +25,15 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.IOException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DriverSideProfileCreation extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST =121 ;
     private static final int PERMISSION_CAMERA_CODE = 111;
     EditText fullname,carnumber,mobilenumber;
     TextView submit;
     ImageView driverImage,carimage;
+    CircleImageView circleImageView;
     FloatingActionButton addCarImageButton;
 
     Uri imageUri,imageUriCar,imageUriDriver;
@@ -45,6 +49,10 @@ public class DriverSideProfileCreation extends AppCompatActivity {
             popMenu(addCarImageButton);
         });
         driverImage.setOnClickListener(view -> {
+            whichImage="driver";
+            popMenu(driverImage);
+        });
+        circleImageView.setOnClickListener(v -> {
             whichImage="driver";
             popMenu(driverImage);
         });
@@ -89,6 +97,7 @@ public class DriverSideProfileCreation extends AppCompatActivity {
         addCarImageButton=findViewById(R.id.carimageButton);
         carimage=findViewById(R.id.carImage);
         driverImage=findViewById(R.id.driverSideImageview);
+        circleImageView=findViewById(R.id.driverSideImageview2);
     }
 
     private void popMenu(ImageView imageView) {
@@ -126,7 +135,7 @@ public class DriverSideProfileCreation extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==PERMISSION_CAMERA_CODE && resultCode==RESULT_OK  && data != null && data.getData() != null ){
+        if(requestCode==PERMISSION_CAMERA_CODE && resultCode== Activity.RESULT_OK ){
 //            imageUri=data.getData();
 //            Bitmap mImageUri = null;
 //            try {
@@ -149,10 +158,12 @@ public class DriverSideProfileCreation extends AppCompatActivity {
 //            }
             if(whichImage.equals("driver")){
                 //imageUriDriver=imageUri;
+                assert data != null;
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 driverImage.setImageBitmap(photo);
                 whichImage="";}
             if(whichImage.equals("car")){
+                assert data != null;
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 addCarImageButton.setVisibility(View.GONE);
                 carimage.setVisibility(View.VISIBLE);
