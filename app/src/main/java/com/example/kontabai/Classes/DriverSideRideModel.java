@@ -29,8 +29,9 @@ public class DriverSideRideModel
         return status;
     }
 
-    public void setStatus(String status) {
+    public String setStatus(String status) {
         this.status = status;
+        return status;
     }
 
     public String getDate() {

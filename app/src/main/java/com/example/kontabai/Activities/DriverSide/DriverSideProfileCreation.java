@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.view.View;
@@ -79,13 +80,19 @@ public class DriverSideProfileCreation extends AppCompatActivity {
 //                intent.putExtra("carnumber",carNumber);
 //                startActivity(intent);
 //            }
-
-            Intent intent=new Intent(DriverSideProfileCreation.this, DriverDashBoard.class);
-            intent.putExtra("type","driver");
-            intent.putExtra("name",fullName);
-            intent.putExtra("number",phonenumber);
-            intent.putExtra("carnumber",carNumber);
-            startActivity(intent);
+            submit.setBackgroundResource(R.drawable.screen_background);
+            Handler handler=new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent=new Intent(DriverSideProfileCreation.this, DriverDashBoard.class);
+                    intent.putExtra("type","driver");
+                    intent.putExtra("name",fullName);
+                    intent.putExtra("number",phonenumber);
+                    intent.putExtra("carnumber",carNumber);
+                    startActivity(intent);
+                }
+            },500);
 
         });
     }
@@ -202,11 +209,10 @@ public class DriverSideProfileCreation extends AppCompatActivity {
             }
         }
     }
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        String number= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-//        mobilenumber.setText(number);
-//        mobilenumber.setEnabled(false);
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //String number= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        submit.setBackgroundResource(R.drawable.black_corners);
+    }
 }
