@@ -24,7 +24,7 @@
     <string name="please_enter_code_that_is_sent_on_nyour_phone_number">Please Enter code that is sent on your phone number</string>
     <string name="location">Location</string>
     <string name="please_tap_on_row_to_view_customer_details">Please tap on row to view customer details!</string>
-    <string name="yes">Yes</string>
+    <string name="yes">YES</string>
     <string name="please_swipe_left_to_accept_request">Please swipe left to accept request</string>
     <string name="back"><![CDATA[< Back]]></string>
     <string name="name">Name:</string>
@@ -37,4 +37,5 @@
     <string name="ride_location">Ride Location</string>
     <string name="backbutton">BackButton</string>
     <string name="ok">OK</string>
+    <string name="no">NO</string>
 </resources>
