@@ -27,7 +27,7 @@
             android:name=".Activities.UserSide.UserDashboard"
             android:exported="true" />
         <activity
-            android:name=".Activities.WelcomeActivity"
+            android:name=".Activities.DriverSide.DriverDashBoard"
             android:exported="true"
             android:parentActivityName=".Activities.DriverSide.DriverSideProfileCreation" />
         <activity
@@ -45,7 +45,7 @@
             android:name=".Activities.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.DriverSide.DriverDashBoard"
+            android:name=".Activities.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

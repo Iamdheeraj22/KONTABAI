@@ -71,12 +71,12 @@ public class DriverDashBoard extends AppCompatActivity {
             rv_pending.setVisibility(View.GONE);
             rv_accepted.setVisibility(View.VISIBLE);
             tv_accepted.setTextColor(getResources().getColor(R.color.white));
-            rl_accepted.setBackgroundResource(R.drawable.screen_background);
+            rl_accepted.setBackgroundResource(R.drawable.screen_background_1);
         } else {
             rv_pending.setVisibility(View.VISIBLE);
             rv_accepted.setVisibility(View.GONE);
             tv_pending.setTextColor(getResources().getColor(R.color.white));
-            rl_pending.setBackgroundResource(R.drawable.screen_background);
+            rl_pending.setBackgroundResource(R.drawable.screen_background_1);
         }
         setStaticData(type);
     }
@@ -175,8 +175,8 @@ public class DriverDashBoard extends AppCompatActivity {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
-            DriverSideRideModel driverSideRideModel1 = arrayList.get(position);
-            String status = driverSideRideModel1.getStatus();
+//            DriverSideRideModel driverSideRideModel1 = arrayList.get(position);
+//            String status = driverSideRideModel1.getStatus();
 
            if (direction == ItemTouchHelper.RIGHT) {
                 deletedMovie2 = String.valueOf(arrayList.get(position));
@@ -191,10 +191,10 @@ public class DriverDashBoard extends AppCompatActivity {
                     yesButton.setBackgroundResource(R.drawable.screen_background);
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
-                        DriverSideRideModel driverSideRideModel = arrayList.get(position);
-                        String id = driverSideRideModel.getId();
-                        String location = driverSideRideModel.getLocation();
-                        String date = driverSideRideModel.getDate();
+//                        DriverSideRideModel driverSideRideModel = arrayList.get(position);
+//                        String id = driverSideRideModel.getId();
+//                        String location = driverSideRideModel.getLocation();
+//                        String date = driverSideRideModel.getDate();
                         arrayList.get(position).setStatus("Completed");
                         driverSidePendingRideAdapter.notifyItemChanged(position);
                         alertDialog.dismiss();
