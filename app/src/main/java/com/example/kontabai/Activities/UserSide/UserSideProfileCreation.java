@@ -4,7 +4,10 @@ package com.example.kontabai.Activities.UserSide;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,19 +15,32 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.InputFilter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kontabai.Activities.DriverSide.DriverSideProfileCreation;
-import com.example.kontabai.Activities.MainActivity;
+import com.example.kontabai.Activities.UserSideActivity;
+import com.example.kontabai.Classes.ImportantMethods;
 import com.example.kontabai.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,7 +49,12 @@ public class UserSideProfileCreation extends AppCompatActivity {
     TextView createProfile,createAsDriver;
     EditText fullname,phonenumber;
     CircleImageView imageView;
+    ProgressDialog progressDialog;
     Uri imageUri;
+    StorageTask<UploadTask.TaskSnapshot> uploadTask;
+    StorageReference storageReference;
+    DatabaseReference userInfo;
+    String cameraAbsolutePath;
 
     private static final int PERMISSION_CAMERA_CODE=121;
     @Override
@@ -42,9 +63,6 @@ public class UserSideProfileCreation extends AppCompatActivity {
         setContentView(R.layout.activity_user_side_profile_creation);
         initViews();
         imageView.setOnClickListener(v-> setImageView());
-        createAsDriver.setOnClickListener(view -> startActivity(new Intent(UserSideProfileCreation.this, DriverSideProfileCreation.class).addFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK
-        )));
         createProfile.setOnClickListener(view -> {
             String fullName=fullname.getText().toString().trim();
             String num=phonenumber.getText().toString().trim();
@@ -54,30 +72,23 @@ public class UserSideProfileCreation extends AppCompatActivity {
             else if(num.equals("")){
                 phonenumber.setEnabled(true);
                 phonenumber.setError("Enter the valid number");
-                phonenumber.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
+                phonenumber.setFilters(new InputFilter[]{new InputFilter.LengthFilter(13)});
             }
             else{
                createProfile.setBackgroundResource(R.drawable.screen_background);
-                Handler handler=new Handler();
-                handler.postDelayed(() -> {
-                    Intent intent=new Intent(UserSideProfileCreation.this, MainActivity.class);
-                    intent.putExtra("type","user");
-                    intent.putExtra("name",fullName);
-                    intent.putExtra("phonenumber",num);
-                    startActivity(intent);
-                },1000);
+               SaveUserInformation(fullName,num);
             }
         });
-        createAsDriver.setOnClickListener(v -> {
-            createAsDriver.setBackgroundResource(R.drawable.screen_background);
-            Handler handler=new Handler();
-            handler.postDelayed(() -> {
-                Intent intent=new Intent(UserSideProfileCreation.this,DriverSideProfileCreation.class);
-                intent.putExtra("name",fullname.getText().toString());
-                intent.putExtra("number",phonenumber.getText().toString());
-                startActivity(intent);
-            },1000);
-        });
+//        createAsDriver.setOnClickListener(v -> {
+//            createAsDriver.setBackgroundResource(R.drawable.screen_background);
+//            Handler handler=new Handler();
+//            handler.postDelayed(() -> {
+//                Intent intent=new Intent(UserSideProfileCreation.this,DriverSideProfileCreation.class);
+//                intent.putExtra("name",fullname.getText().toString());
+//                intent.putExtra("number",phonenumber.getText().toString());
+//                startActivity(intent);
+//            },1000);
+//        });
     }
 
     private void openCamera() {
@@ -94,17 +105,24 @@ public class UserSideProfileCreation extends AppCompatActivity {
         fullname=findViewById(R.id.userFullName);
         phonenumber=findViewById(R.id.userPhoneNumber);
         imageView=findViewById(R.id.userImageview);
-//        String phone= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-//        phonenumber.setText(phone);
-//        phonenumber.setEnabled(false);
+        String phone= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        phonenumber.setText(phone);
+        phonenumber.setEnabled(false);
+        userInfo= FirebaseDatabase.getInstance().getReference().child("OnlyUsers").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()));
+        storageReference = FirebaseStorage.getInstance().getReference(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber()));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==PERMISSION_CAMERA_CODE && resultCode==RESULT_OK){
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(photo);
+            Bitmap bitmap=(Bitmap) data.getExtras().get("data");
+            ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+            String path=MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),bitmap,"val",null);
+            Uri uri=Uri.parse(path);
+            imageView.setImageURI(uri);
+            imageUri=uri;
         }
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             imageUri = data.getData();
@@ -165,5 +183,64 @@ public class UserSideProfileCreation extends AppCompatActivity {
         super.onStart();
         createProfile.setBackgroundResource(R.drawable.black_corners);
         createAsDriver.setBackgroundResource(R.drawable.black_corners);
+    }
+
+
+    // Save the information in Firebase Database
+
+    @SuppressLint("SetTextI18n")
+    private void SaveUserInformation(String name, String number){
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Please wait for few seconds, we are setting up your Profile");
+        progressDialog.show();
+        if(imageUri!=null)
+        {
+            DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("AllUsers").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()));
+            final StorageReference file=storageReference.child(System.currentTimeMillis()+"."+ImportantMethods.getExtension(UserSideProfileCreation.this,imageUri));
+            uploadTask=file.putFile(imageUri);
+            uploadTask.continueWithTask(task -> {
+                if(!task.isSuccessful())
+                {
+                    throw Objects.requireNonNull(task.getException());
+                }
+                return file.getDownloadUrl();
+            }).addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    Uri downloaduri= task.getResult();
+                    assert downloaduri != null;
+                    String mUri= downloaduri.toString();
+                    HashMap<String,Object> map=new HashMap<>();
+                    map.put("name",name);
+                    map.put("number",number);
+                    map.put("imageurl",mUri);
+                    databaseReference1.child("Saved").setValue("user");
+                    userInfo.setValue(map);
+                    AlertDialog alertDialog=new AlertDialog.Builder(UserSideProfileCreation.this,R.style.verification_done).create();
+                    View view= LayoutInflater.from(UserSideProfileCreation.this).inflate(R.layout.confirmation_dialog,null,false);
+                    alertDialog.setView(view);
+                    alertDialog.show();
+                    TextView headingTextView=view.findViewById(R.id.confirmationHeading);
+                    headingTextView.setText("Your profile has been created successfully.");
+                    Handler handler=new Handler();
+                    handler.postDelayed(() -> {
+                        alertDialog.dismiss();
+                        startActivity(new Intent(UserSideProfileCreation.this, UserSideActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        finish();
+                    },2000);
+                } else
+                {
+                    Toast.makeText(UserSideProfileCreation.this,"Failed",Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+                progressDialog.dismiss();
+            }).addOnFailureListener(e -> {
+                Toast.makeText(UserSideProfileCreation.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            });
+        }else {
+            providePhoto();
+            progressDialog.dismiss();
+        }
     }
 }
