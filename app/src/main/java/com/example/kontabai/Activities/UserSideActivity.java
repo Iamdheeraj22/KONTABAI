@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -15,9 +16,10 @@ import android.widget.TextView;
 import com.example.kontabai.Activities.UserSide.UserDashboard;
 import com.example.kontabai.Activities.UserSide.UserSideProfileCreation;
 import com.example.kontabai.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class UserSideActivity extends AppCompatActivity {
-    TextView btnRefresh,countStatus;
+    TextView btnRefresh,countStatus,logout_Button;
     RelativeLayout relativeNeedTaxi,relativeRequestStatus;
     @SuppressLint("SetTextI18n")
     @Override
@@ -39,6 +41,34 @@ public class UserSideActivity extends AppCompatActivity {
             handler.postDelayed(() -> startActivity(new Intent(UserSideActivity.this, UserDashboard.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)),1000);
         });
+        logout_Button.setOnClickListener(v->{
+           AlertDialog alertDialog=new AlertDialog.Builder(UserSideActivity.this,R.style.verification_done).create();
+           View view=LayoutInflater.from(UserSideActivity.this).inflate(R.layout.delete_item_alert_box,null,false);
+           alertDialog.setView(view);
+           alertDialog.show();
+           alertDialog.setCancelable(true);
+           TextView heading=view.findViewById(R.id.textHeading);
+           heading.setText("Are you sure you want to logout ?");
+           TextView yesButton=view.findViewById(R.id.yesButton);
+           TextView noButton=view.findViewById(R.id.noButton);
+           yesButton.setOnClickListener(v1->{
+               yesButton.setBackgroundResource(R.drawable.screen_background_2);
+               Handler handler=new Handler();
+               handler.postDelayed(() -> {
+                   FirebaseAuth.getInstance().signOut();
+                   startActivity(new Intent(UserSideActivity.this,RegistrationActivity.class)
+                           .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+               },3000);
+           });
+           noButton.setOnClickListener(v1->{
+               noButton.setBackgroundResource(R.drawable.screen_background_2);
+               Handler handler=new Handler();
+               handler.postDelayed(() -> {
+                   alertDialog.dismiss();
+                   noButton.setBackgroundColor(Color.WHITE);
+               },2000);
+           });
+        });
     }
 
     private void initViews() {
@@ -46,6 +76,7 @@ public class UserSideActivity extends AppCompatActivity {
         relativeRequestStatus=findViewById(R.id.statusRelative);
         btnRefresh=findViewById(R.id.refreshButton);
         countStatus=findViewById(R.id.countRequest);
+        logout_Button=findViewById(R.id.logout_button);
     }
 
     @Override

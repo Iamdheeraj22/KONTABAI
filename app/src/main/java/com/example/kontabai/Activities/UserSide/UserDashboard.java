@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.kontabai.Activities.MainActivity;
+import com.example.kontabai.Activities.UserSideActivity;
 import com.example.kontabai.Adapters.UserRideAdapter;
 import com.example.kontabai.Classes.UserSideRideModel;
 import com.example.kontabai.R;
@@ -30,7 +30,7 @@ public class UserDashboard extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(UserDashboard.this, MainActivity.class)
+                startActivity(new Intent(UserDashboard.this, UserSideActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
@@ -44,8 +44,8 @@ public class UserDashboard extends AppCompatActivity {
 //            userRides.add(new UserRide("Sector 21 ,Chandigarh","Accepted"));
 //            userRides.add(new UserRide("Phase 6 , Chandigarh","Accepted"));
         userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
-        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
-        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
+        userSideRideModels.add(new UserSideRideModel("Amritsar","Accepted","12-10-2021, 03:45pm","01120"));
+        userSideRideModels.add(new UserSideRideModel("Amritsar","Rejected","12-10-2021, 03:45pm","01120"));
     }
 
     private void initViews() {
