@@ -12,42 +12,31 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.kontabai.Activities.DriverSide.DriverDashBoard;
 import com.example.kontabai.Activities.UserSide.UserDashboard;
 import com.example.kontabai.Activities.UserSide.UserSideProfileCreation;
 import com.example.kontabai.R;
 
-public class MainActivity extends AppCompatActivity {
+public class UserSideActivity extends AppCompatActivity {
     TextView btnRefresh,countStatus;
     RelativeLayout relativeNeedTaxi,relativeRequestStatus;
-    String type;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        type= getIntent().getStringExtra("type");
-//        if(type.equals("driver")){
-//            startActivity(new Intent(MainActivity.this, DriverDashBoard.class));
-//        }
 
         relativeNeedTaxi.setOnClickListener(v -> {
             relativeNeedTaxi.setBackgroundResource(R.drawable.screen_background);
             relativeRequestStatus.setEnabled(false);
             Handler handler=new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    showAlertBox();
-                }
-            },100);
+            handler.postDelayed(() -> showAlertBox(),100);
         });
         relativeRequestStatus.setOnClickListener(v -> {
             relativeRequestStatus.setBackgroundResource(R.drawable.screen_background);
             relativeNeedTaxi.setEnabled(false);
             Handler handler=new Handler();
-            handler.postDelayed(() -> startActivity(new Intent(MainActivity.this, UserDashboard.class)
+            handler.postDelayed(() -> startActivity(new Intent(UserSideActivity.this, UserDashboard.class)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)),1000);
         });
     }
@@ -90,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(MainActivity.this, UserSideProfileCreation.class)
+        startActivity(new Intent(UserSideActivity.this, UserSideProfileCreation.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 }
