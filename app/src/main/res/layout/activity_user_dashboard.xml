@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/screen_color"
     android:layout_width="match_parent"
@@ -15,7 +13,7 @@
         android:layout_marginTop="23dp"
         android:text="@string/my_rides"
         android:textColor="@color/black"
-        android:textSize="14dp" />
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/userBackButton"
@@ -26,7 +24,8 @@
         android:src="@drawable/ic_round_arrow_back_24"
         android:text="@string/back"
         android:textColor="@color/light_sky_blue"
-        android:textSize="20dp" />
+        android:textSize="20sp"
+        tools:ignore="ContentDescription" />
 
 
     <androidx.recyclerview.widget.RecyclerView

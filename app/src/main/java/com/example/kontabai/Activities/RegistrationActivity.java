@@ -1,11 +1,5 @@
 package com.example.kontabai.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -15,13 +9,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.kontabai.R;
 import com.google.firebase.FirebaseException;
@@ -46,71 +45,61 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (Build.VERSION.SDK_INT > 16) {
-//            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        }
+        if (Build.VERSION.SDK_INT > 16) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         setContentView(R.layout.activity_registration);
         firebaseAuth = FirebaseAuth.getInstance();
         editText=findViewById(R.id.phoneNumberEdit);
         textView=findViewById(R.id.nextButton);
-//        AlertDialog alertDialog=new AlertDialog.Builder(RegistrationActivity.this,R.style.verification_done).create();
-//        View view= LayoutInflater.from(RegistrationActivity.this).inflate(R.layout.progress_dialog,null,false);
-//        alertDialog.setView(view);
 
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String number=editText.getText().toString();
-                if(number.equals("") || number.length()!=10){
-                    editText.setError("Please enter the valid number!");
-                }else{
-//                    registrationUserMobile(number);
-////                    alertDialog.show();
-                    textView.setBackgroundResource(R.drawable.screen_background);
-                    Handler handler=new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent=new Intent(RegistrationActivity.this,VerificationActivity.class);
-                            startActivity(intent);
-                        }
-                    },1000);
-                }
+
+        textView.setOnClickListener(v -> {
+            String number=editText.getText().toString();
+            if(number.equals("") || number.length()!=10){
+                editText.setError("Please enter the valid number!");
+            }else{
+                registrationUserMobile(number);
+                textView.setBackgroundResource(R.drawable.screen_background);
             }
         });
     }
 
-//    private void registrationUserMobile(String number) {
-//        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth).
-//                setPhoneNumber("+91" + number)
-//                .setTimeout(60L, TimeUnit.SECONDS)
-//                .setActivity(this)
-//                .setCallbacks(mCallBacks)
-//                .build();
-//        PhoneAuthProvider.verifyPhoneNumber(options);
-//    }
-//
-//    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks=new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-//        @Override
-//        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-//        }
-//        @Override
-//        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-//            super.onCodeSent(s, forceResendingToken);
-//            verificationId=s;
-//            Intent intent=new Intent(RegistrationActivity.this,VerificationActivity.class);
-//            intent.putExtra("number", editText.getText().toString());
-//            intent.putExtra("id",verificationId);
-////            alertDialog.dismiss();
-//            startActivity(intent);
-//        }
-//        @Override
-//        public void onVerificationFailed(@NonNull FirebaseException e) {
-////            alertDialog.dismiss();
-//            Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//        }
-//    };
+    private void registrationUserMobile(String number) {
+        PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth).
+                setPhoneNumber("+91" + number)
+                .setTimeout(60L, TimeUnit.SECONDS)
+                .setActivity(this)
+                .setCallbacks(mCallBacks)
+                .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
+    }
+
+    private final PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBacks=new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        @Override
+        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+        }
+        @Override
+        public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+            super.onCodeSent(s, forceResendingToken);
+            verificationId=s;
+            AlertDialog alertDialog=new AlertDialog.Builder(RegistrationActivity.this,R.style.verification_done).create();
+            View view= LayoutInflater.from(RegistrationActivity.this).inflate(R.layout.progress_dialog,null,false);
+            alertDialog.setView(view);
+            alertDialog.setCancelable(false);
+            Intent intent=new Intent(RegistrationActivity.this,VerificationActivity.class);
+            intent.putExtra("number", editText.getText().toString());
+            intent.putExtra("id",verificationId);
+            alertDialog.dismiss();
+            startActivity(intent);
+        }
+        @Override
+        public void onVerificationFailed(@NonNull FirebaseException e) {
+               alertDialog.dismiss();
+            Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    };
 
     private void checkPermission()
     {
@@ -141,9 +130,5 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         checkPermission();
-//        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
-//            startActivity(new Intent(RegistrationActivity.this,UserSideProfileCreation.class)
-//                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-//        }
     }
 }
