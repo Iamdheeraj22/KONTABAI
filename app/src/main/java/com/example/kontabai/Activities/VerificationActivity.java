@@ -1,5 +1,6 @@
 package com.example.kontabai.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,11 +15,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kontabai.Activities.DriverSide.DriverDashBoard;
 import com.example.kontabai.Activities.UserSide.UserSideProfileCreation;
 import com.example.kontabai.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class VerificationActivity extends AppCompatActivity {
     TextView verifyButton;
@@ -61,17 +68,43 @@ public class VerificationActivity extends AppCompatActivity {
         alertDialog.show();
         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                alertDialog.dismiss();
-                AlertDialog verificationDone= new AlertDialog.Builder(VerificationActivity.this).create();
-                View view1=LayoutInflater.from(VerificationActivity.this).inflate(R.layout.confirmation_dialog,null,false);
-                verificationDone.setView(view1);
-                verificationDone.show();
-                Handler handler=new Handler();
-                handler.postDelayed(() -> {
-                    verificationDone.dismiss();
-                    startActivity(new Intent(VerificationActivity.this,UserSideProfileCreation.class)
-                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                },3000);
+                DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("AllUsers").child(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            String type=snapshot.child("Saved").getValue().toString();
+                            if(type.equalsIgnoreCase("user")){
+                                alertDialog.dismiss();
+                                startActivity(new Intent(VerificationActivity.this,UserSideActivity.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                finish();
+                            }
+                            if(type.equalsIgnoreCase("driver")){
+                                alertDialog.dismiss();
+                                startActivity(new Intent(VerificationActivity.this, DriverDashBoard.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                finish();
+                            }
+                        }else {
+                            alertDialog.dismiss();
+                            AlertDialog verificationDone= new AlertDialog.Builder(VerificationActivity.this).create();
+                            View view1=LayoutInflater.from(VerificationActivity.this).inflate(R.layout.confirmation_dialog,null,false);
+                            verificationDone.setView(view1);
+                            verificationDone.show();
+                            Handler handler=new Handler();
+                            handler.postDelayed(() -> {
+                                verificationDone.dismiss();
+                                startActivity(new Intent(VerificationActivity.this,UserSideProfileCreation.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                            },3000);
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(VerificationActivity.this, "Failed "+error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }else{
                 alertDialog.dismiss();
                 Toast.makeText(VerificationActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();

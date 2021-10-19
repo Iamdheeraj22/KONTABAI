@@ -79,16 +79,16 @@ public class UserSideProfileCreation extends AppCompatActivity {
                SaveUserInformation(fullName,num);
             }
         });
-//        createAsDriver.setOnClickListener(v -> {
-//            createAsDriver.setBackgroundResource(R.drawable.screen_background);
-//            Handler handler=new Handler();
-//            handler.postDelayed(() -> {
-//                Intent intent=new Intent(UserSideProfileCreation.this,DriverSideProfileCreation.class);
-//                intent.putExtra("name",fullname.getText().toString());
-//                intent.putExtra("number",phonenumber.getText().toString());
-//                startActivity(intent);
-//            },1000);
-//        });
+        createAsDriver.setOnClickListener(v -> {
+            createAsDriver.setBackgroundResource(R.drawable.screen_background);
+            Handler handler=new Handler();
+            handler.postDelayed(() -> {
+                Intent intent=new Intent(UserSideProfileCreation.this,DriverSideProfileCreation.class);
+                intent.putExtra("name",fullname.getText().toString());
+                intent.putExtra("number",phonenumber.getText().toString());
+                startActivity(intent);
+            },2000);
+        });
     }
 
     private void openCamera() {

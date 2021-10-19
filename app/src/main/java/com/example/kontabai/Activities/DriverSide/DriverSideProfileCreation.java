@@ -1,15 +1,21 @@
 package com.example.kontabai.Activities.DriverSide;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.InputFilter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,10 +23,27 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.kontabai.Activities.UserSide.UserSideProfileCreation;
+import com.example.kontabai.Activities.UserSideActivity;
+import com.example.kontabai.Classes.ImportantMethods;
 import com.example.kontabai.R;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -32,8 +55,12 @@ public class DriverSideProfileCreation extends AppCompatActivity {
     ImageView driverImage,carimage;
     CircleImageView circleImageView;
     FloatingActionButton addCarImageButton;
-
+    ProgressDialog progressDialog;
     Uri imageUri,imageUriCar,imageUriDriver;
+    StorageTask<UploadTask.TaskSnapshot> uploadTask;
+    DatabaseReference driverInfo;
+    String driverDownloadUri;
+    StorageReference storageReference;
     String whichImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,45 +80,25 @@ public class DriverSideProfileCreation extends AppCompatActivity {
             whichImage="driver";
             popMenu(driverImage);
         });
-        submit.setOnClickListener(view -> {
-            String fullName=fullname.getText().toString();
-            String phonenumber=mobilenumber.getText().toString();
-            String carNumber=carnumber.getText().toString();
-//            if(fullName.equals("")) {
-//                fullname.setError("write your name!");}
-////            }else if(carNumber.length()!=10){
-////                carnumber.setError("Invalid car number");
-////            }
-//            else if(carNumber.equals("")){
-//                carnumber.setError("Enter the car number!");
-//            }else if(phonenumber.equals("")){
-//                mobilenumber.setEnabled(true);
-//                mobilenumber.setError("Enter the number!");
-//                mobilenumber.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
-//            }else {
-//                Intent intent=new Intent(DriverSideProfileCreation.this, UserSideProfileCreation.class);
-//                intent.putExtra("type","driver");
-//                intent.putExtra("name",fullName);
-//                intent.putExtra("number",phonenumber);
-//                intent.putExtra("carnumber",carNumber);
-//                startActivity(intent);
-//            }
-            submit.setBackgroundResource(R.drawable.screen_background);
-            Handler handler=new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent=new Intent(DriverSideProfileCreation.this, DriverDashBoard.class);
-                    intent.putExtra("type","driver");
-                    intent.putExtra("name",fullName);
-                    intent.putExtra("number",phonenumber);
-                    intent.putExtra("carnumber",carNumber);
-                    startActivity(intent);
-                }
-            },500);
 
+        submit.setOnClickListener(v->{
+            String name=fullname.getText().toString();
+            String carNumber=carnumber.getText().toString();
+            String mobileNumber=mobilenumber.getText().toString();
+
+            if(name.equals(""))
+                fullname.setError("Enter your name!");
+            else if(carNumber.equals(""))
+                carnumber.setError("Car number must be required!");
+            else if(mobileNumber.equals(""))
+                mobilenumber.setError("Type your mobile number!");
+            else{
+                submit.setBackgroundResource(R.drawable.screen_background);
+                saveInformationOnFirebase(name,carNumber,mobileNumber);
+            }
         });
     }
+
     private void initViews() {
         fullname=findViewById(R.id.driverFullName);
         carnumber=findViewById(R.id.carNumber);
@@ -101,6 +108,8 @@ public class DriverSideProfileCreation extends AppCompatActivity {
         carimage=findViewById(R.id.carImage);
         driverImage=findViewById(R.id.driverSideImageview);
         circleImageView=findViewById(R.id.driverSideImageview2);
+        driverInfo= FirebaseDatabase.getInstance().getReference().child("OnlyDrivers").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()));
+        storageReference = FirebaseStorage.getInstance().getReference(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber()));
     }
 
     private void popMenu(ImageView imageView) {
@@ -139,76 +148,128 @@ public class DriverSideProfileCreation extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==PERMISSION_CAMERA_CODE && resultCode== Activity.RESULT_OK ){
-//            imageUri=data.getData();
-//            Bitmap mImageUri = null;
-//            try {
-//                mImageUri = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            if(mImageUri==null){
-//                Toast.makeText(DriverSideActivity.this, "Please Select the image", Toast.LENGTH_SHORT).show();
-//            }else {
-//                if(whichImage.equals("driver")){
-//                    imageUriDriver=imageUri;
-//                    driverImage.setImageBitmap(mImageUri);
-//                    whichImage="";}
-//                if(whichImage.equals("car")){
-//                    imageUriCar=imageUri;
-//                    addCarImage.setImageBitmap(mImageUri);
-//                    whichImage="";
-//                }
-//            }
             if(whichImage.equals("driver")){
-                //imageUriDriver=imageUri;
-                assert data != null;
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                driverImage.setImageBitmap(photo);
-                whichImage="";}
+                Bitmap bitmap=(Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+                String path=MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),bitmap,"val",null);
+                Uri uri=Uri.parse(path);
+                driverImage.setImageURI(uri);
+                imageUriDriver=uri;
+                whichImage="";
+            }
             if(whichImage.equals("car")){
-                assert data != null;
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                Bitmap bitmap=(Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+                String path=MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),bitmap,"val",null);
+                Uri uri=Uri.parse(path);
+                carimage.setImageURI(uri);
                 addCarImageButton.setVisibility(View.GONE);
                 carimage.setVisibility(View.VISIBLE);
-                carimage.setImageBitmap(photo);
+                imageUriCar=uri;
                 whichImage="";
-            }else{
-                addCarImageButton.setVisibility(View.VISIBLE);
-                carimage.setVisibility(View.GONE);
             }
         }
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK){
             imageUri = data.getData();
-            try {// Setting image on image view using Bitmap
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
-                if(imageUri==null){
-                    Toast.makeText(DriverSideProfileCreation.this, "Please Select the image", Toast.LENGTH_SHORT).show();
-                }else {
-                    if(whichImage.equals("driver")){
-                        imageUriDriver=imageUri;
-                        driverImage.setImageBitmap(bitmap);
-                        whichImage="";}
-                    if(whichImage.equals("car")){
-                        imageUriCar=imageUri;
-                        addCarImageButton.setVisibility(View.GONE);
-                        carimage.setVisibility(View.VISIBLE);
-                        carimage.setImageBitmap(bitmap);
-                        whichImage="";
-                    }else{
-                        addCarImageButton.setVisibility(View.VISIBLE);
-                        carimage.setVisibility(View.GONE);
-                    }
+            // Setting image on image view using Bitmap
+            if(imageUri==null){
+                Toast.makeText(DriverSideProfileCreation.this, "Please Select the image", Toast.LENGTH_SHORT).show();
+            }else {
+                if(whichImage.equals("driver")){
+                    imageUriDriver=imageUri;
+                    driverImage.setImageURI(imageUriDriver);
+                    whichImage="";}
+                if(whichImage.equals("car")){
+                    imageUriCar=imageUri;
+                    addCarImageButton.setVisibility(View.GONE);
+                    carimage.setVisibility(View.VISIBLE);
+                    carimage.setImageURI(imageUriCar);
+                    whichImage="";
+                }else{
+                    addCarImageButton.setVisibility(View.VISIBLE);
+                    carimage.setVisibility(View.GONE);
                 }
-            }
-            catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
     @Override
     protected void onStart() {
         super.onStart();
-        //String number= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        String number= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+        mobilenumber.setText(number);
+        mobilenumber.setEnabled(false);
+        if(mobilenumber.getText().toString().equals("")){
+            mobilenumber.setEnabled(true);
+        }
         submit.setBackgroundResource(R.drawable.black_corners);
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void saveInformationOnFirebase(String name, String carNumber, String mobileNumber)
+    {
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Please wait for few seconds, we are setting up your Profile");
+        progressDialog.show();
+        if(imageUriDriver!=null){
+            final StorageReference file=storageReference.child(System.currentTimeMillis()+"."+ ImportantMethods.getExtension(DriverSideProfileCreation.this,imageUriDriver));
+            uploadTask=file.putFile(imageUriDriver);
+            uploadTask.continueWithTask(task -> {
+                if(!task.isSuccessful()) {
+                    throw Objects.requireNonNull(task.getException());
+                }
+                return file.getDownloadUrl();
+            }).addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    Uri downloaduri= task.getResult();
+                    driverDownloadUri=downloaduri.toString();
+                    driverInfo.child("driverimage").setValue(driverDownloadUri);
+                    if(imageUriCar!=null){
+                        final StorageReference file1=storageReference.child(System.currentTimeMillis()+"."+ ImportantMethods.getExtension(DriverSideProfileCreation.this,imageUriCar));
+                        uploadTask=file1.putFile(imageUriCar);
+                        uploadTask.continueWithTask(task1 -> {
+                            if(!task1.isSuccessful())
+                            {
+                                throw Objects.requireNonNull(task1.getException());
+                            }
+                            return file1.getDownloadUrl();
+                        }).addOnCompleteListener(task1 -> {
+                            if(task1.isSuccessful()){
+                                Uri downloaduri1= task1.getResult();
+                                String carImageDownloadUri=downloaduri1.toString();
+                                driverInfo.child("carimage").setValue(carImageDownloadUri);
+                                DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("AllUsers").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()));
+                                HashMap<String,Object> hashMap=new HashMap<>();
+                                hashMap.put("name",name);
+                                hashMap.put("carnumber",carNumber);
+                                hashMap.put("driverimage",driverDownloadUri);
+                                hashMap.put("carimage",carImageDownloadUri);
+                                hashMap.put("mobilenumber",mobileNumber);
+                                databaseReference1.child("Saved").setValue("driver");
+                                driverInfo.setValue(hashMap);
+                                progressDialog.dismiss();
+                                    startActivity(new Intent(DriverSideProfileCreation.this, DriverDashBoard.class)
+                                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                    finish();
+                            }else{
+                                Toast.makeText(DriverSideProfileCreation.this,"Failed",Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                            }
+                        }).addOnFailureListener(e -> {
+                            Toast.makeText(DriverSideProfileCreation.this, "Failed"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                        });
+                    }
+                }else{
+                    Toast.makeText(DriverSideProfileCreation.this,"Failed",Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(DriverSideProfileCreation.this, "Failed"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            });
+        }
+
     }
 }
