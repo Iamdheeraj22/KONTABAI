@@ -127,7 +127,7 @@ public class DriverDashBoard extends AppCompatActivity {
     }
 
     String deletedMovie = null;
-    ItemTouchHelper.SimpleCallback simpleCallback1 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+    ItemTouchHelper.SimpleCallback simpleCallback1 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
@@ -137,7 +137,7 @@ public class DriverDashBoard extends AppCompatActivity {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
 
-            if (direction == ItemTouchHelper.RIGHT) {
+            if (direction == ItemTouchHelper.LEFT) {
                 deletedMovie = String.valueOf(arrayList.get(position));
                 AlertDialog alertDialog = new AlertDialog.Builder(DriverDashBoard.this, R.style.verification_done).create();
                 View view = LayoutInflater.from(DriverDashBoard.this).inflate(R.layout.accept_request_dialogbox, null, false);
@@ -154,7 +154,7 @@ public class DriverDashBoard extends AppCompatActivity {
         }
     };
     String deletedMovie2 = null;
-    ItemTouchHelper.SimpleCallback simpleCallback2 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+    ItemTouchHelper.SimpleCallback simpleCallback2 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
@@ -171,40 +171,41 @@ public class DriverDashBoard extends AppCompatActivity {
             return super.getMovementFlags(recyclerView, viewHolder);
         }
 
-        @SuppressLint("NotifyDataSetChanged")
+        @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
 //            DriverSideRideModel driverSideRideModel1 = arrayList.get(position);
 //            String status = driverSideRideModel1.getStatus();
 
-           if (direction == ItemTouchHelper.RIGHT) {
+           if (direction == ItemTouchHelper.LEFT) {
                 deletedMovie2 = String.valueOf(arrayList.get(position));
                 AlertDialog alertDialog = new AlertDialog.Builder(DriverDashBoard.this, R.style.verification_done).create();
-                View view = LayoutInflater.from(DriverDashBoard.this).inflate(R.layout.complete_ride, null, false);
+                View view = LayoutInflater.from(DriverDashBoard.this).inflate(R.layout.delete_item_alert_box, null, false);
                 alertDialog.setView(view);
                 alertDialog.show();
                 alertDialog.setCancelable(false);
+                TextView heading=view.findViewById(R.id.textHeading);
+                heading.setText("Are you sure the Job is completed ?");
                 TextView yesButton = view.findViewById(R.id.yesButton);
                 TextView noButton = view.findViewById(R.id.noButton);
                 yesButton.setOnClickListener(v -> {
-                    yesButton.setBackgroundResource(R.drawable.screen_background);
+                    yesButton.setBackgroundResource(R.drawable.screen_background_2);
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
-//                        DriverSideRideModel driverSideRideModel = arrayList.get(position);
-//                        String id = driverSideRideModel.getId();
-//                        String location = driverSideRideModel.getLocation();
-//                        String date = driverSideRideModel.getDate();
+
                         arrayList.get(position).setStatus("Completed");
                         driverSidePendingRideAdapter.notifyItemChanged(position);
                         alertDialog.dismiss();
                     }, 500);
                 });
                 noButton.setOnClickListener(v -> {
-                    noButton.setBackgroundResource(R.drawable.screen_background);
+                    noButton.setBackgroundResource(R.drawable.screen_background_2);
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
                         alertDialog.dismiss();
+                        //DriverSideRideModel driverSideRideModel = arrayList.get(position);
+                        driverSidePendingRideAdapter.notifyItemChanged(position);
                         noButton.setBackgroundResource(R.color.white);
                     }, 500);
                 });

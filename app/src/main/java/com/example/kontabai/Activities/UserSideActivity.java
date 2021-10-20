@@ -29,10 +29,7 @@ public class UserSideActivity extends AppCompatActivity {
         initViews();
 
         relativeNeedTaxi.setOnClickListener(v -> {
-            relativeNeedTaxi.setBackgroundResource(R.drawable.screen_background);
-            relativeRequestStatus.setEnabled(false);
-            Handler handler=new Handler();
-            handler.postDelayed(() -> showAlertBox(),100);
+
         });
         relativeRequestStatus.setOnClickListener(v -> {
             relativeRequestStatus.setBackgroundResource(R.drawable.screen_background);
@@ -112,5 +109,9 @@ public class UserSideActivity extends AppCompatActivity {
         super.onBackPressed();
         startActivity(new Intent(UserSideActivity.this, UserSideProfileCreation.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    private void sendNeedTaxiRequest(){
+
     }
 }
