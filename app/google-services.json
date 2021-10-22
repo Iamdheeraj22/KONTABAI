@@ -1,72 +1,42 @@
 {
   "project_info": {
-    "project_number": "269719404537",
-    "firebase_url": "https://kontabai-project-default-rtdb.firebaseio.com",
-    "project_id": "kontabai-project",
-    "storage_bucket": "kontabai-project.appspot.com"
+    "project_number": "621647461539",
+    "firebase_url": "https://taxi-app-2f3d2-default-rtdb.firebaseio.com",
+    "project_id": "taxi-app-2f3d2",
+    "storage_bucket": "taxi-app-2f3d2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:269719404537:android:db1cd9384fd9bc6c654728",
+        "mobilesdk_app_id": "1:621647461539:android:ef8c5abefcd9bb0e93d316",
         "android_client_info": {
           "package_name": "com.example.kontabai"
         }
       },
       "oauth_client": [
         {
-          "client_id": "269719404537-lmdb05ar3ij7a1ol0l0q7fcvf2g5k0fb.apps.googleusercontent.com",
+          "client_id": "621647461539-aasoic9abunrft706i4uim934sl70tsr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDuTqLuGTqMNgGG1PNiUyNmbDfyeCr1pho"
+          "current_key": "AIzaSyDmNLE-uh-4ZUyvP3z_RP8Jl2UM0ELXn8w"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "269719404537-lmdb05ar3ij7a1ol0l0q7fcvf2g5k0fb.apps.googleusercontent.com",
+              "client_id": "621647461539-aasoic9abunrft706i4uim934sl70tsr.apps.googleusercontent.com",
               "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:269719404537:android:f962101cfd100572654728",
-        "android_client_info": {
-          "package_name": "com.example.kontabaiproject"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "269719404537-svf8mdqnqc8sdirj35fpd07hl7c02qna.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.kontabaiproject",
-            "certificate_hash": "1bce0637500b30246f78b2f7d90b8f8de2e2ad69"
-          }
-        },
-        {
-          "client_id": "269719404537-lmdb05ar3ij7a1ol0l0q7fcvf2g5k0fb.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDuTqLuGTqMNgGG1PNiUyNmbDfyeCr1pho"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
+            },
             {
-              "client_id": "269719404537-lmdb05ar3ij7a1ol0l0q7fcvf2g5k0fb.apps.googleusercontent.com",
-              "client_type": 3
+              "client_id": "621647461539-jbdf7l4tvjhk711spfiva73hk9jbcndd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.whizwall"
+              }
             }
           ]
         }

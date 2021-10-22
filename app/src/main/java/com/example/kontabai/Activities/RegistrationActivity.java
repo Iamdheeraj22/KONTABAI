@@ -96,7 +96,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
-               alertDialog.dismiss();
+               //alertDialog.dismiss();
             Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     };
