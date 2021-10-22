@@ -29,6 +29,7 @@ import com.example.kontabai.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -54,7 +55,6 @@ public class UserSideProfileCreation extends AppCompatActivity {
     StorageTask<UploadTask.TaskSnapshot> uploadTask;
     StorageReference storageReference;
     DatabaseReference userInfo;
-    String cameraAbsolutePath;
 
     private static final int PERMISSION_CAMERA_CODE=121;
     @Override
@@ -108,8 +108,8 @@ public class UserSideProfileCreation extends AppCompatActivity {
         String phone= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
         phonenumber.setText(phone);
         phonenumber.setEnabled(false);
-        userInfo= FirebaseDatabase.getInstance().getReference().child("OnlyUsers").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()));
-        storageReference = FirebaseStorage.getInstance().getReference(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber()));
+        userInfo= FirebaseDatabase.getInstance().getReference().child("users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+        storageReference = FirebaseStorage.getInstance().getReference(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()));
     }
 
     @Override
@@ -195,7 +195,6 @@ public class UserSideProfileCreation extends AppCompatActivity {
         progressDialog.show();
         if(imageUri!=null)
         {
-            DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("AllUsers").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()));
             final StorageReference file=storageReference.child(System.currentTimeMillis()+"."+ImportantMethods.getExtension(UserSideProfileCreation.this,imageUri));
             uploadTask=file.putFile(imageUri);
             uploadTask.continueWithTask(task -> {
@@ -209,11 +208,19 @@ public class UserSideProfileCreation extends AppCompatActivity {
                     Uri downloaduri= task.getResult();
                     assert downloaduri != null;
                     String mUri= downloaduri.toString();
+                    String referanceToken= FirebaseInstanceId.getInstance().getToken();
                     HashMap<String,Object> map=new HashMap<>();
-                    map.put("name",name);
+                    map.put("fullName",name);
                     map.put("number",number);
-                    map.put("imageurl",mUri);
-                    databaseReference1.child("Saved").setValue("user");
+                    map.put("carImage","");
+                    map.put("carNumber","");
+                    map.put("image",mUri);
+                    map.put("latitude","");
+                    map.put("fcmToken",referanceToken);
+                    map.put("longitude","");
+                    map.put("id",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    map.put("isVerified",true);
+                    map.put("userRole",1);
                     userInfo.setValue(map);
                     AlertDialog alertDialog=new AlertDialog.Builder(UserSideProfileCreation.this,R.style.verification_done).create();
                     View view= LayoutInflater.from(UserSideProfileCreation.this).inflate(R.layout.confirmation_dialog,null,false);

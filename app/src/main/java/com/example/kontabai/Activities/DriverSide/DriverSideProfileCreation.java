@@ -35,6 +35,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -108,8 +109,8 @@ public class DriverSideProfileCreation extends AppCompatActivity {
         carimage=findViewById(R.id.carImage);
         driverImage=findViewById(R.id.driverSideImageview);
         circleImageView=findViewById(R.id.driverSideImageview2);
-        driverInfo= FirebaseDatabase.getInstance().getReference().child("OnlyDrivers").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()));
-        storageReference = FirebaseStorage.getInstance().getReference(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getPhoneNumber()));
+        driverInfo= FirebaseDatabase.getInstance().getReference().child("users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getUid()));
+        storageReference = FirebaseStorage.getInstance().getReference(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()));
     }
 
     private void popMenu(ImageView imageView) {
@@ -224,7 +225,7 @@ public class DriverSideProfileCreation extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Uri downloaduri= task.getResult();
                     driverDownloadUri=downloaduri.toString();
-                    driverInfo.child("driverimage").setValue(driverDownloadUri);
+                    driverInfo.child("image").setValue(driverDownloadUri);
                     if(imageUriCar!=null){
                         final StorageReference file1=storageReference.child(System.currentTimeMillis()+"."+ ImportantMethods.getExtension(DriverSideProfileCreation.this,imageUriCar));
                         uploadTask=file1.putFile(imageUriCar);
@@ -238,15 +239,20 @@ public class DriverSideProfileCreation extends AppCompatActivity {
                             if(task1.isSuccessful()){
                                 Uri downloaduri1= task1.getResult();
                                 String carImageDownloadUri=downloaduri1.toString();
+                                String referanceToken= FirebaseInstanceId.getInstance().getToken();
                                 driverInfo.child("carimage").setValue(carImageDownloadUri);
-                                DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("AllUsers").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber()));
                                 HashMap<String,Object> hashMap=new HashMap<>();
-                                hashMap.put("name",name);
-                                hashMap.put("carnumber",carNumber);
-                                hashMap.put("driverimage",driverDownloadUri);
-                                hashMap.put("carimage",carImageDownloadUri);
-                                hashMap.put("mobilenumber",mobileNumber);
-                                databaseReference1.child("Saved").setValue("driver");
+                                hashMap.put("fullName",name);
+                                hashMap.put("carNumber",carNumber);
+                                hashMap.put("driverImage",driverDownloadUri);
+                                hashMap.put("userRole",2);
+                                hashMap.put("latitude","");
+                                hashMap.put("longitude","");
+                                hashMap.put("isVerified",true);
+                                hashMap.put("fcmToken",referanceToken);
+                                hashMap.put("id",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                hashMap.put("carImage",carImageDownloadUri);
+                                hashMap.put("mobileNumber",mobileNumber);
                                 driverInfo.setValue(hashMap);
                                 progressDialog.dismiss();
                                     startActivity(new Intent(DriverSideProfileCreation.this, DriverDashBoard.class)
