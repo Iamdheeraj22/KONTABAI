@@ -68,19 +68,19 @@ public class VerificationActivity extends AppCompatActivity {
         alertDialog.show();
         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("AllUsers").child(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+                DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
-                            String type=snapshot.child("Saved").getValue().toString();
-                            if(type.equalsIgnoreCase("user")){
+                            int role=Integer.parseInt(snapshot.child("userRole").getValue().toString());
+                            if(role==1){
                                 alertDialog.dismiss();
                                 startActivity(new Intent(VerificationActivity.this,UserSideActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                                 finish();
                             }
-                            if(type.equalsIgnoreCase("driver")){
+                            if(role==2){
                                 alertDialog.dismiss();
                                 startActivity(new Intent(VerificationActivity.this, DriverDashBoard.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
