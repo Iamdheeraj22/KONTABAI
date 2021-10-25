@@ -1,6 +1,7 @@
 package com.example.kontabai.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -35,6 +36,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +44,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,10 +53,11 @@ public class UserSideActivity extends AppCompatActivity {
     RelativeLayout relativeNeedTaxi, relativeRequestStatus;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     FusedLocationProviderClient fusedLocationProviderClient;
-    String number, name, rideId, time;
+    String number, name,id;
     String userLocation;
-    double latitude, longitude;
+    double latitude, longitude,lat,log;
     LocationManager locationManager;
+    long count;
 
     //LocationRequest locationRequest;
     @SuppressLint("SetTextI18n")
@@ -70,8 +74,6 @@ public class UserSideActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         REQUEST_LOCATION_PERMISSION);
             } else {
-                getCurrentLocation();
-                getUserInformation();
                 sendNeedTaxiRequest();
             }
         });
@@ -112,7 +114,6 @@ public class UserSideActivity extends AppCompatActivity {
             });
         });
     }
-
     private void initViews() {
         relativeNeedTaxi = findViewById(R.id.relativeNeedTaxi);
         relativeRequestStatus = findViewById(R.id.statusRelative);
@@ -121,67 +122,63 @@ public class UserSideActivity extends AppCompatActivity {
         logout_Button = findViewById(R.id.logout_button);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
     }
-
     @Override
     protected void onStart() {
         super.onStart();
         relativeRequestStatus.setBackgroundResource(R.drawable.black_corners);
         relativeNeedTaxi.setBackgroundResource(R.drawable.black_corners);
         countStatus.setVisibility(View.GONE);
-
+        updateUserLocation();
+        getCurrentLocation();
     }
 
     private void updateUserLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                Location location = task.getResult();
-                if (location != null) {
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-                    DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    databaseReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists()){
-                                databaseReference.child("latitude").setValue(latitude);
-                                databaseReference.child("longitude").setValue(longitude);
-                            }
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
+            Location location = task.getResult();
+            if (location != null) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            databaseReference.child("latitude").setValue(latitude);
+                            databaseReference.child("longitude").setValue(longitude);
                         }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(UserSideActivity.this, "Failed : "+error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(UserSideActivity.this, "Failed : "+error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
 
-//    @SuppressLint("SetTextI18n")
-//    private void showAlertBox(){
-//        AlertDialog alertDialog=new AlertDialog.Builder(this,R.style.verification_done).create();
-//        View view= LayoutInflater.from(this).inflate(R.layout.confirmation_dialog,null,false);
-//        alertDialog.setView(view);
-//        alertDialog.show();
-//        TextView textView=view.findViewById(R.id.confirmationHeading);
-//        alertDialog.setCancelable(false);
-//        textView.setText("Your location has been sent to\n"+"drivers , please wait.");
-//        Handler handler=new Handler();
-//        handler.postDelayed(() -> {
-//            countStatus.setVisibility(View.VISIBLE);
-//            alertDialog.dismiss();
-//            relativeNeedTaxi.setBackgroundResource(R.drawable.black_corners);
-//            relativeRequestStatus.setBackgroundResource(R.drawable.black_corners);
-//            relativeRequestStatus.setEnabled(true);
-//            relativeNeedTaxi.setEnabled(true);
-//        },3000);
-//    }
+    @SuppressLint("SetTextI18n")
+    private void showAlertBox(){
+        AlertDialog alertDialog=new AlertDialog.Builder(this,R.style.verification_done).create();
+        View view= LayoutInflater.from(this).inflate(R.layout.confirmation_dialog,null,false);
+        alertDialog.setView(view);
+        alertDialog.show();
+        TextView textView=view.findViewById(R.id.confirmationHeading);
+        alertDialog.setCancelable(false);
+        textView.setText("Your location has been sent to\n"+"drivers , please wait.");
+        Handler handler=new Handler();
+        handler.postDelayed(() -> {
+            countStatus.setVisibility(View.VISIBLE);
+            alertDialog.dismiss();
+            relativeNeedTaxi.setBackgroundResource(R.drawable.black_corners);
+            relativeRequestStatus.setBackgroundResource(R.drawable.black_corners);
+            relativeRequestStatus.setEnabled(true);
+            relativeNeedTaxi.setEnabled(true);
+        },3000);
+    }
 
     @Override
     public void onBackPressed() {
@@ -209,26 +206,73 @@ public class UserSideActivity extends AppCompatActivity {
             //    ActivityCompat#requestPermissions
             return;
         }
-        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                Location location=task.getResult();
-                if(location!=null){
-                    Geocoder geocoder=new Geocoder(UserSideActivity.this, Locale.getDefault());
-                    try {
-                        List<Address> addresses=geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                        userLocation=Html.fromHtml(addresses.get(0).getAddressLine(0)).toString();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
+            Location location=task.getResult();
+            if(location!=null){
+                Geocoder geocoder=new Geocoder(UserSideActivity.this, Locale.getDefault());
+                try {
+                    List<Address> addresses=geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                    userLocation=Html.fromHtml(addresses.get(0).getAddressLine(0)).toString();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });
     }
-    private void sendNeedTaxiRequest() {
-    }
 
-    private void getUserInformation() {
-        //DatabaseReference rideRef= FirebaseDatabase.
+    private void sendNeedTaxiRequest()
+    {
+        AlertDialog alertDialog=new AlertDialog.Builder(UserSideActivity.this,R.style.verification_done).create();
+        View view=LayoutInflater.from(UserSideActivity.this).inflate(R.layout.progress_dialog,null,false);
+        alertDialog.setView(view);
+        alertDialog.show();
+        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("requests");
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                count = snapshot.getChildrenCount();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(UserSideActivity.this, "Failed :-"+error, Toast.LENGTH_SHORT).show();
+                alertDialog.dismiss();
+            }
+        });
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    id=snapshot.child("id").getValue().toString().trim();
+                    lat=Double.parseDouble(snapshot.child("latitude").getValue().toString());
+                    log=Double.parseDouble(snapshot.child("longitude").getValue().toString());
+                    number=snapshot.child("number").getValue().toString().trim();
+                    name=snapshot.child("").getValue().toString().trim();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(UserSideActivity.this, "Failed :- "+error, Toast.LENGTH_SHORT).show();
+                alertDialog.dismiss();
+            }
+        });
+        String key =  mDatabaseRef.push().getKey();
+        HashMap<String,Object> requestMap=new HashMap<>();
+        requestMap.put("id",key);
+        requestMap.put("userId",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        requestMap.put("latitude",latitude);
+        requestMap.put("longitude",longitude);
+        requestMap.put("driverId","");
+        requestMap.put("pickup_address",userLocation);
+        requestMap.put("status","pending");
+        requestMap.put("request_order", count+1);
+        assert key != null;
+        mDatabaseRef.child(key).setValue(requestMap).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                alertDialog.dismiss();
+                showAlertBox();
+                relativeNeedTaxi.setEnabled(false);
+            }
+        });
     }
 }

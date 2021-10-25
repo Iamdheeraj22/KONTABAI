@@ -222,19 +222,22 @@ public class UserSideProfileCreation extends AppCompatActivity {
                     map.put("isVerified",true);
                     map.put("userRole",1);
                     userInfo.setValue(map);
-                    AlertDialog alertDialog=new AlertDialog.Builder(UserSideProfileCreation.this,R.style.verification_done).create();
-                    View view= LayoutInflater.from(UserSideProfileCreation.this).inflate(R.layout.confirmation_dialog,null,false);
-                    alertDialog.setView(view);
-                    alertDialog.show();
-                    TextView headingTextView=view.findViewById(R.id.confirmationHeading);
-                    headingTextView.setText("Your profile has been created successfully.");
-                    Handler handler=new Handler();
-                    handler.postDelayed(() -> {
-                        alertDialog.dismiss();
-                        startActivity(new Intent(UserSideProfileCreation.this, UserSideActivity.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                        finish();
-                    },2000);
+//                    AlertDialog alertDialog=new AlertDialog.Builder(UserSideProfileCreation.this,R.style.verification_done).create();
+//                    View view= LayoutInflater.from(UserSideProfileCreation.this).inflate(R.layout.confirmation_dialog,null,false);
+//                    alertDialog.setView(view);
+//                    alertDialog.show();
+//                    TextView headingTextView=view.findViewById(R.id.confirmationHeading);
+//                    headingTextView.setText("Your profile has been created successfully.");
+//                    Handler handler=new Handler();
+//                    handler.postDelayed(() -> {
+//                        //alertDialog.dismiss();
+//                        progressDialog.dismiss();
+//                        startActivity(new Intent(UserSideProfileCreation.this, UserSideActivity.class));
+//                        finish();
+//                    },200);
+
+                    startActivity(new Intent(UserSideProfileCreation.this, UserSideActivity.class));
+                    finish();
                 } else
                 {
                     Toast.makeText(UserSideProfileCreation.this,"Failed",Toast.LENGTH_SHORT).show();
