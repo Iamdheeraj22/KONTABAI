@@ -127,9 +127,30 @@ public class UserSideActivity extends AppCompatActivity {
         super.onStart();
         relativeRequestStatus.setBackgroundResource(R.drawable.black_corners);
         relativeNeedTaxi.setBackgroundResource(R.drawable.black_corners);
-        countStatus.setVisibility(View.GONE);
+        userRideRequest();
         updateUserLocation();
         getCurrentLocation();
+    }
+
+    private void userRideRequest()
+    {
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("userRequest");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    relativeNeedTaxi.setEnabled(false);
+                    countStatus.setVisibility(View.VISIBLE);
+                }else{
+                    relativeNeedTaxi.setEnabled(true);
+                    countStatus.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(UserSideActivity.this, "Failed :- "+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void updateUserLocation() {
@@ -256,6 +277,7 @@ public class UserSideActivity extends AppCompatActivity {
                 alertDialog.dismiss();
             }
         });
+        DatabaseReference databaseReference1=FirebaseDatabase.getInstance().getReference().child("userRequest").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         String key =  mDatabaseRef.push().getKey();
         HashMap<String,Object> requestMap=new HashMap<>();
         requestMap.put("id",key);
@@ -267,6 +289,7 @@ public class UserSideActivity extends AppCompatActivity {
         requestMap.put("status","pending");
         requestMap.put("request_order", count+1);
         assert key != null;
+        databaseReference1.child("requestId").setValue(key);
         mDatabaseRef.child(key).setValue(requestMap).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 alertDialog.dismiss();
