@@ -1,13 +1,5 @@
 package com.example.kontabai.Activities.DriverSide;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -15,29 +7,34 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.kontabai.Activities.Fragments.AcceptedRequestFragment;
-import com.example.kontabai.Activities.Fragments.PendingRequestFragment;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.kontabai.Activities.RegistrationActivity;
 import com.example.kontabai.Adapters.DriverSidePendingRideAdapter;
 import com.example.kontabai.Classes.DriverSideRideModel;
-import com.example.kontabai.Classes.ViewPageAdapter;
 import com.example.kontabai.R;
-import com.google.android.material.tabs.TabLayout;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class DriverDashBoard extends AppCompatActivity {
     RecyclerView rv_pending, rv_accepted;
-    ImageView backButtonImageView;
     RelativeLayout rl_pending, rl_accepted;
     DriverSidePendingRideAdapter driverSidePendingRideAdapter;
     TextView tv_accepted, tv_pending, tv_logout;
     ArrayList<DriverSideRideModel> arrayList;
     ItemTouchHelper itemTouchHelper1, itemTouchHelper2;
+    DatabaseReference requestRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +44,8 @@ public class DriverDashBoard extends AppCompatActivity {
 
         setListener();
         makeSelection("pending");
-        backButtonImageView.setOnClickListener(v -> {
-            startActivity(new Intent(DriverDashBoard.this, DriverSideProfileCreation.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-        });
-        tv_logout.setOnClickListener(v -> {
-            startActivity(new Intent(DriverDashBoard.this, RegistrationActivity.class)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-        });
+        tv_logout.setOnClickListener(v -> startActivity(new Intent(DriverDashBoard.this, RegistrationActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)));
     }
 
     private void setListener() {
@@ -90,10 +81,9 @@ public class DriverDashBoard extends AppCompatActivity {
         tv_pending = findViewById(R.id.tv_pending);
         arrayList = new ArrayList<>();
         tv_logout = findViewById(R.id.driver_logout_button);
-        backButtonImageView = findViewById(R.id.backButton);
         itemTouchHelper1 = new ItemTouchHelper(simpleCallback1);
         itemTouchHelper1.attachToRecyclerView(rv_pending);
-
+        requestRef= FirebaseDatabase.getInstance().getReference().child("requests");
         itemTouchHelper2 = new ItemTouchHelper(simpleCallback2);
         itemTouchHelper2.attachToRecyclerView(rv_accepted);
     }
@@ -108,21 +98,25 @@ public class DriverDashBoard extends AppCompatActivity {
     private void setStaticData(String type) {
         arrayList.clear();
         if (type.equalsIgnoreCase("pending")) {
-            arrayList.add(new DriverSideRideModel("Amritsar", "Pending", "12-10-2021, 03:45pm", "01120"));
-            arrayList.add(new DriverSideRideModel("Amritsar", "Pending", "12-10-2021, 03:45pm", "01120"));
-            arrayList.add(new DriverSideRideModel("Amritsar", "Pending", "12-10-2021, 03:45pm", "01120"));
-            driverSidePendingRideAdapter = new DriverSidePendingRideAdapter(this, arrayList);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            FirebaseRecyclerOptions<DriverSideRideModel> options=
+                    new FirebaseRecyclerOptions.Builder<DriverSideRideModel>()
+                    .setQuery(FirebaseDatabase.getInstance().getReference().child("requests"),DriverSideRideModel.class)
+                    .build();
+            RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+            driverSidePendingRideAdapter=new DriverSidePendingRideAdapter(options);
             rv_pending.setLayoutManager(layoutManager);
+            driverSidePendingRideAdapter.startListening();
             rv_pending.setAdapter(driverSidePendingRideAdapter);
         } else {
-            arrayList.add(new DriverSideRideModel("Amritsar", "Accepted", "12-10-2021, 03:45pm", "01120"));
-            arrayList.add(new DriverSideRideModel("Amritsar", "Accepted", "12-10-2021, 03:46pm", "01120"));
-            arrayList.add(new DriverSideRideModel("Amritsar", "Accepted", "12-10-2021, 03:47pm", "01120"));
-            driverSidePendingRideAdapter = new DriverSidePendingRideAdapter(this, arrayList);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            FirebaseRecyclerOptions<DriverSideRideModel> options=
+                    new FirebaseRecyclerOptions.Builder<DriverSideRideModel>()
+                            .setQuery(FirebaseDatabase.getInstance().getReference().child("requests").child(FirebaseAuth.getInstance().getCurrentUser().getUid()),DriverSideRideModel.class)
+                            .build();
+            RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+            driverSidePendingRideAdapter=new DriverSidePendingRideAdapter(options);
             rv_accepted.setLayoutManager(layoutManager);
             rv_accepted.setAdapter(driverSidePendingRideAdapter);
+            driverSidePendingRideAdapter.startListening();
         }
     }
 
@@ -194,7 +188,7 @@ public class DriverDashBoard extends AppCompatActivity {
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
 
-                        arrayList.get(position).setStatus("Completed");
+                        //arrayList.get(position).setStatus("Completed");
                         driverSidePendingRideAdapter.notifyItemChanged(position);
                         alertDialog.dismiss();
                     }, 500);
@@ -218,5 +212,16 @@ public class DriverDashBoard extends AppCompatActivity {
         super.onStart();
         rv_accepted.setVisibility(View.GONE);
         rv_pending.setVisibility(View.VISIBLE);
+    }
+
+    public static class RequestViewHolder extends RecyclerView.ViewHolder
+    {
+        TextView address,status;
+        public RequestViewHolder(@NonNull View itemView)
+        {
+            super(itemView);
+            address=itemView.findViewById(R.id.rideLocation);
+            status=itemView.findViewById(R.id.rideStatus);
+        }
     }
 }
