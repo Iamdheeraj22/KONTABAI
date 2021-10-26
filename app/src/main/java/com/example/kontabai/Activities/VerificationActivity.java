@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kontabai.Activities.DriverSide.DriverDashBoard;
+import com.example.kontabai.Activities.UserSide.UserSideActivity;
 import com.example.kontabai.Activities.UserSide.UserSideProfileCreation;
 import com.example.kontabai.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,15 +68,15 @@ public class VerificationActivity extends AppCompatActivity {
         alertDialog.show();
         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("userRole");
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
-                            int role=Integer.parseInt(snapshot.child("userRole").getValue().toString());
+                            int role=Integer.parseInt(snapshot.getValue().toString());
                             if(role==1){
                                 alertDialog.dismiss();
-                                startActivity(new Intent(VerificationActivity.this,UserSideActivity.class)
+                                startActivity(new Intent(VerificationActivity.this, UserSideActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                                 finish();
                             }
