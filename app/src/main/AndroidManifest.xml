@@ -43,7 +43,7 @@
             android:exported="true"
             android:parentActivityName=".Activities.RegistrationActivity" />
         <activity
-            android:name=".Activities.UserSideActivity"
+            android:name=".Activities.UserSide.UserSideActivity"
             android:exported="true" />
         <activity
             android:name=".Activities.WelcomeActivity"
