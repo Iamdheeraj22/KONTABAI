@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.Toast;
 
 import com.example.kontabai.Activities.DriverSide.DriverDashBoard;
+import com.example.kontabai.Activities.UserSide.UserSideActivity;
 import com.example.kontabai.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -36,7 +36,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     if (snapshot.exists()){
                         int role=Integer.parseInt(snapshot.child("userRole").getValue().toString());
                         if(role==1){
-                            startActivity(new Intent(WelcomeActivity.this,UserSideActivity.class)
+                            startActivity(new Intent(WelcomeActivity.this, UserSideActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                         }
                         if(role==2){

@@ -2,35 +2,23 @@ package com.example.kontabai.Classes;
 
 public class DriverSideRideModel
 {
-    private String location;
+    private String pickup_address;
     private String status;
     private String date;
-    private String id;
+    private String request_order;
 
-    public DriverSideRideModel(String location, String status, String date, String id) {
-        this.location = location;
+    public DriverSideRideModel(String pickup_address, String status, String date, String request_order) {
+        this.pickup_address = pickup_address;
         this.status = status;
         this.date = date;
-        this.id = id;
+        this.request_order = request_order;
     }
-
     public DriverSideRideModel() {
     }
 
-    public String getLocation() {
-        return location;
-    }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
 
     public String getStatus() {
-        return status;
-    }
-
-    public String setStatus(String status) {
-        this.status = status;
         return status;
     }
 
@@ -38,15 +26,10 @@ public class DriverSideRideModel
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public String getRequest_order() {
+        return request_order;
     }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public String getPickup_address() {
+        return pickup_address;
     }
 }

@@ -1,7 +1,6 @@
-package com.example.kontabai.Activities;
+package com.example.kontabai.Activities.UserSide;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -17,7 +16,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.location.LocationRequest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -28,15 +26,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kontabai.Activities.UserSide.UserDashboard;
-import com.example.kontabai.Activities.UserSide.UserSideProfileCreation;
+import com.example.kontabai.Activities.RegistrationActivity;
 import com.example.kontabai.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -134,7 +128,7 @@ public class UserSideActivity extends AppCompatActivity {
 
     private void userRideRequest()
     {
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("userRequest");
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("userRequest").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -247,11 +241,14 @@ public class UserSideActivity extends AppCompatActivity {
         View view=LayoutInflater.from(UserSideActivity.this).inflate(R.layout.progress_dialog,null,false);
         alertDialog.setView(view);
         alertDialog.show();
-        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("requests");
+        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("request_counter");
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                count = snapshot.getChildrenCount();
+                if(snapshot.exists()){
+                    String countReq=snapshot.child("count").getValue().toString();
+                    count=Long.parseLong(countReq);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

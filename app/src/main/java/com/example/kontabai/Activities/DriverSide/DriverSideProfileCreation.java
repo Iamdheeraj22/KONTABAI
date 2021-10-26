@@ -1,21 +1,16 @@
 package com.example.kontabai.Activities.DriverSide;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
-import android.text.InputFilter;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,14 +18,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kontabai.Activities.UserSide.UserSideProfileCreation;
-import com.example.kontabai.Activities.UserSideActivity;
 import com.example.kontabai.Classes.ImportantMethods;
 import com.example.kontabai.R;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +31,6 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -58,7 +46,7 @@ public class DriverSideProfileCreation extends AppCompatActivity {
     FloatingActionButton addCarImageButton;
     ProgressDialog progressDialog;
     Uri imageUri,imageUriCar,imageUriDriver;
-    StorageTask<UploadTask.TaskSnapshot> uploadTask;
+    StorageTask<UploadTask.TaskSnapshot> uploadTask1,uploadTask2;
     DatabaseReference driverInfo;
     String driverDownloadUri;
     StorageReference storageReference;
@@ -109,8 +97,8 @@ public class DriverSideProfileCreation extends AppCompatActivity {
         carimage=findViewById(R.id.carImage);
         driverImage=findViewById(R.id.driverSideImageview);
         circleImageView=findViewById(R.id.driverSideImageview2);
-        driverInfo= FirebaseDatabase.getInstance().getReference().child("users").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser().getUid()));
-        storageReference = FirebaseStorage.getInstance().getReference(Objects.requireNonNull(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()));
+        driverInfo= FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        storageReference = FirebaseStorage.getInstance().getReference(FirebaseAuth.getInstance().getCurrentUser().getUid());
     }
 
     private void popMenu(ImageView imageView) {
@@ -215,8 +203,8 @@ public class DriverSideProfileCreation extends AppCompatActivity {
         progressDialog.show();
         if(imageUriDriver!=null){
             final StorageReference file=storageReference.child(System.currentTimeMillis()+"."+ ImportantMethods.getExtension(DriverSideProfileCreation.this,imageUriDriver));
-            uploadTask=file.putFile(imageUriDriver);
-            uploadTask.continueWithTask(task -> {
+            uploadTask1=file.putFile(imageUriDriver);
+            uploadTask1.continueWithTask(task -> {
                 if(!task.isSuccessful()) {
                     throw Objects.requireNonNull(task.getException());
                 }
@@ -225,11 +213,10 @@ public class DriverSideProfileCreation extends AppCompatActivity {
                 if(task.isSuccessful()){
                     Uri downloaduri= task.getResult();
                     driverDownloadUri=downloaduri.toString();
-                    driverInfo.child("image").setValue(driverDownloadUri);
                     if(imageUriCar!=null){
                         final StorageReference file1=storageReference.child(System.currentTimeMillis()+"."+ ImportantMethods.getExtension(DriverSideProfileCreation.this,imageUriCar));
-                        uploadTask=file1.putFile(imageUriCar);
-                        uploadTask.continueWithTask(task1 -> {
+                        uploadTask2=file1.putFile(imageUriCar);
+                        uploadTask2.continueWithTask(task1 -> {
                             if(!task1.isSuccessful())
                             {
                                 throw Objects.requireNonNull(task1.getException());

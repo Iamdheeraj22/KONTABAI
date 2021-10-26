@@ -29,10 +29,11 @@
                    android:id="@+id/rideId"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
+                   android:textStyle="bold"
                    android:layout_alignParentLeft="true"
-                   android:textColor="@color/black"
                    android:layout_marginStart="10dp"
                    android:text="Ride Id"
+                   android:textColor="@color/black"
                    android:textSize="11dp" />
 
                <TextView
@@ -59,16 +60,16 @@
                    android:layout_height="wrap_content"
                    android:layout_alignParentLeft="true"
                    android:layout_marginStart="10dp"
-                   android:textColor="@color/black"
                    android:text="@string/ride_location"
+                   android:textColor="@color/black"
                    android:textSize="11dp" />
 
                <TextView
+                   android:id="@+id/statusHeading"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:layout_marginStart="170dp"
+                   android:layout_marginStart="247dp"
                    android:text="Status:"
-                   android:id="@+id/statusHeading"
                    android:textColor="@color/black"
                    android:textSize="11dp" />
 
