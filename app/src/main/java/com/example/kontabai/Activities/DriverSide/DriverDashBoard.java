@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +23,11 @@ import com.example.kontabai.Classes.DriverSideRideModel;
 import com.example.kontabai.R;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -35,6 +39,7 @@ public class DriverDashBoard extends AppCompatActivity {
     ArrayList<DriverSideRideModel> arrayList;
     ItemTouchHelper itemTouchHelper1, itemTouchHelper2;
     DatabaseReference requestRef;
+    String currentDriverId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +91,7 @@ public class DriverDashBoard extends AppCompatActivity {
         requestRef= FirebaseDatabase.getInstance().getReference().child("requests");
         itemTouchHelper2 = new ItemTouchHelper(simpleCallback2);
         itemTouchHelper2.attachToRecyclerView(rv_accepted);
+        currentDriverId=FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     @Override
@@ -120,19 +126,18 @@ public class DriverDashBoard extends AppCompatActivity {
         }
     }
 
-    String deletedMovie = null;
+    //String deletedMovie = null;
     ItemTouchHelper.SimpleCallback simpleCallback1 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
         }
-
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
 
             if (direction == ItemTouchHelper.LEFT) {
-                deletedMovie = String.valueOf(arrayList.get(position));
+                //deletedMovie = String.valueOf(arrayList.get(position));
                 AlertDialog alertDialog = new AlertDialog.Builder(DriverDashBoard.this, R.style.verification_done).create();
                 View view = LayoutInflater.from(DriverDashBoard.this).inflate(R.layout.accept_request_dialogbox, null, false);
                 alertDialog.setView(view);
@@ -140,7 +145,21 @@ public class DriverDashBoard extends AppCompatActivity {
                 alertDialog.setCancelable(false);
                 TextView textView = view.findViewById(R.id.pendingRequestButton);
                 textView.setOnClickListener(v -> {
-                    arrayList.remove(position);
+                    //arrayList.remove(position);
+                    String id=arrayList.get(position).getId();
+                    DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("requests").child(id);
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                databaseReference.child("driverId").setValue(currentDriverId);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(DriverDashBoard.this, "Failed :-"+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     driverSidePendingRideAdapter.notifyItemRemoved(position);
                     alertDialog.dismiss();
                 });
@@ -212,16 +231,5 @@ public class DriverDashBoard extends AppCompatActivity {
         super.onStart();
         rv_accepted.setVisibility(View.GONE);
         rv_pending.setVisibility(View.VISIBLE);
-    }
-
-    public static class RequestViewHolder extends RecyclerView.ViewHolder
-    {
-        TextView address,status;
-        public RequestViewHolder(@NonNull View itemView)
-        {
-            super(itemView);
-            address=itemView.findViewById(R.id.rideLocation);
-            status=itemView.findViewById(R.id.rideStatus);
-        }
     }
 }
