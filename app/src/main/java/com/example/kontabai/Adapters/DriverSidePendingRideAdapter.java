@@ -20,11 +20,9 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 public class DriverSidePendingRideAdapter extends FirebaseRecyclerAdapter<DriverSideRideModel, DriverSidePendingRideAdapter.DriverViewModel>
 {
-
     public DriverSidePendingRideAdapter(@NonNull FirebaseRecyclerOptions<DriverSideRideModel> options) {
         super(options);
     }
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     @Override
