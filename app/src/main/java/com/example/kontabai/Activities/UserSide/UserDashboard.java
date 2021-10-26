@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.kontabai.Activities.UserSideActivity;
 import com.example.kontabai.Adapters.UserRideAdapter;
 import com.example.kontabai.Classes.UserSideRideModel;
 import com.example.kontabai.R;
