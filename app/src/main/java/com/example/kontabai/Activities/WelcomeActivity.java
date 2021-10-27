@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.kontabai.Activities.DriverSide.DriverDashBoard;
@@ -33,19 +34,20 @@ public class WelcomeActivity extends AppCompatActivity {
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Log.v("SplashCheck","ok");
                     if (snapshot.exists()){
                         int role=Integer.parseInt(snapshot.child("userRole").getValue().toString());
                         if(role==1){
-                            startActivity(new Intent(WelcomeActivity.this, UserSideActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                            startActivity(new Intent(WelcomeActivity.this, UserSideActivity.class));
+                            finish();
                         }
                         if(role==2){
-                            startActivity(new Intent(WelcomeActivity.this, DriverDashBoard.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                            startActivity(new Intent(WelcomeActivity.this, DriverDashBoard.class));
+                            finish();
                         }
                     }else{
-                        startActivity(new Intent(WelcomeActivity.this,RegistrationActivity.class)
-                                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                        startActivity(new Intent(WelcomeActivity.this,RegistrationActivity.class));
+                        finish();
                     }
                 }
                 @Override
