@@ -7,12 +7,14 @@ public class DriverSideRideModel
     private String date;
     private String driverId;
     private String id;
+    private String userId;
     private String request_order;
 
-    public DriverSideRideModel(String pickup_address, String status, String date, String request_order,String driverId,String id) {
+    public DriverSideRideModel(String pickup_address, String status, String date, String request_order,String driverId,String id,String userId) {
         this.pickup_address = pickup_address;
         this.status = status;
-        this.date = date;
+        this.userId=userId;
+        this.date=date;
         this.request_order = request_order;
         this.driverId=driverId;
         this.id=id;
@@ -21,10 +23,13 @@ public class DriverSideRideModel
     }
 
 
+    public String getUserId() {
+        return userId;
+    }
+
     public String getId() {
         return id;
     }
-
     public String getStatus() {
         return status;
     }
