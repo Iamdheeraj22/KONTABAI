@@ -9,16 +9,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.kontabai.Adapters.DriverSidePendingRideAdapter;
 import com.example.kontabai.Adapters.UserRideAdapter;
+import com.example.kontabai.Classes.DriverSideRideModel;
 import com.example.kontabai.Classes.UserSideRideModel;
 import com.example.kontabai.R;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class UserDashboard extends AppCompatActivity {
     RecyclerView recyclerView;
     UserRideAdapter userRideAdapter;
-    ArrayList<UserSideRideModel> userSideRideModels;
+    String currentUser;
     ImageView backButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,30 +39,28 @@ public class UserDashboard extends AppCompatActivity {
             }
         });
     }
-
     private void setTheValuesInRecyclerView()
     {
-//            userRides.add(new UserRide("Amritsar","Pending"));
-//            userRides.add(new UserRide("Jaipur","Rejected"));
-//            userRides.add(new UserRide("Delhi","Accepted"));
-//            userRides.add(new UserRide("Sector 21 ,Chandigarh","Accepted"));
-//            userRides.add(new UserRide("Phase 6 , Chandigarh","Accepted"));
-        userSideRideModels.add(new UserSideRideModel("Amritsar","Pending","12-10-2021, 03:45pm","01120"));
-        userSideRideModels.add(new UserSideRideModel("Amritsar","Accepted","12-10-2021, 03:45pm","01120"));
-        userSideRideModels.add(new UserSideRideModel("Amritsar","Rejected","12-10-2021, 03:45pm","01120"));
+        FirebaseRecyclerOptions<UserSideRideModel> options=
+                new FirebaseRecyclerOptions.Builder<UserSideRideModel>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("userRequest").child(currentUser),UserSideRideModel.class)
+                        .build();
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        userRideAdapter=new UserRideAdapter(options);
+        recyclerView.setLayoutManager(layoutManager);
+        userRideAdapter.startListening();
+        recyclerView.setAdapter(userRideAdapter);
     }
 
     private void initViews() {
         recyclerView=findViewById(R.id.userRecyclerView);
-        userSideRideModels =new ArrayList<>();
         backButton=findViewById(R.id.userBackButton);
-        userRideAdapter=new UserRideAdapter(getApplicationContext(), userSideRideModels);
-        setRecyclerView();
+        currentUser=FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
-
-    private void  setRecyclerView(){
-        RecyclerView.LayoutManager manager=new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(userRideAdapter);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(UserDashboard.this,UserSideActivity.class));
+        finish();
     }
 }
