@@ -5,9 +5,11 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +25,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.kontabai.Activities.RegistrationActivity;
+import com.example.kontabai.Activities.UserSide.UserSideActivity;
 import com.example.kontabai.Adapters.DriverSideAcceptRideAdapter;
 import com.example.kontabai.Adapters.DriverSidePendingRideAdapter;
-import com.example.kontabai.Classes.DriverSideRideModel;
+import com.example.kontabai.Classes.RideModel;
 import com.example.kontabai.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +42,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class DriverDashBoard extends AppCompatActivity {
@@ -45,12 +51,14 @@ public class DriverDashBoard extends AppCompatActivity {
     DriverSidePendingRideAdapter driverSidePendingRideAdapter;
     DriverSideAcceptRideAdapter driverSideAcceptRideAdapter;
     TextView tv_accepted, tv_pending, tv_logout;
-    ArrayList<DriverSideRideModel> pendingArrayList,acceptArrayList;
+    ArrayList<RideModel> pendingArrayList;
+    ArrayList<RideModel> acceptArrayList;
     ItemTouchHelper itemTouchHelper1, itemTouchHelper2;
     DatabaseReference requestRef;
     double latitude, longitude;
     FusedLocationProviderClient fusedLocationProviderClient;
     String currentDriverId;
+    private boolean asc=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +68,38 @@ public class DriverDashBoard extends AppCompatActivity {
 
         setListener();
         makeSelection("pending");
-        tv_logout.setOnClickListener(v -> startActivity(new Intent(DriverDashBoard.this, RegistrationActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)));
+        tv_logout.setOnClickListener(v ->
+                logOut());
+    }
+
+    private void logOut() {
+        AlertDialog alertDialog = new AlertDialog.Builder(DriverDashBoard.this, R.style.verification_done).create();
+        View view = LayoutInflater.from(DriverDashBoard.this).inflate(R.layout.delete_item_alert_box, null, false);
+        alertDialog.setView(view);
+        alertDialog.show();
+        alertDialog.setCancelable(true);
+        TextView heading = view.findViewById(R.id.textHeading);
+        heading.setText("Are you sure you want to logout ?");
+        TextView yesButton = view.findViewById(R.id.yesButton);
+        TextView noButton = view.findViewById(R.id.noButton);
+        yesButton.setOnClickListener(v1 -> {
+            yesButton.setBackgroundResource(R.drawable.screen_background_2);
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(DriverDashBoard.this, RegistrationActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                alertDialog.dismiss();
+            }, 3000);
+        });
+        noButton.setOnClickListener(v1 -> {
+            noButton.setBackgroundResource(R.drawable.screen_background_2);
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                alertDialog.dismiss();
+                noButton.setBackgroundColor(Color.WHITE);
+            }, 2000);
+        });
     }
 
     private void setListener() {
@@ -95,8 +133,6 @@ public class DriverDashBoard extends AppCompatActivity {
         rv_accepted = findViewById(R.id.view_pager2);
         tv_accepted = findViewById(R.id.tv_accepted);
         tv_pending = findViewById(R.id.tv_pending);
-        pendingArrayList = new ArrayList<>();
-        acceptArrayList=new ArrayList<>();
         tv_logout = findViewById(R.id.driver_logout_button);
         itemTouchHelper1 = new ItemTouchHelper(simpleCallback1);
         itemTouchHelper1.attachToRecyclerView(rv_pending);
@@ -105,62 +141,15 @@ public class DriverDashBoard extends AppCompatActivity {
         itemTouchHelper2.attachToRecyclerView(rv_accepted);
         currentDriverId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        driverSidePendingRideAdapter=new DriverSidePendingRideAdapter(pendingArrayList,this);
-        driverSideAcceptRideAdapter=new DriverSideAcceptRideAdapter(acceptArrayList,DriverDashBoard.this);
-    }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(DriverDashBoard.this, DriverSideProfileCreation.class)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
     private void setStaticData(String type) {
-        pendingArrayList.clear();
-        acceptArrayList.clear();
         if (type.equalsIgnoreCase("pending")) {
-            DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("requests");
-            RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
-            rv_pending.setLayoutManager(layoutManager);
-            rv_pending.setAdapter(driverSidePendingRideAdapter);
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                        String status=dataSnapshot.child("status").getValue().toString();
-                       if(status.equalsIgnoreCase("Pending")){
-                           DriverSideRideModel driverSideRideModel=dataSnapshot.getValue(DriverSideRideModel.class);
-                           pendingArrayList.add(driverSideRideModel);
-                       }
-                    }
-                    driverSidePendingRideAdapter.notifyDataSetChanged();
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(DriverDashBoard.this, "Failed :- "+error, Toast.LENGTH_SHORT).show();
-                }
-            });
+            getAllPendingRequest();
         }
-        if(type.equalsIgnoreCase("Accepted")){
-            DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("driverRequest").child(currentDriverId);
-            RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
-            rv_accepted.setLayoutManager(layoutManager);
-            rv_accepted.setAdapter(driverSideAcceptRideAdapter);
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                        DriverSideRideModel driverSideRideModel=dataSnapshot.getValue(DriverSideRideModel.class);
-                        acceptArrayList.add(driverSideRideModel);
-                    }
-                    driverSideAcceptRideAdapter.notifyDataSetChanged();
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(DriverDashBoard.this, "Failed :-"+error, Toast.LENGTH_SHORT).show();
-                }
-            });
+        if (type.equalsIgnoreCase("Accepted")) {
+            getAllAcceptRequest();
         }
     }
 
@@ -174,8 +163,7 @@ public class DriverDashBoard extends AppCompatActivity {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
-            DriverSideRideModel driverSideRideModel = pendingArrayList.get(position);
-            final int deletedPosition = position;
+            RideModel rideModel = pendingArrayList.get(position);
             Log.d("myRecycleid", "pos " + pendingArrayList.get(position).getRequest_order());
             if (direction == ItemTouchHelper.LEFT) {
                 AlertDialog alertDialog = new AlertDialog.Builder(DriverDashBoard.this, R.style.verification_done).create();
@@ -185,42 +173,34 @@ public class DriverDashBoard extends AppCompatActivity {
                 alertDialog.setCancelable(false);
                 TextView textView = view.findViewById(R.id.pendingRequestButton);
                 textView.setOnClickListener(v -> {
-                    DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
-                    databaseReference.child("requests").child(driverSideRideModel.getId()).addValueEventListener(new ValueEventListener() {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    databaseReference.child("requests").child(rideModel.getId()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.exists()){
-                                databaseReference.child("requests").child(driverSideRideModel.getId()).child("driverId").setValue(currentDriverId);
-                                databaseReference.child("requests").child(driverSideRideModel.getId()).child("status").setValue("Accepted");
-                                HashMap<String,Object> hashMap=new HashMap<>();
-                                hashMap.put("request_order",String.valueOf(driverSideRideModel.getRequest_order()));
-                                hashMap.put("date",driverSideRideModel.getDate());
-                                hashMap.put("status","Accepted");
-                                hashMap.put("pickup_address",driverSideRideModel.getPickup_address());
-                                databaseReference.child("driverRequest").child(currentDriverId).child(driverSideRideModel.getId()).setValue(hashMap);
-                                databaseReference.child("userRequest").child(driverSideRideModel.getUserId()).child(driverSideRideModel.getId()).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if(snapshot.exists()){
-                                            databaseReference.child("userRequest").child(driverSideRideModel.getUserId()).child(driverSideRideModel.getId()).child("status").setValue("Accepted");
-                                        }else{
-                                            Toast.makeText(DriverDashBoard.this, "Id not found......", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                        Toast.makeText(DriverDashBoard.this, "Failed :-"+error.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                            if (snapshot.exists()) {
+                                databaseReference.child("requests").child(rideModel.getId()).removeValue();
+                                HashMap<String, Object> hashMap = new HashMap<>();
+                                hashMap.put("request_order", String.valueOf(rideModel.getRequest_order()));
+                                hashMap.put("date", rideModel.getDate());
+                                hashMap.put("status", "Accepted");
+                                hashMap.put("id", rideModel.getId());
+                                hashMap.put("user_id", rideModel.getUser_id());
+                                hashMap.put("pickup_address", rideModel.getPickup_address());
+                                databaseReference.child("driverRequest").child(currentDriverId).child(rideModel.getId()).setValue(hashMap);
+                                databaseReference.child("userRequest").child(rideModel.getUser_id()).child(rideModel.getId()).child("status").setValue("Accepted");
                                 driverSidePendingRideAdapter.notifyItemRemoved(position);
+                                pendingArrayList.remove(position);
+//                                getAllPendngiRequest();
+//                                rv_pending.setVisibility(View.GONE);
+//                                rv_accepted.setVisibility(View.VISIBLE);
+//                                tv_accepted.setTextColor(getResources().getColor(R.color.white));
+//                                rl_accepted.setBackgroundResource(R.drawable.screen_background_1);
                                 alertDialog.dismiss();
-                            }else{
-                                Toast.makeText(DriverDashBoard.this, "key referance not found....", Toast.LENGTH_SHORT).show();
                             }
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(DriverDashBoard.this, "Failed :-"+error.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DriverDashBoard.this, "Failed :-" + error.getMessage(), Toast.LENGTH_SHORT).show();
                             alertDialog.dismiss();
                         }
                     });
@@ -238,8 +218,8 @@ public class DriverDashBoard extends AppCompatActivity {
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             final int position = viewHolder.getAdapterPosition();
-            DriverSideRideModel driverSideRideModel1 = acceptArrayList.get(position);
-            String status = driverSideRideModel1.getStatus();
+            RideModel rideModel1 = acceptArrayList.get(position);
+            String status = rideModel1.getStatus();
             if (status.equalsIgnoreCase("Completed")) {
                 return makeMovementFlags(ItemTouchHelper.ACTION_STATE_IDLE, 0);
             }
@@ -250,8 +230,7 @@ public class DriverDashBoard extends AppCompatActivity {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
-               DriverSideRideModel driverSideRideModel1 = acceptArrayList.get(position);
-               DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference();
+            RideModel rideModel1 = acceptArrayList.get(position);
             if (direction == ItemTouchHelper.LEFT) {
                 deletedMovie2 = String.valueOf(acceptArrayList.get(position));
                 AlertDialog alertDialog = new AlertDialog.Builder(DriverDashBoard.this, R.style.verification_done).create();
@@ -264,25 +243,22 @@ public class DriverDashBoard extends AppCompatActivity {
                 TextView yesButton = view.findViewById(R.id.yesButton);
                 TextView noButton = view.findViewById(R.id.noButton);
                 yesButton.setOnClickListener(v -> {
-                    yesButton.setBackgroundResource(R.drawable.screen_background_2);
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
-                        String userId=driverSideRideModel1.getUserId();
-                        String id=driverSideRideModel1.getId();
-                        databaseReference.child("driverRequest").child(currentDriverId).child(id).child("status").setValue("Completed");
-                        databaseReference.child("userRequest").child(userId).child(id).child("status").child("Completed");
-                        databaseReference.child("requests").child(id).child("status").child("Completed");
-                        //arrayList.get(position).setStatus("Completed");
-                        driverSideAcceptRideAdapter.notifyItemChanged(position);
+                        String userId = rideModel1.getUser_id();
+                        DatabaseReference changeRef = FirebaseDatabase.getInstance().getReference();
+                        changeRef.child("driverRequest").child(currentDriverId).child(rideModel1.getId()).child("status").setValue("Completed");
+                        changeRef.child("userRequest").child(userId).child(rideModel1.getId()).child("status").setValue("Completed");
                         alertDialog.dismiss();
                     }, 500);
                 });
                 noButton.setOnClickListener(v -> {
-                    noButton.setBackgroundResource(R.drawable.screen_background_2);
                     Handler handler = new Handler();
                     handler.postDelayed(() -> {
                         alertDialog.dismiss();
-                        //DriverSideRideModel driverSideRideModel = arrayList.get(position);
+                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                        databaseReference.child("userRequest").child(rideModel1.getUser_id()).child(rideModel1.getId()).child("status").setValue("Rejected");
+                        databaseReference.child("driverRequest").child(currentDriverId).child(rideModel1.getId()).child("status").setValue("Rejected");
                         driverSideAcceptRideAdapter.notifyItemChanged(position);
                         noButton.setBackgroundResource(R.color.white);
                     }, 500);
@@ -297,6 +273,8 @@ public class DriverDashBoard extends AppCompatActivity {
         rv_accepted.setVisibility(View.GONE);
         rv_pending.setVisibility(View.VISIBLE);
         updateUserLocation();
+        getAllPendingRequest();
+        getAllAcceptRequest();
     }
 
     private void updateUserLocation() {
@@ -315,36 +293,60 @@ public class DriverDashBoard extends AppCompatActivity {
             }
         });
     }
+
+    private void getAllPendingRequest() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("requests");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    pendingArrayList = new ArrayList<>();
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Object status = dataSnapshot.child("status").getValue();
+                        if (status != null) {
+                            if (status.toString().equalsIgnoreCase("Pending")) {
+                                RideModel rideModel = dataSnapshot.getValue(RideModel.class);
+                                pendingArrayList.add(rideModel);
+                            }
+                        }
+                    }
+                    Collections.reverse(pendingArrayList);
+                    driverSidePendingRideAdapter = new DriverSidePendingRideAdapter(pendingArrayList, DriverDashBoard.this);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(DriverDashBoard.this);
+                    rv_pending.setLayoutManager(layoutManager);
+                    rv_pending.setAdapter(driverSidePendingRideAdapter);
+                    driverSidePendingRideAdapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DriverDashBoard.this, "Failed :- " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getAllAcceptRequest() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("driverRequest").child(currentDriverId);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                acceptArrayList = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    RideModel rideModel = dataSnapshot.getValue(RideModel.class);
+                    acceptArrayList.add(rideModel);
+                }
+                Collections.reverse(acceptArrayList);
+                driverSideAcceptRideAdapter = new DriverSideAcceptRideAdapter(acceptArrayList, DriverDashBoard.this);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(DriverDashBoard.this);
+                rv_accepted.setLayoutManager(layoutManager);
+                rv_accepted.setAdapter(driverSideAcceptRideAdapter);
+                //sortData(asc, acceptArrayList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DriverDashBoard.this, "Failed :-" + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
-
-
-
-
-
-
-
-//
-//    private void setStaticData(String type) {
-//        arrayList.clear();
-//        if (type.equalsIgnoreCase("pending")) {
-//            FirebaseRecyclerOptions<DriverSideRideModel> options =
-//                    new FirebaseRecyclerOptions.Builder<DriverSideRideModel>()
-//                            .setQuery(FirebaseDatabase.getInstance().getReference().child("requests"), DriverSideRideModel.class)
-//                            .build();
-//            Log.d("all", String.valueOf(options));
-//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-//            driverSidePendingRideAdapter = new DriverSidePendingRideAdapter(options.getSnapshots(), DriverDashBoard.this);
-//            rv_pending.setLayoutManager(layoutManager);
-//            rv_pending.setAdapter(driverSidePendingRideAdapter);
-//
-//        } else {
-//            FirebaseRecyclerOptions<DriverSideRideModel> options =
-//                    new FirebaseRecyclerOptions.Builder<DriverSideRideModel>()
-//                            .setQuery(FirebaseDatabase.getInstance().getReference().child("requests").child(FirebaseAuth.getInstance().getCurrentUser().getUid()), DriverSideRideModel.class)
-//                            .build();
-//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-//            driverSidePendingRideAdapter = new DriverSidePendingRideAdapter(options.getSnapshots(), DriverDashBoard.this);
-//            rv_accepted.setLayoutManager(layoutManager);
-//            rv_accepted.setAdapter(driverSidePendingRideAdapter);
-//        }
-//    }

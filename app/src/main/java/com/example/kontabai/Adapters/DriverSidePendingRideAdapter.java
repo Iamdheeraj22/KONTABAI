@@ -3,30 +3,25 @@ package com.example.kontabai.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 ;
-import com.example.kontabai.Classes.DriverSideRideModel;
+import com.example.kontabai.Classes.RideModel;
 import com.example.kontabai.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.firebase.ui.database.ObservableSnapshotArray;
 
 import java.util.ArrayList;
 
 public class DriverSidePendingRideAdapter extends RecyclerView.Adapter<DriverSidePendingRideAdapter.DriverViewModel> {
-    ArrayList<DriverSideRideModel> arrayList;
+    ArrayList<RideModel> arrayList;
     Context context;
 
-    public DriverSidePendingRideAdapter(ArrayList<DriverSideRideModel> arrayList,Context context) {
+    public DriverSidePendingRideAdapter(ArrayList<RideModel> arrayList, Context context) {
         this.context = context;
         this.arrayList=arrayList;
     }
@@ -34,7 +29,7 @@ public class DriverSidePendingRideAdapter extends RecyclerView.Adapter<DriverSid
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull DriverViewModel holder, int position) {
-        DriverSideRideModel model = arrayList.get(position);
+        RideModel model = arrayList.get(position);
         if (model.getStatus().equalsIgnoreCase("pending")) {
             holder.requestStatus.setText("Pending");
             holder.requestStatus.setTextColor(Color.RED);
@@ -46,8 +41,7 @@ public class DriverSidePendingRideAdapter extends RecyclerView.Adapter<DriverSid
             holder.requestStatus.setTextColor(Color.RED);
         }
         holder.requestLocation.setText("Pickup Location: " + model.getPickup_address());
-        holder.requestOrder.setText("RIDE#" + model.getRequest_order());
-        holder.requestTime.setText(model.getDate());
+        holder.requestOrder.setText("RIDE#" + model.getId());
         holder.requestTime.setText(model.getDate());
         holder.requestStatus.setText(model.getStatus());
     }

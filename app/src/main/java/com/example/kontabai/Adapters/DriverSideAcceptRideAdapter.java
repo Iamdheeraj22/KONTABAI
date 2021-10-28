@@ -11,16 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.kontabai.Classes.DriverSideRideModel;
+import com.example.kontabai.Classes.RideModel;
 import com.example.kontabai.R;
 
 import java.util.ArrayList;
 
 public class DriverSideAcceptRideAdapter extends RecyclerView.Adapter<DriverSideAcceptRideAdapter.DriverViewModel> {
-    ArrayList<DriverSideRideModel> arrayList;
+    ArrayList<RideModel> arrayList;
     Context context;
 
-    public DriverSideAcceptRideAdapter(ArrayList<DriverSideRideModel> arrayList, Context context) {
+    public DriverSideAcceptRideAdapter(ArrayList<RideModel> arrayList, Context context) {
         this.context = context;
         this.arrayList=arrayList;
     }
@@ -28,7 +28,7 @@ public class DriverSideAcceptRideAdapter extends RecyclerView.Adapter<DriverSide
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull DriverViewModel holder, int position) {
-        DriverSideRideModel model = arrayList.get(position);
+        RideModel model = arrayList.get(position);
         if (model.getStatus().equalsIgnoreCase("completed")) {
             holder.requestStatus.setText("completed");
             holder.requestStatus.setTextColor(Color.GREEN);
@@ -40,7 +40,7 @@ public class DriverSideAcceptRideAdapter extends RecyclerView.Adapter<DriverSide
             holder.requestStatus.setTextColor(Color.RED);
         }
         holder.requestLocation.setText("Pickup Location: " + model.getPickup_address());
-        holder.requestOrder.setText("RIDE#" + model.getRequest_order());
+        holder.requestOrder.setText("RIDE#" + model.getId());
         holder.requestTime.setText(model.getDate());
     }
 
