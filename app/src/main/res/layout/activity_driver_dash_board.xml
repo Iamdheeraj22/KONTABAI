@@ -89,9 +89,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
-                android:textSize="13sp"
                 android:layout_marginVertical="15dp"
-                android:text="ACCEPTED" />
+                android:text="ACCEPTED"
+                android:textSize="13sp" />
 
         </RelativeLayout>
 
