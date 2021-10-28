@@ -67,6 +67,23 @@
             android:layout_width="140dp"
             android:layout_height="120dp"
             android:background="@drawable/black_corners">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/countRequest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/round_corners"
+                    android:text="  1  "
+                    android:textAlignment="center"
+                    android:layout_below="@id/appLogo"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/requeststatus"
@@ -80,20 +97,7 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/countRequest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/round_corners"
-        android:text="  1  "
-        android:textAlignment="center"
-        android:layout_below="@id/appLogo"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="42dp"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        tools:ignore="HardcodedText" />
+
 
     <TextView
         android:id="@+id/refreshButton"
