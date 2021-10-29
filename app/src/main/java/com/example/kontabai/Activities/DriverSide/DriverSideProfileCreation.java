@@ -138,25 +138,31 @@ public class DriverSideProfileCreation extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==PERMISSION_CAMERA_CODE && resultCode== Activity.RESULT_OK ){
             if(whichImage.equals("driver")){
-                Bitmap bitmap=(Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream bytes=new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
-                String path=MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),bitmap,"val",null);
-                Uri uri=Uri.parse(path);
-                driverImage.setImageURI(uri);
-                imageUriDriver=uri;
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                Uri tempUri =ImportantMethods.getImageUri(getApplicationContext(), photo);
+                //File finalFile = new File(getRealPathFromURI(tempUri));
+                imageUri=tempUri;
+//                Bitmap bitmap=(Bitmap) data.getExtras().get("data");
+//                ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+//                bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+//                String path=MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),bitmap,"val",null);
+//                Uri uri=Uri.parse(path);
+                driverImage.setImageURI(tempUri);
+                imageUriDriver=tempUri;
                 whichImage="";
             }
             if(whichImage.equals("car")){
-                Bitmap bitmap=(Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream bytes=new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
-                String path=MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),bitmap,"val",null);
-                Uri uri=Uri.parse(path);
-                carimage.setImageURI(uri);
+                Bitmap photo = (Bitmap) data.getExtras().get("data");
+                Uri tempUri =ImportantMethods.getImageUri(getApplicationContext(), photo);
+//                Bitmap bitmap=(Bitmap) data.getExtras().get("data");
+//                ByteArrayOutputStream bytes=new ByteArrayOutputStream();
+//                bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+//                String path=MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),bitmap,"val",null);
+//                Uri uri=Uri.parse(path);
+                carimage.setImageURI(tempUri);
                 addCarImageButton.setVisibility(View.GONE);
                 carimage.setVisibility(View.VISIBLE);
-                imageUriCar=uri;
+                imageUriCar=tempUri;
                 whichImage="";
             }
         }

@@ -7,13 +7,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.PopupMenu;
@@ -33,6 +36,7 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
@@ -109,18 +113,16 @@ public class UserSideProfileCreation extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==PERMISSION_CAMERA_CODE && resultCode==RESULT_OK){
-            Bitmap bitmap=(Bitmap) data.getExtras().get("data");
-            ByteArrayOutputStream bytes=new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
-            String path=MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),bitmap,"val",null);
-            Uri uri=Uri.parse(path);
-            imageView.setImageURI(uri);
-            imageUri=uri;
+        if (requestCode == PERMISSION_CAMERA_CODE && resultCode == RESULT_OK && data!=null) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Uri tempUri =ImportantMethods.getImageUri(getApplicationContext(), photo);
+            //File finalFile = new File(getRealPathFromURI(tempUri));
+            imageView.setImageURI(tempUri);
+            imageUri=tempUri;
         }
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             imageUri = data.getData();
-            try {// Setting image on image view using Bitmap
+            try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),imageUri);
                 if(imageUri==null){
                     providePhoto();
@@ -179,9 +181,6 @@ public class UserSideProfileCreation extends AppCompatActivity {
         createAsDriver.setBackgroundResource(R.drawable.black_corners);
     }
 
-
-    // Save the information in Firebase Database
-
     @SuppressLint("SetTextI18n")
     private void SaveUserInformation(String name, String number){
         progressDialog=new ProgressDialog(this);
@@ -216,20 +215,6 @@ public class UserSideProfileCreation extends AppCompatActivity {
                     map.put("isVerified",true);
                     map.put("userRole",1);
                     userInfo.setValue(map);
-//                    AlertDialog alertDialog=new AlertDialog.Builder(UserSideProfileCreation.this,R.style.verification_done).create();
-//                    View view= LayoutInflater.from(UserSideProfileCreation.this).inflate(R.layout.confirmation_dialog,null,false);
-//                    alertDialog.setView(view);
-//                    alertDialog.show();
-//                    TextView headingTextView=view.findViewById(R.id.confirmationHeading);
-//                    headingTextView.setText("Your profile has been created successfully.");
-//                    Handler handler=new Handler();
-//                    handler.postDelayed(() -> {
-//                        //alertDialog.dismiss();
-//                        progressDialog.dismiss();
-//                        startActivity(new Intent(UserSideProfileCreation.this, UserSideActivity.class));
-//                        finish();
-//                    },200);
-
                     startActivity(new Intent(UserSideProfileCreation.this, UserSideActivity.class));
                     finish();
                 } else
