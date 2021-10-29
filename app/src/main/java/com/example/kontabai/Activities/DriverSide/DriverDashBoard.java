@@ -83,7 +83,7 @@ public class DriverDashBoard extends AppCompatActivity {
         TextView yesButton = view.findViewById(R.id.yesButton);
         TextView noButton = view.findViewById(R.id.noButton);
         yesButton.setOnClickListener(v1 -> {
-            yesButton.setBackgroundResource(R.drawable.screen_background_2);
+            //yesButton.setBackgroundResource(R.drawable.screen_background_2);
             Handler handler = new Handler();
             handler.postDelayed(() -> {
                 FirebaseAuth.getInstance().signOut();
@@ -93,7 +93,7 @@ public class DriverDashBoard extends AppCompatActivity {
             }, 3000);
         });
         noButton.setOnClickListener(v1 -> {
-            noButton.setBackgroundResource(R.drawable.screen_background_2);
+            //noButton.setBackgroundResource(R.drawable.screen_background_2);
             Handler handler = new Handler();
             handler.postDelayed(() -> {
                 alertDialog.dismiss();
@@ -257,8 +257,8 @@ public class DriverDashBoard extends AppCompatActivity {
                     handler.postDelayed(() -> {
                         alertDialog.dismiss();
                         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                        databaseReference.child("userRequest").child(rideModel1.getUser_id()).child(rideModel1.getId()).child("status").setValue("Rejected");
-                        databaseReference.child("driverRequest").child(currentDriverId).child(rideModel1.getId()).child("status").setValue("Rejected");
+                        databaseReference.child("userRequest").child(rideModel1.getUser_id()).child(rideModel1.getId()).child("status").setValue("Accepted");
+                        databaseReference.child("driverRequest").child(currentDriverId).child(rideModel1.getId()).child("status").setValue("Accepted");
                         driverSideAcceptRideAdapter.notifyItemChanged(position);
                         noButton.setBackgroundResource(R.color.white);
                     }, 500);

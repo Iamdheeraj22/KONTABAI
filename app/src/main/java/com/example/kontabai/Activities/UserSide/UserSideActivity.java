@@ -94,7 +94,7 @@ public class UserSideActivity extends AppCompatActivity {
             TextView yesButton = view.findViewById(R.id.yesButton);
             TextView noButton = view.findViewById(R.id.noButton);
             yesButton.setOnClickListener(v1 -> {
-                yesButton.setBackgroundResource(R.drawable.screen_background_2);
+                //yesButton.setBackgroundResource(R.drawable.screen_background_2);
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
                     FirebaseAuth.getInstance().signOut();
@@ -104,7 +104,7 @@ public class UserSideActivity extends AppCompatActivity {
                 }, 3000);
             });
             noButton.setOnClickListener(v1 -> {
-                noButton.setBackgroundResource(R.drawable.screen_background_2);
+                //noButton.setBackgroundResource(R.drawable.screen_background_2);
                 Handler handler = new Handler();
                 handler.postDelayed(() -> {
                     alertDialog.dismiss();
