@@ -34,12 +34,17 @@ import java.util.concurrent.TimeUnit;
 public class RegistrationActivity extends AppCompatActivity {
     private static final int PERMISSION_CAMERA_CODE = 121;
     private static final int PERMISSION_COARSE_LOCATION=111;
+    private static final int PERMISSON_READ_STORAGE=123;
+    private static final int PERMISSON_WRITE_STORAGE=123;
     private static final int PERMISSION_FINE_LOCATION=222;
     TextView textView;
     EditText editText;
     AlertDialog alertDialog;
     FirebaseAuth firebaseAuth;
-    String[] manifest={Manifest.permission.CAMERA,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION};
+    String[] manifest={Manifest.permission.CAMERA,Manifest.permission.ACCESS_COARSE_LOCATION
+                        ,Manifest.permission.ACCESS_FINE_LOCATION
+                        ,Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        ,Manifest.permission.READ_EXTERNAL_STORAGE};
     String verificationId;
     @SuppressLint("ObsoleteSdkInt")
     @Override
@@ -57,7 +62,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         textView.setOnClickListener(v -> {
             String number=editText.getText().toString();
-            if(number.equals("") || number.length()!=10){
+            if(number.equals("") || number.length()<10){
                 editText.setError("Please enter the valid number!");
             }else{
                 registrationUserMobile(number);
@@ -68,7 +73,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void registrationUserMobile(String number) {
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth).
-                setPhoneNumber("+91" + number)
+                setPhoneNumber("+"+number)
                 .setTimeout(60L, TimeUnit.SECONDS)
                 .setActivity(this)
                 .setCallbacks(mCallBacks)
@@ -107,8 +112,16 @@ public class RegistrationActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,manifest, RegistrationActivity.PERMISSION_CAMERA_CODE);
         }else if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this,manifest, RegistrationActivity.PERMISSION_CAMERA_CODE);
-        }else if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(this,manifest, RegistrationActivity.PERMISSION_CAMERA_CODE);
+        } else if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
+                ActivityCompat.requestPermissions(this,manifest, RegistrationActivity.PERMISSION_CAMERA_CODE);
+        }
+
+        else if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this,manifest, RegistrationActivity.PERMISSON_READ_STORAGE);
+        }
+
+        else if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+            ActivityCompat.requestPermissions(this,manifest, RegistrationActivity.PERMISSON_WRITE_STORAGE);
         }
     }
 
@@ -117,7 +130,9 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode==PERMISSION_CAMERA_CODE && grantResults[0]==PackageManager.PERMISSION_DENIED ||
                 requestCode==PERMISSION_COARSE_LOCATION && grantResults[1]==PackageManager.PERMISSION_DENIED
-                || requestCode==PERMISSION_FINE_LOCATION && grantResults[2]==PackageManager.PERMISSION_DENIED ){
+                || requestCode==PERMISSION_FINE_LOCATION && grantResults[2]==PackageManager.PERMISSION_DENIED
+                || requestCode==PERMISSON_WRITE_STORAGE && grantResults[3]==PackageManager.PERMISSION_DENIED
+                || requestCode==PERMISSON_READ_STORAGE && grantResults[4]==PackageManager.PERMISSION_DENIED){
             Toast.makeText(RegistrationActivity.this, "Please allow the all permissions!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 Uri uri = Uri.fromParts("package", getPackageName(), null);
