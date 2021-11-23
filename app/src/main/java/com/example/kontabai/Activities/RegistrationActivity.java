@@ -60,7 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
         textView.setOnClickListener(v -> {
-            String number=editText.getText().toString();
+            String number=editText.getText().toString().trim();
             if(number.equals("") || number.length()<10){
                 editText.setError("Please enter the valid number!");
             }else{
@@ -101,6 +101,7 @@ public class RegistrationActivity extends AppCompatActivity {
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
                //alertDialog.dismiss();
+            textView.setBackgroundResource(R.drawable.black_corners);
             Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     };
