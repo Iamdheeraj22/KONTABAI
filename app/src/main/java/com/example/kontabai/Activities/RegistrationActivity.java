@@ -39,7 +39,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private static final int PERMISSION_FINE_LOCATION=222;
     TextView textView;
     EditText editText;
-    AlertDialog alertDialog;
     FirebaseAuth firebaseAuth;
     String[] manifest={Manifest.permission.CAMERA,Manifest.permission.ACCESS_COARSE_LOCATION
                         ,Manifest.permission.ACCESS_FINE_LOCATION
